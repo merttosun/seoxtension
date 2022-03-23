@@ -16,5 +16,11 @@
         "16": "/images/icon.png"
     }
   },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],  
+      "js": ["content.js"]
+    }
+  ],
   "options_page": "options.html"
 }

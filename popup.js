@@ -1,24 +1,32 @@
-// Initialize button with user's preferred color
-let changeColor = document.getElementById("changeColor");
+chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  setInterval(function () {
+    chrome.tabs.sendMessage(tabs[0].id, { msg: "meta" }, function (response) {
+      setMetaTags(response)
+    });
+  }, 500)
 
-chrome.storage.sync.get("color", ({ color }) => {
-  changeColor.style.backgroundColor = color;
+
 });
 
-// When the button is clicked, inject setPageBackgroundColor into current page
-changeColor.addEventListener("click", async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: setPageBackgroundColor,
-  });
-});
-
-// The body of this function will be executed as a content script inside the
-// current page
-function setPageBackgroundColor() {
-  chrome.storage.sync.get("color", ({ color }) => {
-    document.body.style.backgroundColor = color;
-  });
+function setMetaTags(meta) {
+  if (meta) {
+    document.getElementById("title").innerText = meta.title;
+    document.getElementById("description").innerText = meta.description;
+    document.getElementById("canonical").innerText = meta.canonical;
+    document.getElementById("ogtitle").innerText = meta.ogTitle;
+    document.getElementById("ogdescription").innerText = meta.ogDescription;
+    if (meta.ogImage) {
+      var img = document.getElementById("ogimage")
+      if(img == null) {
+        img = document.createElement("img");
+      }
+      img.id = "ogimage"
+      img.src = meta.ogImage;
+      img.style.height = "150px";
+      img.style.width = "150px";
+      document.body.appendChild(img);
+    }
+  }
 }
+
+
