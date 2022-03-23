@@ -1,6 +1,6 @@
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   setInterval(function () {
-    chrome.tabs.sendMessage(tabs[0].id, { greeting: "hello" }, function (response) {
+    chrome.tabs.sendMessage(tabs[0].id, { msg: "meta" }, function (response) {
       setMetaTags(response)
     });
   }, 500)
@@ -13,6 +13,8 @@ function setMetaTags(meta) {
     document.getElementById("title").innerText = meta.title;
     document.getElementById("description").innerText = meta.description;
     document.getElementById("canonical").innerText = meta.canonical;
+    document.getElementById("ogtitle").innerText = meta.ogTitle;
+    document.getElementById("ogdescription").innerText = meta.ogDescription;
     if (meta.ogImage) {
       var img = document.getElementById("ogimage")
       if(img == null) {
