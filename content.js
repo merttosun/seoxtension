@@ -15,6 +15,7 @@ function getMetaTags() {
     var ogDescription = ""
     var ogImage = ""
     var title = document.title;
+    var h1Tag = "";
     if (document.querySelector('meta[name="description"]') != null) {
         description = document.querySelector('meta[name="description"]').content
     }
@@ -30,7 +31,9 @@ function getMetaTags() {
     if (document.querySelector('meta[property="og:image"]') != null) {
         ogImage = document.querySelector('meta[property="og:image"]').content
     }
-
-    return { title, description, canonical, ogTitle, ogDescription, ogImage }
+    if (document.querySelector('div#search-app h1') != null) {
+        h1Tag = document.querySelector('div#search-app h1').textContent
+    }
+    return { title, description, canonical, ogTitle, ogDescription, ogImage, h1Tag }
 
 };

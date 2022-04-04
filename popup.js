@@ -15,6 +15,7 @@ function setMetaTags(meta) {
     document.getElementById("canonical").innerText = meta.canonical;
     document.getElementById("ogtitle").innerText = meta.ogTitle;
     document.getElementById("ogdescription").innerText = meta.ogDescription;
+    document.getElementById("h1tag").innerText = meta.h1Tag;
     if (meta.ogImage) {
       var img = document.getElementById("ogimage")
       if(img == null) {
