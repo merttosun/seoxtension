@@ -1,0 +1,29 @@
+{
+  "name": "seo-extension",
+  "version": "1.0.0",
+  "description": "chrome extension to see your page's most important SEO elements and metrics",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --config webpack/webpack.dev.js --watch",
+    "build": "webpack --config webpack/webpack.prod.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/merttosun/seoxtension.git"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.181",
+    "@types/jest": "^27.4.1",
+    "copy-webpack-plugin": "^10.2.4",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4",
+    "ts-loader": "^9.2.8",
+    "typescript": "^4.6.3",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-merge": "^5.8.0"
+  }
+}
