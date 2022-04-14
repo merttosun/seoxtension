@@ -31,8 +31,8 @@ function getMetaTags() {
     if (document.querySelector('meta[property="og:image"]') != null) {
         ogImage = document.querySelector('meta[property="og:image"]').content
     }
-    if (document.querySelector('div#search-app h1') != null) {
-        h1Tag = document.querySelector('div#search-app h1').textContent
+    if (document.querySelector('h1') != null) {
+        h1Tag = document.querySelector('h1').textContent
     }
     return { title, description, canonical, ogTitle, ogDescription, ogImage, h1Tag }
 
