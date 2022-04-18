@@ -1,0 +1,26 @@
+{
+  "name": "seoxtension",
+  "description": "A chrome extension to see your page's most important seo elements and metrics!",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png"
+    },
+    "icons":{
+        "16": "icon.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["js/content.js"]
+    }
+  ],
+  "options_page": "options.html"
+}
