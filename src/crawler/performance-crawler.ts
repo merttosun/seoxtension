@@ -8,7 +8,6 @@ export class PerformanceCrawler implements Crawler {
 
   public collect() {
     const performance = window.performance as any;
-    console.log("performace", performance)
     const navigationEntry = performance.getEntriesByType("navigation")[0];
     const ttfb = navigationEntry.responseStart - navigationEntry.requestStart;
     const fcp = performance.getEntriesByType("paint")[0].startTime || 0;

@@ -24,7 +24,6 @@ export class CrawlerFactory {
 
     static get<T>(type: CRAWLER_TYPE): Crawler  {
         const crawlerFactory = CrawlerFactory.getFactory();
-        console.log("TYPE", type)
         if(crawlerFactory.crawlers.has(type)) return crawlerFactory.crawlers.get(type) as Crawler
         throw new Error(`Crawler doesn't exists with given type ${type}`)
     }
