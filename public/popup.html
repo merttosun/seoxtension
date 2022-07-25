@@ -4,20 +4,30 @@
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <p id="title">
-    </p>
-    <p id="description">
-    </p>
-    <p id="canonical">
-    </p>
-    <p id="ogtitle">
-    </p>
-    <p id="ogdescription">
-    </p>
-    <p id="h1tag">
-    </p>
-    <p id="ld-json">
-    </p>
+    <p id="title"></p>
+    <p id="description"></p>
+    <p id="canonical"></p>
+    <p id="ogtitle"></p>
+    <p id="ogdescription"></p>
+    <p id="h1tag"></p>
+    <p id="ld-json"></p>
+    <div>
+      <p>Performance Metrics</p>
+      <ul>
+        <li>
+          TTFB:<span id="ttfb"></span>
+        </li>
+        <li>
+          FCP:<span id="fcp"></span>
+        </li>
+        <li>
+          Dom Load Time:<span id="dom-load-time"></span>
+        </li>
+        <li>
+          Window Load Time:<span id="window-load-time"></span>
+        </li>
+      </ul>
+    </div>
     <script src="js/popup.js"></script>
   </body>
 </html>

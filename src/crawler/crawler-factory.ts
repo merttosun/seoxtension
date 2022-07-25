@@ -2,6 +2,7 @@ import {CRAWLER_TYPE} from "../constants";
 import {Crawler} from "./interface";
 import {LDJSONCrawler} from "./ld-crawler";
 import {MetaCrawler} from "./meta-crawler";
+import { PerformanceCrawler } from './performance-crawler';
 
 
 export class CrawlerFactory {
@@ -13,6 +14,7 @@ export class CrawlerFactory {
         this.crawlers = new Map<CRAWLER_TYPE, Crawler>();
         this.crawlers.set(CRAWLER_TYPE.LD_JSON, new LDJSONCrawler())
         this.crawlers.set(CRAWLER_TYPE.META, new MetaCrawler())
+        this.crawlers.set(CRAWLER_TYPE.PERFORMANCE, new PerformanceCrawler())
     }
 
     private static getFactory(): CrawlerFactory {
@@ -22,6 +24,7 @@ export class CrawlerFactory {
 
     static get<T>(type: CRAWLER_TYPE): Crawler  {
         const crawlerFactory = CrawlerFactory.getFactory();
+        console.log("TYPE", type)
         if(crawlerFactory.crawlers.has(type)) return crawlerFactory.crawlers.get(type) as Crawler
         throw new Error(`Crawler doesn't exists with given type ${type}`)
     }
