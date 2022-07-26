@@ -18,10 +18,10 @@ export class PerformanceCrawler implements Crawler {
       performance.getEntriesByType("navigation").length
     ) {
       navigationEntry = performance.getEntriesByType("navigation")[0];
-      const { loadEventEnd, loadEventStart, responseStart, requestStart } = navigationEntry;
+      const { loadEventEnd, loadEventStart, responseStart, requestStart, domComplete } = navigationEntry;
       windowLoadTime = loadEventEnd - loadEventStart;
       ttfb = responseStart - requestStart;
-      domLoadTime = navigationEntry.domComplete;
+      domLoadTime = domComplete;
     }
     if (
       Array.isArray(performance.getEntriesByType("paint")) &&
