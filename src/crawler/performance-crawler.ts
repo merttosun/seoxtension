@@ -18,9 +18,9 @@ export class PerformanceCrawler implements Crawler {
       performance.getEntriesByType("navigation").length
     ) {
       navigationEntry = performance.getEntriesByType("navigation")[0];
-      const { loadEventEnd, loadEventStart } = navigationEntry;
+      const { loadEventEnd, loadEventStart, responseStart, requestStart } = navigationEntry;
       windowLoadTime = loadEventEnd - loadEventStart;
-      ttfb = navigationEntry.responseStart - navigationEntry.requestStart;
+      ttfb = responseStart - requestStart;
       domLoadTime = navigationEntry.domComplete;
     }
     if (
