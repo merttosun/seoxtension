@@ -1,5 +1,5 @@
 import { Crawler } from "./interface";
-import { CRAWLER_TYPE } from '../constants';
+import { CRAWLER_TYPE } from "../constants";
 
 export type PERFORMANCE_DATA = {};
 
@@ -8,18 +8,33 @@ export class PerformanceCrawler implements Crawler {
 
   public collect() {
     const performance = window.performance as any;
-    const navigationEntry = performance.getEntriesByType("navigation")[0];
-    const ttfb = navigationEntry.responseStart - navigationEntry.requestStart;
-    const fcp = performance.getEntriesByType("paint")[0].startTime || 0;
-    const domLoadTime = navigationEntry.domComplete;
-    const windowLoadTime =
-      navigationEntry.loadEventEnd - navigationEntry.loadEventStart;
-    const performanceMetrics = {
+    let navigationEntry;
+    let ttfb,
+      fcp,
+      domLoadTime,
+      windowLoadTime = 0;
+    if (
+      Array.isArray(performance.getEntriesByType("navigation")) &&
+      performance.getEntriesByType("navigation").length
+    ) {
+      navigationEntry = performance.getEntriesByType("navigation")[0];
+      const { loadEventEnd, loadEventStart } = navigationEntry;
+      windowLoadTime = loadEventEnd - loadEventStart;
+      ttfb = navigationEntry.responseStart - navigationEntry.requestStart;
+      domLoadTime = navigationEntry.domComplete;
+    }
+    if (
+      Array.isArray(performance.getEntriesByType("paint")) &&
+      performance.getEntriesByType("paint").length
+    ) {
+      fcp = performance.getEntriesByType("paint")[0].startTime || 0;
+    }
+
+    return {
       ttfb,
       fcp,
       domLoadTime,
       windowLoadTime,
     };
-    return performanceMetrics;
   }
 }
