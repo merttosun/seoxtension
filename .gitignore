@@ -1,3 +1,14 @@
-.idea
-node_modules/
+coverage
+.DS_Store
+node_modules
+node_modules_prune
 dist/
+.idea/
+assets/
+build.cache.json
+dynamic.json
+newrelic_agent.log
+index.js
+src/library.json
+.vscode
+yarn-error.log
