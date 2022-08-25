@@ -1,22 +1,22 @@
 module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'jsdom',
-    // moduleNameMapper: {
-    //   '^.+\\.(css|less|scss)$': 'babel-jest'
-    // },
+    testMatch: ['**/?(*.)+(spec|test).ts'],
+    modulePathIgnorePatterns: ['<rootDir>/dist'],
     collectCoverage: true,
-    collectCoverageFrom: [
-      'src/**/!(*.spec).{ts,tsx}',
-      '!src/Main.ts',
-      '!src/application/Application.ts',
-      '!src/**/fragment/hydrate.tsx',
-      '!src/**/fragment/webpack.config.ts',
-      '!src/**/*Config.ts',
-      '!src/**/*Module.ts',
-      '!dev/**',
-      '!**/node_modules/**',
-      '!src/**/__snapshots__'
+    coveragePathIgnorePatterns: [
+        '<rootDir>/dist',
     ],
-    testPathIgnorePatterns: ['test-container']
-  };
+    testPathIgnorePatterns: ['test-container'],
+    coverageReporters: ['json', 'lcov', 'text', 'cobertura', 'text-summary'],
+    moduleDirectories: ['node_modules', 'src'],
+    collectCoverageFrom: ['src/**/*.{ts,js,jsx}'],
+    globals: {
+        "ts-jest": {
+            "tsConfigFile": "tsconfig.json",
+            "enableTsDiagnostics": true
+        }
+    },
+    setupFiles: ['./jest.setup.js']
+};
   

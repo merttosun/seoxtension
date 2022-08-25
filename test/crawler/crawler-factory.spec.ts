@@ -1,14 +1,14 @@
-import {CrawlerFactory} from '../../crawler/crawler-factory';
-import {MetaCrawler} from '../../crawler/meta-crawler';
-import {LDJSONCrawler} from '../../crawler/ld-crawler';
-import {PerformanceCrawler} from '../../crawler/performance-crawler';
-import {CRAWLER_TYPE} from "../../constants";
-import {Crawler} from '../../crawler/interface';
+import {CrawlerFactory} from '../../src/crawler/crawler-factory';
+import {MetaCrawler} from '../../src/crawler/meta-crawler';
+import {LDJSONCrawler} from '../../src/crawler/ld-crawler';
+import {PerformanceCrawler} from '../../src/crawler/performance-crawler';
+import {CRAWLER_TYPE} from "../../src/constants";
+import {Crawler} from '../../src/crawler/interface';
 
-jest.mock('../../crawler/crawler-factory');
-jest.mock('../../crawler/meta-crawler');
-jest.mock('../../crawler/ld-crawler');
-jest.mock('../../crawler/performance-crawler');
+jest.mock('crawler/crawler-factory');
+jest.mock('crawler/meta-crawler');
+jest.mock('crawler/ld-crawler');
+jest.mock('crawler/performance-crawler');
 
 
 describe('crawler-factory works as a charm', () => {

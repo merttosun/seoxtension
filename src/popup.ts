@@ -13,8 +13,6 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         }
       );
     }, 500)
-
-
 });
 
 function setMetaTags(meta: any) {
@@ -26,9 +24,9 @@ function setMetaTags(meta: any) {
         document.getElementById("ogdescription")!.innerText = meta.ogDescription;
         document.getElementById("h1tag")!.innerText = meta.h1Tag;
         if (meta.ogImage) {
-            var img = document.getElementById("ogimage")! as HTMLImageElement
+            let img = <HTMLImageElement>document.getElementById("ogimage");
             if(img == null) {
-                img = document.createElement("img")! as HTMLImageElement;
+                img = <HTMLImageElement>document.createElement("img");
             }
             img.id = "ogimage"
             img.src = meta.ogImage;
@@ -55,3 +53,5 @@ function setPerformanceMetrics(performanceMetrics: any) {
       document.getElementById("window-load-time")!.innerText = windowLoadTime;
     }
   }
+
+  export  {setPerformanceMetrics, setMetaTags, setLDJson}

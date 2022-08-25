@@ -1,22 +1,19 @@
 {
   "compilerOptions": {
     "strict": true,
-    "module": "commonjs",
+    "baseUrl": "src",
+    "module": "ESNext",
     "target": "es6",
     "esModuleInterop": true,
     "sourceMap": false,
-    "rootDir": "src",
+    "rootDir": "/",
     "outDir": "dist/js",
     "noEmitOnError": true,
     "jsx": "react",
     "typeRoots": [ "node_modules/@types" ],
-    "paths": {
-      "@crawler/*": ["./src/crawler/*"],
-      "@test/*": ["./src/test/*"],
-}
 },
 "exclude": [
   "./dist",
-  "**/src/test/**"
+  "node_modules",
 ]
 }

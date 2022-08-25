@@ -1,6 +1,7 @@
 import {Crawler} from "./interface";
 import {CRAWLER_TYPE} from "../constants";
 
+
 export type META_DATA = {
     description: string,
     ogTitle: string,

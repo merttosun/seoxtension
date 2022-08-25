@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { MetaCrawler } from '../../crawler/meta-crawler';
+import { MetaCrawler } from '../../src/crawler/meta-crawler';
 
-jest.mock('../../crawler/meta-crawler')
+jest.mock('../../src/crawler/meta-crawler')
 
 describe('MetaCrawler works as like a charm :)', () => {
   let instance: MetaCrawler;
@@ -25,10 +25,10 @@ describe('MetaCrawler works as like a charm :)', () => {
   const collectSpy =  jest.spyOn(MetaCrawler.prototype, 'collect').mockImplementation(() => {
     
     const description = (<HTMLMetaElement>(document.querySelector('meta[name="description"]')))?.content || "";
-    const ogTitle = (<HTMLMetaElement>(document.querySelector('meta[property="og:title"')))?.content || "";
-    const ogDescription = (<HTMLMetaElement>(document.querySelector('meta[property="og:description"'))).content || "";
+    const ogTitle = (<HTMLMetaElement>(document.querySelector('meta[property="og:title]"]')))?.content || "";
+    const ogDescription = (<HTMLMetaElement>(document.querySelector('meta[property="og:description"]'))).content || "";
     const ogImage = (<HTMLMetaElement>(document.querySelector('meta[property="og:image"]')))?.content || "";
-    const canonical = (<HTMLLinkElement>(document.querySelector('link[rel="canonical"')))?.href  || "";
+    const canonical = (<HTMLLinkElement>(document.querySelector('link[rel="canonical"]')))?.href  || "";
     const h1Tag = (<HTMLHeadingElement>(document.querySelector('h1')))?.textContent || "";
     const title = document.title;
     
@@ -43,8 +43,7 @@ describe('MetaCrawler works as like a charm :)', () => {
     document.head.appendChild(mockOgDescriptionMetaElement);
     document.head.appendChild(mockOgImageMetaElement);
     document.head.appendChild(mockCanonicalLinkElement);
-    document.head.appendChild(mockHeadingElement);
-     
+    document.body.appendChild(mockHeadingElement);
     document.title = 'SEO Extension Tests'
     })
 
@@ -54,7 +53,7 @@ describe('MetaCrawler works as like a charm :)', () => {
         document.head.removeChild(mockOgDescriptionMetaElement);
         document.head.removeChild(mockOgImageMetaElement);
         document.head.removeChild(mockCanonicalLinkElement);
-        document.head.removeChild(mockHeadingElement);
+        document.body.removeChild(mockHeadingElement);
         document.title = '';
         jest.clearAllMocks()
     })

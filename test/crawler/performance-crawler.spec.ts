@@ -1,9 +1,6 @@
- 
-import { Crawler } from '../../crawler/interface';
-import { CRAWLER_TYPE } from "../../constants";
-import {PerformanceCrawler} from "../../crawler/performance-crawler";
+import {PerformanceCrawler} from "../../src/crawler/performance-crawler";
 
-jest.mock('../../crawler/performance-crawler')
+jest.mock('../../src/crawler/performance-crawler')
 
 describe('PerformanceCrawler works like a charm', () => {
     let instance: PerformanceCrawler;
