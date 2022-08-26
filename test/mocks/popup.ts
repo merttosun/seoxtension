@@ -9,12 +9,12 @@ const mocks = {
         h1Tag: 'Seo Extension mockHeadingElement',
     },
     performanceMetrics: {
-        ttfb: 25,
-        fcp: 10,
-        domLoadTime: 20,
-        windowLoadTime: 5,
+        ttfb: '25',
+        fcp: '10',
+        domLoadTime: '20',
+        windowLoadTime: '5',
     },
-    jsonData: {
+    ldJsonData: {
         "@context": "SEO Extension mockLDContext",
     }
 }

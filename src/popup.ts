@@ -38,7 +38,7 @@ function setMetaTags(meta: any) {
 }
 
 function setLDJson(jsonData: any) {
-    if (jsonData && jsonData.length > 0) {
+    if (jsonData){
         document.getElementById("ld-json")!.innerText = JSON.stringify(jsonData)
     }
 }

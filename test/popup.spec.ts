@@ -1,5 +1,6 @@
 import {setMetaTags, setLDJson, setPerformanceMetrics} from '../src/popup'
 import mocks from "./mocks/popup";
+import mock = jest.mock;
 
 jest.mock('crawler/ld-crawler')
 
@@ -14,7 +15,7 @@ describe('popup works like a charm', () => {
          mockOgDescription: HTMLMetaElement,
          mockHeadingElement: HTMLHeadingElement,
          mockOgImage: HTMLImageElement,
-         mockLDJsonElement: HTMLScriptElement;
+         mockLDJsonElement: HTMLParagraphElement;
      ;
      let mockTTFB: HTMLSpanElement, mockFCP: HTMLSpanElement, mockDOMLoadTime: HTMLSpanElement, mockWindowLoadTime: HTMLSpanElement;
 
@@ -31,7 +32,7 @@ describe('popup works like a charm', () => {
          mockOgDescription = document.createElement('meta');
          mockOgImage = document.createElement('img');
          mockHeadingElement = document.createElement('h1');
-         mockLDJsonElement = document.createElement('script');
+         mockLDJsonElement = document.createElement('p');
 
          mockTTFB.id = 'ttfb';
          mockFCP.id = 'fcp';
@@ -47,18 +48,11 @@ describe('popup works like a charm', () => {
          mockHeadingElement.id = 'h1tag';
          mockLDJsonElement.id = 'ld-json';
 
-         mockTitle.innerText = 'Seo Extension MockTitle';
-         mockDescription.innerText = 'Seo Extension mockDescription';
-         mockCanonical.innerText = 'Seo Extension mockCanonical';
-         mockOgTitle.innerText = 'Seo Extension mockOgTitle';
-         mockOgDescription.innerText = 'Seo Extension mockOgDescription';
-         mockOgImage.src = 'http://localhost:1111/seo-extension-image.jpg'
-         mockHeadingElement.innerText = 'Seo Extension mockHeadingElement';
      })
 
     beforeEach(() => {
          mockSetMetaTags = jest.fn(() => setMetaTags(mocks.meta))
-         mockSetLDJson = jest.fn(() => setLDJson(mocks.jsonData))
+         mockSetLDJson = jest.fn(() => setLDJson(mocks.ldJsonData))
          mockSetPerformanceMetrics = jest.fn(() => setPerformanceMetrics(mocks.performanceMetrics))
 
         document.head.appendChild(mockCanonical)
@@ -72,6 +66,8 @@ describe('popup works like a charm', () => {
         document.body.appendChild(mockFCP)
         document.body.appendChild(mockDOMLoadTime)
         document.body.appendChild(mockWindowLoadTime)
+
+        document.body.appendChild(mockLDJsonElement)
 
     })
 
@@ -92,6 +88,8 @@ describe('popup works like a charm', () => {
         document.body.removeChild(mockDOMLoadTime)
         document.body.removeChild(mockWindowLoadTime)
 
+        document.body.removeChild(mockLDJsonElement)
+
         jest.clearAllMocks()
     })
 
@@ -101,12 +99,24 @@ describe('popup works like a charm', () => {
         expect(ogImage?.src).toBe('http://localhost:1111/seo-extension-image.jpg')
     })
 
-    test('setMetaTags should set meta properties to elements', () => {
+    test('setPerformanceMetrics should set performance properties to elements', () => {
         setPerformanceMetrics(mocks.performanceMetrics)
+        const ttfb = document.getElementById("ttfb") as HTMLSpanElement
+        const fcp = document.getElementById("fcp") as HTMLSpanElement
+        const window_load_time = document.getElementById("window-load-time") as HTMLSpanElement
+        const dom_load_time = document.getElementById("dom-load-time") as HTMLSpanElement
+
+        expect(ttfb.innerText).toBe(mocks.performanceMetrics.ttfb)
+        expect(fcp.innerText).toBe(mocks.performanceMetrics.fcp)
+        expect(dom_load_time.innerText).toBe(mocks.performanceMetrics.domLoadTime)
+        expect(window_load_time.innerText).toBe(mocks.performanceMetrics.windowLoadTime)
+
     })
 
-    test('setMetaTags should set meta properties to elements', () => {
-        setLDJson(mocks.jsonData)
+    test('setLDJson should set ld-json properties to elements', () => {
+        setLDJson(mocks.ldJsonData)
+        const ld_json = document.getElementById("ld-json") as HTMLParagraphElement;
+        expect(ld_json.innerText).toBe(JSON.stringify(mocks.ldJsonData))
     })
 
 })

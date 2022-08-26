@@ -45,6 +45,8 @@ describe('crawler-factory works as a charm', () => {
     expect(LDJSONCrawler).toHaveBeenCalled()
     expect(PerformanceCrawler).toHaveBeenCalled()
     expect(MetaCrawler).toHaveBeenCalled()
+    expect(crawlers.has(CRAWLER_TYPE.LD_JSON)).toBeTruthy()
     expect(crawlers.has(CRAWLER_TYPE.PERFORMANCE)).toBeTruthy()
+    expect(crawlers.has(CRAWLER_TYPE.META)).toBeTruthy()
   })
 })
