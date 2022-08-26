@@ -17,15 +17,15 @@ export class CrawlerFactory {
         this.crawlers.set(CRAWLER_TYPE.PERFORMANCE, new PerformanceCrawler())
     }
 
-    private static getFactory(): CrawlerFactory {
-        if(!CrawlerFactory.instance) CrawlerFactory.instance = new CrawlerFactory()
-        return CrawlerFactory.instance
+    private static getFactory(): CrawlerFactory { 
+        return CrawlerFactory.instance || new CrawlerFactory()
     }
 
     static get<T>(type: CRAWLER_TYPE): Crawler  {
         const crawlerFactory = CrawlerFactory.getFactory();
-        if(crawlerFactory.crawlers.has(type)) return crawlerFactory.crawlers.get(type) as Crawler
+        if(crawlerFactory.crawlers.has(type)) {
+            return crawlerFactory.crawlers.get(type) as Crawler
+        }
         throw new Error(`Crawler doesn't exists with given type ${type}`)
     }
-
 }

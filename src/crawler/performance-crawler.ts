@@ -23,10 +23,7 @@ export class PerformanceCrawler implements Crawler {
       ttfb = responseStart - requestStart;
       domLoadTime = domComplete;
     }
-    if (
-      Array.isArray(performance.getEntriesByType("paint")) &&
-      performance.getEntriesByType("paint").length
-    ) {
+    if (Array.isArray(performance.getEntriesByType("paint")) && performance.getEntriesByType("paint").length > 0) {
       fcp = performance.getEntriesByType("paint")[0].startTime || 0;
     }
 

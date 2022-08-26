@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
     "strict": true,
-    "module": "commonjs",
+    "baseUrl": "src",
+    "module": "ESNext",
     "target": "es6",
     "esModuleInterop": true,
     "sourceMap": false,
-    "rootDir": "src",
+    "rootDir": "/",
     "outDir": "dist/js",
     "noEmitOnError": true,
     "jsx": "react",
-    "typeRoots": [ "node_modules/@types" ]
-  }
+    "typeRoots": [ "node_modules/@types" ],
+},
+"exclude": [
+  "./dist",
+  "node_modules",
+]
 }
