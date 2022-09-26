@@ -1,19 +1,38 @@
 import {CHROME_MESSAGE} from "./constants";
 
-chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     setInterval(function () {
-        chrome.tabs.sendMessage(tabs[0].id!, { msg: CHROME_MESSAGE.META }, function (response) {
+        chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.META}, function (response) {
             setMetaTags(response)
         });
-        chrome.tabs.sendMessage(tabs[0].id!, { msg: CHROME_MESSAGE.LD_JSON }, function (response) {
+        chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.LD_JSON}, function (response) {
             setLDJson(response)
         });
-        chrome.tabs.sendMessage(tabs[0].id!, { msg: CHROME_MESSAGE.PERFORMANCE }, function (response) {
-            setPerformanceMetrics(response);
-        }
-      );
+        chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.PERFORMANCE}, function (response) {
+                setPerformanceMetrics(response);
+            }
+        );
+
     }, 500)
 });
+
+chrome.webRequest.onCompleted.addListener(function (details) {
+        setStatusCode(details)
+        //add you new required feature
+    },
+    {
+        urls: ["<all_urls>"]
+    },
+    ["responseHeaders"]);
+
+chrome.webRequest.onHeadersReceived.addListener(details => {
+        setRedirectionUrl(details)
+        //add you new required feature
+    },
+    {
+        urls: ["<all_urls>"]
+    },
+    ["responseHeaders"]);
 
 function setMetaTags(meta: any) {
     if (meta) {
@@ -25,7 +44,7 @@ function setMetaTags(meta: any) {
         document.getElementById("h1tag")!.innerText = meta.h1Tag;
         if (meta.ogImage) {
             let img = <HTMLImageElement>document.getElementById("ogimage");
-            if(img == null) {
+            if (img == null) {
                 img = <HTMLImageElement>document.createElement("img");
             }
             img.id = "ogimage"
@@ -38,20 +57,32 @@ function setMetaTags(meta: any) {
 }
 
 function setLDJson(jsonData: any) {
-    if (jsonData){
+    if (jsonData) {
         document.getElementById("ld-json")!.innerText = JSON.stringify(jsonData)
     }
 }
 
+function setStatusCode(details: chrome.webRequest.WebResponseCacheDetails) {
+    document.getElementById("statusCode")!.innerText = String(details.statusCode);
+
+}
+
+function setRedirectionUrl(details: chrome.webRequest.WebResponseHeadersDetails) {
+    details.responseHeaders?.filter(obj => {
+        if (obj.name == "location") {
+            document.getElementById("redirection-info")!.innerText = String(obj.value);
+        }
+    });
+}
 
 function setPerformanceMetrics(performanceMetrics: any) {
     if (performanceMetrics) {
-      const { ttfb, fcp, domLoadTime, windowLoadTime } = performanceMetrics;
-      document.getElementById("ttfb")!.innerText = ttfb;
-      document.getElementById("fcp")!.innerText = fcp;
-      document.getElementById("dom-load-time")!.innerText = domLoadTime;
-      document.getElementById("window-load-time")!.innerText = windowLoadTime;
+        const {ttfb, fcp, domLoadTime, windowLoadTime} = performanceMetrics;
+        document.getElementById("ttfb")!.innerText = ttfb;
+        document.getElementById("fcp")!.innerText = fcp;
+        document.getElementById("dom-load-time")!.innerText = domLoadTime;
+        document.getElementById("window-load-time")!.innerText = windowLoadTime;
     }
-  }
+}
 
-  export  {setPerformanceMetrics, setMetaTags, setLDJson}
+export {setPerformanceMetrics, setMetaTags, setLDJson}
