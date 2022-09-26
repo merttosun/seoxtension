@@ -69,7 +69,7 @@ function setStatusCode(details: chrome.webRequest.WebResponseCacheDetails) {
 
 function setRedirectionUrl(details: chrome.webRequest.WebResponseHeadersDetails) {
     details.responseHeaders?.filter(obj => {
-        if (obj.name == "location") {
+        if (obj.name === "location") {
             document.getElementById("redirection-info")!.innerText = String(obj.value);
         }
     });
