@@ -13,7 +13,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             }
         );
         chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.ANCHOR}, function (response) {
-            setLink(response)
+            setAnchorCount(response)
         });
 
     }, 500)
@@ -65,7 +65,7 @@ function setLDJson(jsonData: any) {
     }
 }
 
-function setLink(links: any) {
+function setAnchorCount(links: any) {
     if (links) {
         document.getElementById("anchor-count")!.innerText = String(links.length)
     }
@@ -94,4 +94,4 @@ function setPerformanceMetrics(performanceMetrics: any) {
     }
 }
 
-export {setPerformanceMetrics, setMetaTags, setLDJson, setLink}
+export {setPerformanceMetrics, setMetaTags, setLDJson, setAnchorCount}
