@@ -12,6 +12,9 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
                 setPerformanceMetrics(response);
             }
         );
+        chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.ANCHOR}, function (response) {
+            setLink(response)
+        });
 
     }, 500)
 });
@@ -62,6 +65,12 @@ function setLDJson(jsonData: any) {
     }
 }
 
+function setLink(links: any) {
+    if (links) {
+        document.getElementById("anchor-count")!.innerText = String(links.length)
+    }
+}
+
 function setStatusCode(details: chrome.webRequest.WebResponseCacheDetails) {
     document.getElementById("statusCode")!.innerText = String(details.statusCode);
 
@@ -85,4 +94,4 @@ function setPerformanceMetrics(performanceMetrics: any) {
     }
 }
 
-export {setPerformanceMetrics, setMetaTags, setLDJson}
+export {setPerformanceMetrics, setMetaTags, setLDJson, setLink}
