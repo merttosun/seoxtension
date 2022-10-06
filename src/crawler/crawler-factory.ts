@@ -2,7 +2,8 @@ import {CRAWLER_TYPE} from "../constants";
 import {Crawler} from "./interface";
 import {LDJSONCrawler} from "./ld-crawler";
 import {MetaCrawler} from "./meta-crawler";
-import { PerformanceCrawler } from './performance-crawler';
+import {PerformanceCrawler} from './performance-crawler';
+import {AnchorCrawler} from "./anchor-crawler";
 
 
 export class CrawlerFactory {
@@ -15,6 +16,7 @@ export class CrawlerFactory {
         this.crawlers.set(CRAWLER_TYPE.LD_JSON, new LDJSONCrawler())
         this.crawlers.set(CRAWLER_TYPE.META, new MetaCrawler())
         this.crawlers.set(CRAWLER_TYPE.PERFORMANCE, new PerformanceCrawler())
+        this.crawlers.set(CRAWLER_TYPE.ANCHOR, new AnchorCrawler())
     }
 
     private static getFactory(): CrawlerFactory { 
