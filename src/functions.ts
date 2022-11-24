@@ -48,7 +48,7 @@ function setRedirectionUrl(details: chrome.webRequest.WebResponseHeadersDetails)
 
 function setPerformanceMetrics(performanceMetrics: any) {
     if (performanceMetrics) {
-        const {ttfb, fcp, domLoadTime, windowLoadTime} = performanceMetrics;
+        const { ttfb, fcp, domLoadTime, windowLoadTime } = performanceMetrics;
         document.getElementById("ttfb")!.innerText = ttfb;
         document.getElementById("fcp")!.innerText = fcp;
         document.getElementById("dom-load-time")!.innerText = domLoadTime;
@@ -56,4 +56,4 @@ function setPerformanceMetrics(performanceMetrics: any) {
     }
 }
 
-export {setPerformanceMetrics, setMetaTags, setLDJson, setAnchorCount, setRedirectionUrl, setStatusCode}
+export { setPerformanceMetrics, setMetaTags, setLDJson, setAnchorCount, setRedirectionUrl, setStatusCode }

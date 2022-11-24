@@ -1,10 +1,12 @@
 import {CHROME_MESSAGE} from "./constants";
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {App} from './App'
 import { setMetaTags, setLDJson, setPerformanceMetrics, setAnchorCount, setStatusCode, setRedirectionUrl } from "./functions";
+import App  from './App';
 
 
+
+console.log("aaalallllllalalallaalalalalalallallalalaallalal")
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     setInterval(function () {
         chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.META}, function (response) {
@@ -20,8 +22,9 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.ANCHOR}, function (response) {
             setAnchorCount(response)
         });
-        ReactDOM.render(<App />, document.getElementById('popup'));
     }, 500)
+
+    ReactDOM.render(<App />, document.getElementById('app'));
 });
 
 chrome.webRequest.onCompleted.addListener(function (details) {

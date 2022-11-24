@@ -1,59 +1,59 @@
-import {setMetaTags, setLDJson, setPerformanceMetrics} from '../src/popup'
+import { setMetaTags, setLDJson, setPerformanceMetrics } from '../src/functions'
 import mocks from "./mocks/popup";
 import mock = jest.mock;
 
 jest.mock('crawler/ld-crawler')
 
 describe('popup works like a charm', () => {
-     let mockSetMetaTags: jest.Mock;
-     let mockSetLDJson: jest.Mock;
-     let mockSetPerformanceMetrics: jest.Mock;
-     let mockTitle: HTMLTitleElement,
-         mockDescription: HTMLMetaElement,
-         mockCanonical: HTMLLinkElement,
-         mockOgTitle: HTMLMetaElement,
-         mockOgDescription: HTMLMetaElement,
-         mockHeadingElement: HTMLHeadingElement,
-         mockOgImage: HTMLImageElement,
-         mockLDJsonElement: HTMLParagraphElement;
-     ;
-     let mockTTFB: HTMLSpanElement, mockFCP: HTMLSpanElement, mockDOMLoadTime: HTMLSpanElement, mockWindowLoadTime: HTMLSpanElement;
+    let mockSetMetaTags: jest.Mock;
+    let mockSetLDJson: jest.Mock;
+    let mockSetPerformanceMetrics: jest.Mock;
+    let mockTitle: HTMLTitleElement,
+        mockDescription: HTMLMetaElement,
+        mockCanonical: HTMLLinkElement,
+        mockOgTitle: HTMLMetaElement,
+        mockOgDescription: HTMLMetaElement,
+        mockHeadingElement: HTMLHeadingElement,
+        mockOgImage: HTMLImageElement,
+        mockLDJsonElement: HTMLParagraphElement;
+    ;
+    let mockTTFB: HTMLSpanElement, mockFCP: HTMLSpanElement, mockDOMLoadTime: HTMLSpanElement, mockWindowLoadTime: HTMLSpanElement;
 
-     beforeAll(() => {
-         mockTTFB = document.createElement('span');
-         mockFCP = document.createElement('span');
-         mockDOMLoadTime = document.createElement('span');
-         mockWindowLoadTime = document.createElement('span');
+    beforeAll(() => {
+        mockTTFB = document.createElement('span');
+        mockFCP = document.createElement('span');
+        mockDOMLoadTime = document.createElement('span');
+        mockWindowLoadTime = document.createElement('span');
 
-         mockTitle = document.createElement('title');
-         mockDescription = document.createElement('meta');
-         mockCanonical = document.createElement('link');
-         mockOgTitle = document.createElement('meta');
-         mockOgDescription = document.createElement('meta');
-         mockOgImage = document.createElement('img');
-         mockHeadingElement = document.createElement('h1');
-         mockLDJsonElement = document.createElement('p');
+        mockTitle = document.createElement('title');
+        mockDescription = document.createElement('meta');
+        mockCanonical = document.createElement('link');
+        mockOgTitle = document.createElement('meta');
+        mockOgDescription = document.createElement('meta');
+        mockOgImage = document.createElement('img');
+        mockHeadingElement = document.createElement('h1');
+        mockLDJsonElement = document.createElement('p');
 
-         mockTTFB.id = 'ttfb';
-         mockFCP.id = 'fcp';
-         mockDOMLoadTime.id = 'dom-load-time';
-         mockWindowLoadTime.id = 'window-load-time';
+        mockTTFB.id = 'ttfb';
+        mockFCP.id = 'fcp';
+        mockDOMLoadTime.id = 'dom-load-time';
+        mockWindowLoadTime.id = 'window-load-time';
 
-         mockTitle.id = 'title';
-         mockDescription.id = 'description'
-         mockCanonical.id = 'canonical'
-         mockOgTitle.id = 'ogtitle',
-         mockOgDescription.id = 'ogdescription';
-         mockOgImage.id = 'ogimage';
-         mockHeadingElement.id = 'h1tag';
-         mockLDJsonElement.id = 'ld-json';
+        mockTitle.id = 'title';
+        mockDescription.id = 'description'
+        mockCanonical.id = 'canonical'
+        mockOgTitle.id = 'ogtitle',
+            mockOgDescription.id = 'ogdescription';
+        mockOgImage.id = 'ogimage';
+        mockHeadingElement.id = 'h1tag';
+        mockLDJsonElement.id = 'ld-json';
 
-     })
+    })
 
     beforeEach(() => {
-         mockSetMetaTags = jest.fn(() => setMetaTags(mocks.meta))
-         mockSetLDJson = jest.fn(() => setLDJson(mocks.ldJsonData))
-         mockSetPerformanceMetrics = jest.fn(() => setPerformanceMetrics(mocks.performanceMetrics))
+        mockSetMetaTags = jest.fn(() => setMetaTags(mocks.meta))
+        mockSetLDJson = jest.fn(() => setLDJson(mocks.ldJsonData))
+        mockSetPerformanceMetrics = jest.fn(() => setPerformanceMetrics(mocks.performanceMetrics))
 
         document.head.appendChild(mockCanonical)
         document.head.appendChild(mockTitle)
