@@ -1,5 +1,6 @@
 import {CHROME_MESSAGE} from "./constants";
 
+
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     setInterval(function () {
         chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.META}, function (response) {
@@ -9,7 +10,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             setLDJson(response)
         });
         chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.PERFORMANCE}, function (response) {
-                setPerformanceMetrics(response);
+            setPerformanceMetrics(response);
             }
         );
         chrome.tabs.sendMessage(tabs[0].id!, {msg: CHROME_MESSAGE.ANCHOR}, function (response) {

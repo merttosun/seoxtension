@@ -11,6 +11,10 @@
     "noEmitOnError": true,
     "jsx": "react",
     "typeRoots": [ "node_modules/@types" ],
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "jsx": "react",
 },
 "exclude": [
   "./dist",

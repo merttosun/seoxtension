@@ -26,14 +26,17 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
+                test: /\.(js|ts)x?$/,
                 use: "ts-loader",
                 exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                  },
             },
         ],
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js"],
+        extensions: [".ts", ".tsx", ".js", ".jsx"],
     },
     plugins: [
         new CopyPlugin({
