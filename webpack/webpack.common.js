@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     popup: path.join(srcDir, "popup/index.tsx"),
     eventPage: path.join(srcDir, "eventPage.ts"),
+    content: path.join(srcDir, "content.ts"),
   },
   output: {
     path: path.join(__dirname, "../dist/js"),
@@ -22,6 +23,10 @@ module.exports = {
         use: {
           loader: "ts-loader",
         },
+      },
+      {
+        test: /\.css$/i,
+        use: ["css-loader"],
       },
     ],
   },

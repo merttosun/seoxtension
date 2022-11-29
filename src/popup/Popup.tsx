@@ -1,10 +1,20 @@
 import React, { useEffect } from "react";
+import InfoBox from "../info-box/InfoBox";
 
-export default function Popup() {
-  useEffect(() => {
-    // Example of how to send a message to eventPage.ts.
-    chrome.runtime.sendMessage({ popupMounted: true });
-  }, []);
+type PopupProps = {
+  tabId: number;
+  metaTags: any;
+};
 
-  return <div>Hello, world!</div>;
+export default function Popup({ tabId, metaTags }: PopupProps) {
+  useEffect(() => {}, []);
+  return (
+    <div>
+      <InfoBox title="Meta Title" text={metaTags?.title} />
+      <InfoBox title="Meta Description" text={metaTags?.description} />
+      <InfoBox title="H1 Tag" text={metaTags?.h1Tag} />
+      <InfoBox title="OG Title" text={metaTags?.ogTitle} />
+      <InfoBox title="OG Description" text={metaTags?.ogDescription} />
+    </div>
+  );
 }

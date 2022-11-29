@@ -1,5 +1,5 @@
-import {Crawler} from "./interface";
-import {CRAWLER_TYPE} from "../constants";
+import { Crawler } from "./interface";
+import { CRAWLER_TYPE } from "../constants";
 
 
 export type META_DATA = {
@@ -21,10 +21,10 @@ export class MetaCrawler implements Crawler {
         const ogTitle = (<HTMLMetaElement>(document.querySelector('meta[property="og:title"]')))?.content || "";
         const ogDescription = (<HTMLMetaElement>(document.querySelector('meta[property="og:description"]')))?.content || "";
         const ogImage = (<HTMLMetaElement>(document.querySelector('meta[property="og:image"]')))?.content || "";
-        const canonical = (<HTMLLinkElement>(document.querySelector('link[rel="canonical"]')))?.href  || "";
+        const canonical = (<HTMLLinkElement>(document.querySelector('link[rel="canonical"]')))?.href || "";
         const h1Tag = (<HTMLHeadingElement>(document.querySelector('h1')))?.textContent || "";
         const title = document.title;
-        
+
         return { description, ogTitle, ogDescription, ogImage, canonical, h1Tag, title }
     };
 
