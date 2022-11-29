@@ -6,25 +6,12 @@ const srcDir = path.join(__dirname, "..", "src");
 
 module.exports = {
   entry: {
-    popup: path.join(srcDir, "popup.tsx"),
-    index: path.join(srcDir, "index.tsx"),
-    options: path.join(srcDir, "options.ts"),
-    background: path.join(srcDir, "background.ts"),
-    content: path.join(srcDir, "content.ts"),
-    functions: path.join(srcDir, "functions.ts"),
-    App: path.join(srcDir, "App.tsx"),
+    popup: path.join(srcDir, "popup/index.tsx"),
+    eventPage: path.join(srcDir, "eventPage.ts"),
   },
   output: {
     path: path.join(__dirname, "../dist/js"),
     filename: "[name].js",
-  },
-  optimization: {
-    splitChunks: {
-      name: "vendor",
-      chunks(chunk) {
-        return chunk.name !== "background";
-      },
-    },
   },
   module: {
     rules: [
