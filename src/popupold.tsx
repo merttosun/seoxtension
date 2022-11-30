@@ -10,7 +10,6 @@ import {
   setRedirectionUrl,
 } from "./functions";
 
-console.log("aaalallllllalalallaalalalalalallallalalaallalal");
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   setInterval(function () {
     chrome.tabs.sendMessage(

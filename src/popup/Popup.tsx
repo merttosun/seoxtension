@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import InfoBox from "../info-box/InfoBox";
+import "./Popup.scss";
 
 type PopupProps = {
   tabId: number;
@@ -9,7 +10,7 @@ type PopupProps = {
 export default function Popup({ tabId, metaTags }: PopupProps) {
   useEffect(() => {}, []);
   return (
-    <div>
+    <div className="popup-wrapper">
       <InfoBox title="Meta Title" text={metaTags?.title} />
       <InfoBox title="Meta Description" text={metaTags?.description} />
       <InfoBox title="H1 Tag" text={metaTags?.h1Tag} />

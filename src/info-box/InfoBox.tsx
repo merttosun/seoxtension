@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./InfoBox.css";
+import "./InfoBox.scss";
 
 type InfoBoxProps = {
   title: string;
@@ -10,8 +10,8 @@ export default function InfoBox({ title, text }: InfoBoxProps) {
   useEffect(() => {}, []);
   return (
     <div className="info-box-wrapper">
-      <span>{title}</span>
-      <p>{text}</p>
+      <span className="title">{title}</span>
+      <p className="text">{text}</p>
     </div>
   );
 }
