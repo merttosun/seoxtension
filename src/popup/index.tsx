@@ -6,6 +6,7 @@ import Popup from "./Popup";
 chrome.tabs &&
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     let metaTags = {};
+    let performanceMetrics = {};
 
     setInterval(() => {
       chrome.tabs.sendMessage(
@@ -16,10 +17,18 @@ chrome.tabs &&
         }
       );
 
+      chrome.tabs.sendMessage(
+        tabs[0].id!,
+        { msg: CHROME_MESSAGE.PERFORMANCE },
+        function (response) {
+          performanceMetrics = response;
+          console.log({ performanceMetrics: response });
+        }
+      );
+
       ReactDOM.render(
-        <Popup tabId={tabs[0].id!} metaTags={metaTags} />,
+        <Popup metaTags={metaTags} performanceMetrics={performanceMetrics} />,
         document.getElementById("popup")
       );
-    }, 300);
+    }, 500);
   });
-

@@ -12,6 +12,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 
     if (request.msg === CHROME_MESSAGE.PERFORMANCE) {
+        console.log("collect result", CrawlerFactory.get(CRAWLER_TYPE.PERFORMANCE).collect())
         return sendResponse(CrawlerFactory.get(CRAWLER_TYPE.PERFORMANCE).collect());
     }
 
