@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./InfoBox.scss";
 
-type InfoBoxProps = {
+export type InfoBoxProps = {
   title: string;
   text: string;
 };
