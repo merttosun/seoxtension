@@ -2,12 +2,12 @@ import Divider from "../divider/Divider";
 import React, { useEffect, useState } from "react";
 import InfoBox from "../info-box/InfoBox";
 import MetricList from "../metric-list/MetricList";
-import "./Popup.scss";
 import { PERFORMANCE_DATA } from "crawler/performance-crawler";
 import { MetricItemProps } from "metric-list/metric-item/MetricItem";
+import { META_DATA } from "crawler/meta-crawler";
 
 type PopupProps = {
-  metaTags: any;
+  metaTags: META_DATA;
   performanceMetrics: PERFORMANCE_DATA;
 };
 
@@ -47,11 +47,12 @@ export default function Popup({ metaTags, performanceMetrics }: PopupProps) {
   return (
     <div className="popup-wrapper">
       <Divider />
-      <InfoBox title="Meta Title" text={metaTags?.title} />
-      <InfoBox title="Meta Description" text={metaTags?.description} />
-      <InfoBox title="H1 Tag" text={metaTags?.h1Tag} />
-      <InfoBox title="OG Title" text={metaTags?.ogTitle} />
-      <InfoBox title="OG Description" text={metaTags?.ogDescription} />
+      <InfoBox title="Meta Title" text={metaTags.title} />
+      <InfoBox title="Meta Description" text={metaTags.description} />
+      <InfoBox title="Canonical" text={metaTags.canonical} /> 
+      <InfoBox title="H1 Tag" text={metaTags.h1Tag} />
+      <InfoBox title="OG Title" text={metaTags.ogTitle} />
+      <InfoBox title="OG Description" text={metaTags.ogDescription} />
       <Divider />
       <MetricList title="Performance Metrics" metrics={perfMetrics} />
       <Divider />
