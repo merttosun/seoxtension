@@ -13,4 +13,15 @@ describe("<InfoBox />", () => {
     expect(wrapper.queryByText("extension")).toBeInTheDocument();
 
   });
+
+
+  it("should render fallback text correctly",  () => {
+    //act
+    const wrapper = render(<InfoBox  text="" title="info title" />);
+
+    //expectations
+    expect(wrapper.queryByText("info title is not exist on this page")).toBeInTheDocument();
+
+  });
+
 });
