@@ -4,14 +4,14 @@ import MetricItem, { MetricItemProps } from "./metric-item/MetricItem";
 
 export type MetricListProps = {
   title: string
-  metrics: MetricItemProps[];
+  metrics?: MetricItemProps[];
 };
 
 export default function MetricList({ title, metrics }: MetricListProps) {
 
-  if (Object.keys(metrics).length > 0) {
+  if (metrics && Object.keys(metrics).length > 0) {
 
-    const metricItems = metrics?.map((metric: MetricItemProps) => {
+    const metricItems = metrics.map((metric: MetricItemProps) => {
       return <MetricItem name={metric.name} value={metric.value} />;
     });
 
@@ -19,6 +19,6 @@ export default function MetricList({ title, metrics }: MetricListProps) {
 
   }
 
-  return <div>"Could Not Calculate Metrics"</div>;
+  return <div className="metric-list__fallback-text">Could Not Calculate Metrics</div>;
 
 }

@@ -3,27 +3,41 @@ import React, { useEffect, useState } from "react";
 import InfoBox from "../info-box/InfoBox";
 import MetricList from "../metric-list/MetricList";
 import "./Popup.scss";
+import { PERFORMANCE_DATA } from "crawler/performance-crawler";
+import { MetricItemProps } from "metric-list/metric-item/MetricItem";
 
 type PopupProps = {
   metaTags: any;
-  performanceMetrics: any;
+  performanceMetrics: PERFORMANCE_DATA;
 };
 
+const PERFORMANCE_METRICS = new Map<string, string>([
+  ["ttfb", "TTFB"],
+  ["fcp", "FCP"],
+  ["domLoadTime", "Dom Load Time"],
+  ["windowLoadTime", "Window Load Time"],
+]);
+
 export default function Popup({ metaTags, performanceMetrics }: PopupProps) {
-  const [perfMetrics, setPerfMetrics] = useState([{ name: "", value: 0 }]);
+  const [perfMetrics, setPerfMetrics] = useState([{}]);
 
   useEffect(() => {
     setPerfMetrics(mapPerformanceMetrics(performanceMetrics));
   }, [performanceMetrics]);
 
-  const mapPerformanceMetrics = (performanceMetrics: any) => {
+  const mapPerformanceMetrics = (
+    performanceMetrics: any
+  ): MetricItemProps[] => {
+    // to prepare readeable name of every metric and pass those to the metric list comp,
+
     const keyValuePairs = Object.entries(performanceMetrics);
 
-    console.log("keyValuePairs", keyValuePairs);
     const metrics = keyValuePairs.map((pair) => {
       return {
-        name: pair[0],
-        value: Number(pair[1]),
+        name: PERFORMANCE_METRICS.has(pair[0])
+          ? PERFORMANCE_METRICS.get(pair[0])
+          : "",
+        value: Number(pair[1]) || 0,
       };
     });
 
