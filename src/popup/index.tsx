@@ -14,28 +14,40 @@ chrome.tabs &&
       domLoadTime: 0,
       windowLoadTime: 0,
     };
+    let performanceMetricsMeasured = false;
+    let metaTagsFetched = false;
 
     setInterval(() => {
-      chrome.tabs.sendMessage(
-        tabs[0].id!,
-        { msg: CHROME_MESSAGE.META },
-        function (response) {
-          metaTags = response;
-        }
-      );
+      if (!metaTagsFetched) {
+        chrome.tabs.sendMessage(
+          tabs[0].id!,
+          { msg: CHROME_MESSAGE.META },
+          function (response) {
+            if (response.title.length > 0) {
+              metaTagsFetched = true;
+            }
+            metaTags = response;
+          }
+        );
+      }
 
-      chrome.tabs.sendMessage(
-        tabs[0].id!,
-        { msg: CHROME_MESSAGE.PERFORMANCE },
-        function (response: PERFORMANCE_DATA) {
-          performanceMetrics = response;
-          console.log({ performanceMetrics: response });
-        }
-      );
+      if (!performanceMetricsMeasured) {
+        chrome.tabs.sendMessage(
+          tabs[0].id!,
+          { msg: CHROME_MESSAGE.PERFORMANCE },
+          function (response: PERFORMANCE_DATA) {
+            if (response) {
+              performanceMetricsMeasured = true;
+            }
+            performanceMetrics = response;
+            console.log({ performanceMetrics: response });
+          }
+        );
+      }
 
       ReactDOM.render(
         <Popup metaTags={metaTags} performanceMetrics={performanceMetrics} />,
         document.getElementById("popup")
       );
-    }, 500);
+    }, 200);
   });

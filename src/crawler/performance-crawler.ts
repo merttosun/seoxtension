@@ -17,7 +17,7 @@ export class PerformanceCrawler implements Crawler {
     let ttfb,
       fcp,
       domLoadTime,
-      windowLoadTime: number = 0;
+      windowLoadTime = 0;
     if (
       Array.isArray(performance.getEntriesByType("navigation")) &&
       performance.getEntriesByType("navigation").length > 0
