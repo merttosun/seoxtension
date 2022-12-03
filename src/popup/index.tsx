@@ -44,6 +44,11 @@ chrome.tabs &&
               metaTagsFetched = true;
             }
             metaTags = response;
+
+            if (metaTags.ogImage) {
+              (document.getElementById("ogimage")! as HTMLImageElement).src =
+                metaTags.ogImage; // after image viewer component implementation this should be removed
+            }
           }
         );
       }
@@ -143,3 +148,5 @@ function setRedirectionUrl(
     }
   });
 }
+
+export { setLDJson, setAnchorCount };
