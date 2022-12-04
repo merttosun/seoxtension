@@ -8,9 +8,9 @@ export type InfoBoxProps = {
 
 export default function InfoBox({ title, text }: InfoBoxProps) {
   return (
-    <div className="info-box-wrapper">
-      <span className="title">{title}</span>
-      <p className="text">{text != "" ? text : title + " is not exist on this page" }</p>
+    <div className="info-box">
+      <span className="info-box__title">{title}</span>
+      <p className="info-box__text">{text != "" ? text : title + " is not exist on this page" }</p>
     </div>
   );
 }
