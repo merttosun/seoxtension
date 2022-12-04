@@ -1,4 +1,4 @@
 Nice To Have
-1 - typography scss might be implement and use to clean components' scss files
-2 - variables scss might be implement and use to clean components' scss files
+1 - typography scss might implement and use to clean components' scss files
+2 - variables scss might implement and use to clean components' scss files
 
