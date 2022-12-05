@@ -4,21 +4,29 @@
   "version": "1.0",
   "manifest_version": 3,
   "background": {
-    "service_worker": "js/background.js"
+    "service_worker": "js/eventPage.js"
   },
-  "permissions": ["storage", "activeTab", "scripting", "webNavigation", "webRequest" ],
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab",
+    "scripting",
+    "webNavigation",
+    "webRequest"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icon.png"
     },
-    "icons":{
-        "16": "icon.png"
+    "icons": {
+      "16": "icon.png"
     }
   },
   "content_scripts": [
     {
       "matches": ["https://*/*"],
+      "all_frames": true,
       "js": ["js/content.js"]
     }
   ],
