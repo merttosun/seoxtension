@@ -90,7 +90,7 @@ chrome.tabs &&
           setLDJson(response);
         }
       );
-
+      
       ReactDOM.render(
         <Popup metaTags={metaTags} performanceMetrics={performanceMetrics} />,
         document.getElementById("popup")

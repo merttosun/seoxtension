@@ -30,16 +30,14 @@ export default function Popup({ metaTags, performanceMetrics }: PopupProps) {
   ): MetricItemProps[] => {
     // to prepare readeable name of every metric and pass those to the metric list comp,
 
-    const keyValuePairs = Object.entries(performanceMetrics);
+    const metricNameValuePairs: Array<Array<string | number>> =
+      Object.entries(performanceMetrics);
 
-    const metrics = keyValuePairs.map((pair) => {
-      return {
-        name: PERFORMANCE_METRICS.has(pair[0])
-          ? PERFORMANCE_METRICS.get(pair[0])
-          : "",
-        value: Number(pair[1]) || 0,
-      };
-    });
+    const metrics: MetricItemProps[] = [];
+
+    for (const [name, value] of metricNameValuePairs) {
+      metrics.push({ name: name as string, value });
+    }
 
     return metrics;
   };
@@ -49,7 +47,7 @@ export default function Popup({ metaTags, performanceMetrics }: PopupProps) {
       <Divider />
       <InfoBox title="Meta Title" text={metaTags.title} />
       <InfoBox title="Meta Description" text={metaTags.description} />
-      <InfoBox title="Canonical" text={metaTags.canonical} /> 
+      <InfoBox title="Canonical" text={metaTags.canonical} />
       <InfoBox title="H1 Tag" text={metaTags.h1Tag} />
       <InfoBox title="OG Title" text={metaTags.ogTitle} />
       <InfoBox title="OG Description" text={metaTags.ogDescription} />

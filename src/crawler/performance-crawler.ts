@@ -2,10 +2,10 @@ import { Crawler } from "./interface";
 import { CRAWLER_TYPE } from "../constants";
 
 export type PERFORMANCE_DATA = {
-  ttfb: number | undefined,
-  fcp: number | undefined,
-  domLoadTime: number | undefined,
-  windowLoadTime: number | undefined,
+  ttfb?: number,
+  fcp?: number,
+  domLoadTime?: number,
+  windowLoadTime?: number,
 };
 
 export class PerformanceCrawler implements Crawler {
