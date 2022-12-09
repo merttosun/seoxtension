@@ -1,0 +1,36 @@
+.link-wrapper {
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 15px;
+    display: inline-block
+  }
+  &__link {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: #333333;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 410px;
+    white-space: nowrap;
+  }
+  &__content {
+    display : flex;
+    justify-content: space-between;
+    background-color: #FEF4EB ;
+    align-items: center;
+    padding: 8px;
+    border-radius: 4px;
+  }
+  &__copy {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+  }
+  margin-bottom: 20px;
+}

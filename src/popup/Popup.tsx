@@ -5,6 +5,7 @@ import MetricList from "../metric-list/MetricList";
 import { PERFORMANCE_DATA } from "crawler/performance-crawler";
 import { MetricItemProps } from "metric-list/metric-item/MetricItem";
 import { META_DATA } from "crawler/meta-crawler";
+import LinkWrapper from "../link-wrapper/LinkWrapper";
 
 type PopupProps = {
   metaTags: META_DATA;
@@ -47,11 +48,11 @@ export default function Popup({ metaTags, performanceMetrics }: PopupProps) {
       <Divider />
       <InfoBox title="Meta Title" text={metaTags.title} />
       <InfoBox title="Meta Description" text={metaTags.description} />
-      <InfoBox title="Canonical" text={metaTags.canonical} />
       <InfoBox title="H1 Tag" text={metaTags.h1Tag} />
       <InfoBox title="OG Title" text={metaTags.ogTitle} />
       <InfoBox title="OG Description" text={metaTags.ogDescription} />
-      <Divider />
+      <LinkWrapper title="Canonical" link={metaTags.canonical}  />
+        <Divider />
       <MetricList title="Performance Metrics" metrics={perfMetrics} />
       <Divider />
     </div>
