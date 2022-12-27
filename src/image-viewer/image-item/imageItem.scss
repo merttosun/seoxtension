@@ -1,0 +1,19 @@
+.image-card {
+  box-shadow: 0 1px 1rem -4px #929292;
+  background: #fff;
+  margin: 1rem;
+  height: 120px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 250ms ease-in-out;
+
+  img {
+    width: 70px;
+    height: 120px;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 1rem -4px #000;
+    transform: translateY(-3px);
+  }
+}

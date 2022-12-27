@@ -1,0 +1,32 @@
+.image-list{
+  *, &__*::before, &__*::after {
+    margin: 0;
+    padding: 0;
+  }
+  &__title{
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0em;
+  }
+
+  .image-viewer {
+    width: 100%;
+    margin: auto;
+
+    .image-container {
+      display: flex;
+      border-radius: 6px;
+      color: #333;
+      box-shadow: 0 0 1rem #f5f5f5 inset;
+      overflow-x: auto;
+      position: relative;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+
+}

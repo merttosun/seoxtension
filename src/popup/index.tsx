@@ -6,6 +6,8 @@ import { PERFORMANCE_DATA } from "crawler/performance-crawler";
 import { META_DATA } from "crawler/meta-crawler";
 import { LINK_DATA } from "crawler/anchor-crawler";
 import { LD_JSON_DATA } from "crawler/ld-crawler";
+import {IMAGE_DATA} from "../crawler/image-crawler";
+import {logDOM} from "@testing-library/dom";
 
 chrome.tabs &&
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -27,11 +29,14 @@ chrome.tabs &&
       windowLoadTime: 0,
     };
 
+    let images: IMAGE_DATA = [];
+
     // to avoid sending message continually
     let performanceMetricsMeasured = false;
     let metaTagsFetched = false;
     let ldJsonsFetched = false;
     let anchorsCountFetched = false;
+    let imagesFetched = false;
 
     setInterval(() => {
       // send message to trigger meta crawler for collecting meta tags from document
@@ -67,6 +72,19 @@ chrome.tabs &&
         );
       }
 
+      if(!imagesFetched) {
+        chrome.tabs.sendMessage(
+            tabs[0].id!,
+            { msg: CHROME_MESSAGE.IMAGE },
+            function (response: IMAGE_DATA) {
+              if (response.length > 0) {
+                imagesFetched = true;
+              }
+              images = response;
+            }
+        );
+      }
+
       // send message to trigger anchor-crawler for measuring anchor count
       chrome.tabs.sendMessage(
         tabs[0].id!,
@@ -90,9 +108,9 @@ chrome.tabs &&
           setLDJson(response);
         }
       );
-      
+
       ReactDOM.render(
-        <Popup metaTags={metaTags} performanceMetrics={performanceMetrics} />,
+        <Popup metaTags={metaTags} performanceMetrics={performanceMetrics} images={images} />,
         document.getElementById("popup")
       );
     }, 200);
