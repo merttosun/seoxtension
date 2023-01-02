@@ -3,6 +3,7 @@ export enum CRAWLER_TYPE {
   META = "META",
   PERFORMANCE = "PERFORMANCE",
   ANCHOR = "ANCHOR",
+  IMAGE = "IMAGE",
 }
 
 export enum CHROME_MESSAGE {
@@ -10,4 +11,5 @@ export enum CHROME_MESSAGE {
   META = "META_M",
   PERFORMANCE = "PERFORMANCE_M",
   ANCHOR = "ANCHOR_M",
+  IMAGE = "IMAGE_M",
 }

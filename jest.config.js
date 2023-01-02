@@ -7,6 +7,7 @@ module.exports = {
   coveragePathIgnorePatterns: ["<rootDir>/dist"],
   transform: {
     "^.+\\.tsx?$": "ts-jest",
+    ".+\\.(css|styl|less|sass|scss)$": "jest-css-modules-transform",
   },
   testPathIgnorePatterns: ["test-container"],
   coverageReporters: ["json", "lcov", "text", "cobertura", "text-summary"],
@@ -21,7 +22,4 @@ module.exports = {
     },
   },
   setupFiles: ["./jest.setup.js"],
-  transform: {
-    ".+\\.(css|styl|less|sass|scss)$": "jest-css-modules-transform",
-  },
 };

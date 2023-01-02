@@ -6,10 +6,13 @@ import { PERFORMANCE_DATA } from "crawler/performance-crawler";
 import { MetricItemProps } from "metric-list/metric-item/MetricItem";
 import { META_DATA } from "crawler/meta-crawler";
 import LinkWrapper from "../link-wrapper/LinkWrapper";
+import ImageViewer from "../image-viewer/ImageViewer";
+import {IMAGE_DATA} from "../crawler/image-crawler";
 
 type PopupProps = {
   metaTags: META_DATA;
   performanceMetrics: PERFORMANCE_DATA;
+  images: IMAGE_DATA;
 };
 
 const PERFORMANCE_METRICS = new Map<string, string>([
@@ -19,7 +22,7 @@ const PERFORMANCE_METRICS = new Map<string, string>([
   ["windowLoadTime", "Window Load Time"],
 ]);
 
-export default function Popup({ metaTags, performanceMetrics }: PopupProps) {
+export default function Popup({ metaTags, performanceMetrics, images }: PopupProps) {
   const [perfMetrics, setPerfMetrics] = useState([{}]);
 
   useEffect(() => {
@@ -55,6 +58,8 @@ export default function Popup({ metaTags, performanceMetrics }: PopupProps) {
         <Divider />
       <MetricList title="Performance Metrics" metrics={perfMetrics} />
       <Divider />
+        <ImageViewer title="Images" images={images}/>
+        <Divider />
     </div>
   );
 }
