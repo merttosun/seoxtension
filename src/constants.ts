@@ -1,9 +1,9 @@
 export enum CRAWLER_TYPE {
-  LD_JSON = "LD_JSON",
-  META = "META",
-  PERFORMANCE = "PERFORMANCE",
-  ANCHOR = "ANCHOR",
-  IMAGE = "IMAGE",
+    LD_JSON = "LD_JSON",
+    META = "META",
+    PERFORMANCE = "PERFORMANCE",
+    ANCHOR = "ANCHOR",
+    IMAGE = "IMAGE",
 }
 
 export enum CHROME_MESSAGE {

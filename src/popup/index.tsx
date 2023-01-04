@@ -31,6 +31,8 @@ chrome.tabs &&
 
     let images: IMAGE_DATA = [];
 
+    let ldJson: string[];
+
     // to avoid sending message continually
     let performanceMetricsMeasured = false;
     let metaTagsFetched = false;
@@ -98,19 +100,22 @@ chrome.tabs &&
       );
 
       // send message to ld crawler for collecting ld+json's from document
-      chrome.tabs.sendMessage(
-        tabs[0].id!,
-        { msg: CHROME_MESSAGE.LD_JSON },
-        function (response: LD_JSON_DATA) {
-          if (response) {
-            ldJsonsFetched = true;
-          }
-          setLDJson(response);
+        if (!ldJsonsFetched) {
+            chrome.tabs.sendMessage(
+                tabs[0].id!,
+                {msg: CHROME_MESSAGE.LD_JSON},
+                function (response: string[]) {
+                    if (response) {
+                        ldJsonsFetched = true;
+                    }
+                    
+                    ldJson = response
+                }
+            );
         }
-      );
 
       ReactDOM.render(
-        <Popup metaTags={metaTags} performanceMetrics={performanceMetrics} images={images} />,
+        <Popup metaTags={metaTags} performanceMetrics={performanceMetrics} images={images} ldJson={ldJson} />,
         document.getElementById("popup")
       );
     }, 200);
@@ -119,12 +124,6 @@ chrome.tabs &&
 function setAnchorCount(links: any) {
   if (links) {
     document.getElementById("anchor-count")!.innerText = String(links.length);
-  }
-}
-
-function setLDJson(jsonData: any) {
-  if (jsonData) {
-    document.getElementById("ld-json")!.innerText = JSON.stringify(jsonData);
   }
 }
 
@@ -167,4 +166,4 @@ function setRedirectionUrl(
   });
 }
 
-export { setLDJson, setAnchorCount };
+export { setAnchorCount };
