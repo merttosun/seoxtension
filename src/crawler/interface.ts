@@ -1,6 +1,6 @@
-import {CRAWLER_TYPE} from "../constants";
+import { CRAWLER_TYPE } from '../constants'
 
 export interface Crawler {
-    type: CRAWLER_TYPE;
-    collect(): any;
+  type: CRAWLER_TYPE
+  collect(): any
 }

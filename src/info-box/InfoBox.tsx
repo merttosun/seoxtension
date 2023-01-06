@@ -1,16 +1,16 @@
-import React from "react";
-import "./InfoBox.scss";
+import React from 'react'
+import './InfoBox.scss'
 
 export type InfoBoxProps = {
-  title: string;
-  text: string;
-};
+  title: string
+  text: string
+}
 
 export default function InfoBox({ title, text }: InfoBoxProps) {
   return (
-    <div className="info-box">
-      <span className="info-box__title">{title}</span>
-      <p className="info-box__text">{text != "" ? text : title + " is not exist on this page" }</p>
+    <div className='info-box'>
+      <span className='info-box__title'>{title}</span>
+      <p className='info-box__text'>{text != '' ? text : title + ' is not exist on this page'}</p>
     </div>
-  );
+  )
 }
