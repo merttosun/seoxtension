@@ -10,12 +10,15 @@ import { META_DATA } from 'crawler/meta-crawler'
 import LinkWrapper from '../link-wrapper/LinkWrapper'
 import ImageViewer from '../image-viewer/ImageViewer'
 import { IMAGE_DATA } from '../crawler/image-crawler'
+import type {NetworkInfo as NETWORK_INFO} from '../components/network-info/types';
+import NetworkInfo from '../components/network-info/NetworkInfo'
 
 type PopupProps = {
   metaTags: META_DATA
   performanceMetrics: PERFORMANCE_DATA
   ldJson: string[]
-  images: IMAGE_DATA
+  images: IMAGE_DATA,
+  networkInfo: NETWORK_INFO,
 }
 
 const PERFORMANCE_METRICS = new Map<string, string>([
@@ -25,7 +28,7 @@ const PERFORMANCE_METRICS = new Map<string, string>([
   ['windowLoadTime', 'Window Load Time'],
 ])
 
-export default function Popup({ metaTags, performanceMetrics, images, ldJson }: PopupProps) {
+export default function Popup({ metaTags, performanceMetrics, images, ldJson, networkInfo }: PopupProps) {
   const [perfMetrics, setPerfMetrics] = useState([{}])
 
   useEffect(() => {
@@ -48,7 +51,7 @@ export default function Popup({ metaTags, performanceMetrics, images, ldJson }: 
 
   return (
     <div className='popup-wrapper'>
-      <Divider />
+      <NetworkInfo networkInfo={networkInfo}   />
       <InfoBox title='Meta Title' text={metaTags.title} />
       <InfoBox title='Meta Description' text={metaTags.description} />
       <InfoBox title='H1 Tag' text={metaTags.h1Tag} />

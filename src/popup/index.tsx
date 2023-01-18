@@ -7,7 +7,15 @@ import { META_DATA } from 'crawler/meta-crawler'
 import { LINK_DATA } from 'crawler/anchor-crawler'
 import { LD_JSON_DATA } from 'crawler/ld-crawler'
 import { IMAGE_DATA } from '../crawler/image-crawler'
-import { logDOM } from '@testing-library/dom'
+
+let networkInfo = {
+    statusCode: 0,
+    redirectStatus: 0,
+    url: '',
+    redirectUrl: '',
+    statusLine: '',
+    redirectStatusLine: '',
+}
 
 chrome.tabs &&
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -119,6 +127,7 @@ chrome.tabs &&
           performanceMetrics={performanceMetrics}
           images={images}
           ldJson={ldJson}
+          networkInfo={networkInfo}
         />,
         document.getElementById('popup'),
       )
@@ -132,38 +141,30 @@ function setAnchorCount(links: any) {
 }
 
 // redirection
-chrome.webRequest.onCompleted.addListener(
+chrome.webRequest.onBeforeRedirect.addListener(
   function (details) {
-    setStatusCode(details)
-    // add you new required feature
+    networkInfo.redirectUrl = details.url;
+    networkInfo.redirectStatusLine = details.statusLine;
+    networkInfo.redirectStatus = details.statusCode;
   },
   {
     urls: ['<all_urls>'],
+    types: ['main_frame']
   },
   ['responseHeaders'],
 )
 
-chrome.webRequest.onHeadersReceived.addListener(
-  (details) => {
-    setRedirectionUrl(details)
-    // add you new required feature
-  },
-  {
-    urls: ['<all_urls>'],
-  },
-  ['responseHeaders'],
+chrome.webRequest.onCompleted.addListener(
+    function (details) {
+       networkInfo.statusCode = details.statusCode;
+       networkInfo.statusLine = details.statusLine;
+       networkInfo.url = details.url;
+    },
+    {
+        urls: ['<all_urls>'],
+        types: ['main_frame']
+    },
+    ['responseHeaders'],
 )
-
-function setStatusCode(details: chrome.webRequest.WebResponseCacheDetails) {
-  document.getElementById('statusCode')!.innerText = String(details.statusCode)
-}
-
-function setRedirectionUrl(details: chrome.webRequest.WebResponseHeadersDetails) {
-  details.responseHeaders?.filter((obj) => {
-    if (obj.name === 'location') {
-      document.getElementById('redirection-info')!.innerText = String(obj.value)
-    }
-  })
-}
 
 export { setAnchorCount }

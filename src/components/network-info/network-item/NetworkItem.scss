@@ -1,0 +1,56 @@
+.network-item{
+  &__container{
+    height: 60px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px 12px 12px;
+    &--redirect{
+      background-color: #EBF5FF;
+    }
+    &--final{
+      background-color: #EFFBF5;
+    }
+
+    &:not(:last-child){
+      margin-bottom: 8px;
+    }
+  }
+
+  &__url{
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 346px;
+  }
+
+  &__status{
+    color: #333333;
+   & > span {
+     overflow:hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+     max-width: 346px;
+   }
+  }
+
+  &__copy{
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  &__text{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__icon{
+    margin-right: 8px;
+  }
+}
