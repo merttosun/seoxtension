@@ -52,6 +52,7 @@ describe('MetaCrawler works as like a charm :)', () => {
         ogDescription: '',
         ogImage: '',
         canonical: '',
+        alternates: [],
         h1Tag: 'SEO Heading',
       })
     })

@@ -20,6 +20,7 @@ chrome.tabs &&
       ogImage: '',
       canonical: '',
       h1Tag: '',
+      alternates: []
     }
 
     let performanceMetrics: PERFORMANCE_DATA = {
