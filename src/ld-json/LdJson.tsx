@@ -9,7 +9,7 @@ export type LdJsonProps = {
 
 export default function LdJsonWrapper({ title, ldJson }: LdJsonProps) {
   if (ldJson && ldJson.length > 0) {
-    const jsonItem = ldJson.map((json: string) => <SchemaViewer schema={JSON.parse(json)} />)
+    const jsonItem = ldJson.map((json: string, index) => <SchemaViewer key={index} schema={JSON.parse(json)} />)
     return (
       <div className='ld-json-wrapper'>
         <span className='ld-json-wrapper__title'>{title}</span>

@@ -5,11 +5,11 @@ import MetricList from '../metric-list/MetricList'
 import { PERFORMANCE_DATA } from 'crawler/performance-crawler'
 import { MetricItemProps } from 'metric-list/metric-item/MetricItem'
 import LdJsonWrapper from '../ld-json/LdJson'
-import { LD_JSON_DATA } from 'crawler/ld-crawler'
 import { META_DATA } from 'crawler/meta-crawler'
 import LinkWrapper from '../link-wrapper/LinkWrapper'
 import ImageViewer from '../image-viewer/ImageViewer'
 import { IMAGE_DATA } from '../crawler/image-crawler'
+import LinkWrapperList from '../link-wrapper-list/LinkWrapperList';
 
 type PopupProps = {
   metaTags: META_DATA
@@ -55,6 +55,7 @@ export default function Popup({ metaTags, performanceMetrics, images, ldJson }: 
       <InfoBox title='OG Title' text={metaTags.ogTitle} />
       <InfoBox title='OG Description' text={metaTags.ogDescription} />
       <LinkWrapper title='Canonical' link={metaTags.canonical} />
+      <LinkWrapperList links={metaTags.alternates} title='Alternates' />
       <Divider />
       <MetricList title='Performance Metrics' metrics={perfMetrics} />
       <LdJsonWrapper title='Ld Json' ldJson={ldJson} />

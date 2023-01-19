@@ -1,6 +1,11 @@
 import { Crawler } from './interface'
 import { CRAWLER_TYPE } from '../constants'
 
+export type ALTERNATE = {
+  info?: string,
+  link: string
+}
+
 export type META_DATA = {
   description: string
   ogTitle: string
@@ -9,6 +14,7 @@ export type META_DATA = {
   canonical: string
   h1Tag: string
   title: string
+  alternates: ALTERNATE[]
 }
 
 export class MetaCrawler implements Crawler {
@@ -27,6 +33,14 @@ export class MetaCrawler implements Crawler {
     const h1Tag = (<HTMLHeadingElement>document.querySelector('h1'))?.textContent || ''
     const title = document.title
 
-    return { description, ogTitle, ogDescription, ogImage, canonical, h1Tag, title }
+    const alternates: ALTERNATE[] = [];
+    document.querySelectorAll('link[rel="alternate"]').forEach(value => {
+      alternates.push({
+        info: value.attributes.getNamedItem('hrefLang')?.value.toUpperCase() || undefined,
+        link: value.attributes.getNamedItem('href')?.value || ''
+      })
+    })
+
+    return { description, ogTitle, ogDescription, ogImage, canonical, h1Tag, title, alternates }
   }
 }
