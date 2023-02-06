@@ -29,7 +29,6 @@ describe("<ImageViewer />", () => {
         const wrapper = render(<ImageViewer  title={''} images= {[]}/>);
 
         //expectations
-        expect(wrapper.queryByText("Could Not Find Image Correctly")).toBeInTheDocument();
-
+        expect(wrapper.container.firstChild).toBeEmptyDOMElement()
     });
 });

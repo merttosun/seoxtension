@@ -17,7 +17,7 @@ chrome.tabs &&
       description: '',
       ogTitle: '',
       ogDescription: '',
-      ogImage: '',
+      ogImage: [],
       canonical: '',
       h1Tag: '',
       alternates: []
@@ -48,14 +48,10 @@ chrome.tabs &&
           tabs[0].id!,
           { msg: CHROME_MESSAGE.META },
           function (response: META_DATA) {
-            if (response.title.length > 0) {
+            if (response?.title?.length > 0) {
               metaTagsFetched = true
             }
             metaTags = response
-
-            if (metaTags.ogImage) {
-              ;(document.getElementById('ogimage')! as HTMLImageElement).src = metaTags.ogImage // after image viewer component implementation this should be removed
-            }
           },
         )
       }
