@@ -31,7 +31,7 @@ export class MetaCrawler implements Crawler {
       (<HTMLMetaElement>document.querySelector('meta[property="og:image"]'))?.content || ''
     const canonical = (<HTMLLinkElement>document.querySelector('link[rel="canonical"]'))?.href || ''
     const h1Tag = (<HTMLHeadingElement>document.querySelector('h1'))?.textContent || ''
-    const title = document.title
+    const title = document?.title
 
     const alternates: ALTERNATE[] = [];
     document.querySelectorAll('link[rel="alternate"]').forEach(value => {

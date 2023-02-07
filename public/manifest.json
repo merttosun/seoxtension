@@ -6,14 +6,7 @@
   "background": {
     "service_worker": "js/eventPage.js"
   },
-  "permissions": [
-    "tabs",
-    "storage",
-    "activeTab",
-    "scripting",
-    "webNavigation",
-    "webRequest"
-  ],
+  "permissions": ["tabs", "storage", "activeTab", "scripting", "webNavigation", "webRequest"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -27,7 +20,8 @@
     {
       "matches": ["https://*/*"],
       "all_frames": true,
-      "js": ["js/content.js"]
+      "js": ["js/content.js"],
+      "permissions": "storage"
     }
   ],
   "options_page": "options.html"

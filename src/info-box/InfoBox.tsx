@@ -10,7 +10,7 @@ export default function InfoBox({ title, text }: InfoBoxProps) {
   return (
     <div className='info-box'>
       <span className='info-box__title'>{title}</span>
-      <p className='info-box__text'>{text != '' ? text : title + ' is not exist on this page'}</p>
+      <p className='info-box__text'>{text != '' ? text : title + ' does not exist on this page'}</p>
     </div>
   )
 }

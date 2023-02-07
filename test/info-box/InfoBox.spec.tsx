@@ -20,7 +20,7 @@ describe("<InfoBox />", () => {
     const wrapper = render(<InfoBox  text="" title="info title" />);
 
     //expectations
-    expect(wrapper.queryByText("info title is not exist on this page")).toBeInTheDocument();
+    expect(wrapper.queryByText("info title does not exist on this page")).toBeInTheDocument();
 
   });
 

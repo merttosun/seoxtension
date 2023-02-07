@@ -12,7 +12,7 @@ export default function LinkWrapperList({ title, links }: LinkWrapperListProps) 
     <div className='link-wrapper-list'>
       <span className='link-wrapper-list__title'>{title}</span>
       {
-        links.length > 0 && links.map((value, index) => <div
+        links?.length > 0 && links.map((value, index) => <div
           key={index}
           className='link-wrapper-list__content'
         >
