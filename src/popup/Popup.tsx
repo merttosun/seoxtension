@@ -49,19 +49,17 @@ export default function Popup({ metaTags, performanceMetrics, images, ldJson }: 
   return (
     <div className='popup-wrapper'>
       <Divider />
-      <InfoBox title='Meta Title' text={metaTags.title} />
-      <InfoBox title='Meta Description' text={metaTags.description} />
-      <InfoBox title='H1 Tag' text={metaTags.h1Tag} />
-      <InfoBox title='OG Title' text={metaTags.ogTitle} />
-      <InfoBox title='OG Description' text={metaTags.ogDescription} />
-      <LinkWrapper title='Canonical' link={metaTags.canonical} />
-      <LinkWrapperList links={metaTags.alternates} title='Alternates' />
+      <InfoBox title='Meta Title' text={metaTags?.title} />
+      <InfoBox title='Meta Description' text={metaTags?.description} />
+      <InfoBox title='H1 Tag' text={metaTags?.h1Tag} />
+      <InfoBox title='OG Title' text={metaTags?.ogTitle} />
+      <InfoBox title='OG Description' text={metaTags?.ogDescription} />
+        <ImageViewer title='OG Image' images={metaTags?.ogImage} />
+      <LinkWrapper title='Canonical' link={metaTags?.canonical} />
+      <LinkWrapperList links={metaTags?.alternates} title='Alternates' />
       <Divider />
       <MetricList title='Performance Metrics' metrics={perfMetrics} />
       <LdJsonWrapper title='Ld Json' ldJson={ldJson} />
-      <Divider />
-      <ImageViewer title='Images' images={images} />
-      <Divider />
     </div>
   )
 }

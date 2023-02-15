@@ -20,5 +20,5 @@ export default function ImageViewer({ title, images }: ImageViewerProps) {
       </div>
     )
   }
-  return <div className='image-list__fallback-text'>Could Not Find Image Correctly</div>
+  return <div></div>
 }
