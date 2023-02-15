@@ -18,18 +18,6 @@ const filter = {
   url: [{ hostContains: '*' }],
 }
 
-chrome.webRequest.onBeforeRequest.addListener(
-  (details) => {
-    console.log('onbrefore request', { details })
-    if (details.type == 'main_frame') {
-      chrome.storage.session.set({ redirectionResults: [] })
-    }
-  },
-  {
-    urls: ['<all_urls>'],
-  },
-)
-
 chrome.webRequest.onBeforeRedirect.addListener(
   async (details) => {
     console.log(details.requestId, ':', details.url, '->', details)
@@ -71,15 +59,38 @@ chrome.webRequest.onCompleted.addListener(
     console.log('onRequestCompleted', details)
     const result = await chrome.storage.session.get('lastRequestId')
     const lastRequestId = result['lastRequestId']
-    const { statusCode, type, requestId } = details
+    const { statusCode, type, requestId, url } = details
+
+    if (!url.startsWith('http')) {
+      return
+    }
+    if (lastRequestId && lastRequestId !== requestId && type == 'main_frame') {
+      // new path new redirection results
+      redirectionResults = []
+      redirectionResults.push({
+        statusCode,
+        url: details.url,
+        location: '',
+        description: SC_DESCRIPTION.get(statusCode) || '',
+      })
+      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+    }
 
     if (
       type == 'main_frame' &&
-      statusCode == 200 &&
-      redirectionResults.length &&
-      lastRequestId == requestId &&
-      redirectionResults[redirectionResults.length - 1].location === details.url
+      redirectionResults.length == 1 &&
+      redirectionResults[0].location !== details.url &&
+      SC_DESCRIPTION.get(statusCode)
     ) {
+      redirectionResults = []
+      redirectionResults.push({
+        statusCode,
+        url: details.url,
+        location: '',
+        description: SC_DESCRIPTION.get(statusCode) || '',
+      })
+      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+    } else if (type == 'main_frame' && SC_DESCRIPTION.get(statusCode)) {
       redirectionResults.push({
         statusCode,
         url: details.url,
