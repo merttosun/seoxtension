@@ -54,6 +54,22 @@ chrome.webRequest.onBeforeRedirect.addListener(
   },
 )
 
+chrome.webRequest.onBeforeRequest.addListener(
+  (details) => {
+    chrome.storage.session.get('lastRequestId').then((result) => {
+      const lastRequestId = result['lastRequestId']
+      if (!lastRequestId) {
+        chrome.storage.session.set({ redirectionResults: [] }).then(() => {
+          return
+        })
+      }
+    })
+  },
+  {
+    urls: ['<all_urls>'],
+  },
+)
+
 chrome.webRequest.onCompleted.addListener(
   async (details) => {
     console.log('onRequestCompleted', details)
@@ -62,9 +78,11 @@ chrome.webRequest.onCompleted.addListener(
     const { statusCode, type, requestId, url } = details
 
     if (!url.startsWith('http')) {
+      // to exclude urls like chrome-extension://123-456
       return
     }
-    if (lastRequestId && lastRequestId !== requestId && type == 'main_frame') {
+
+    if (!lastRequestId || (lastRequestId && lastRequestId !== requestId && type == 'main_frame')) {
       // new path new redirection results
       redirectionResults = []
       redirectionResults.push({
