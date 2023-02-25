@@ -1,183 +1,192 @@
-const SC_DESCRIPTION = new Map<number, string>([
-  [200, 'STATUS OK'],
-  [301, 'PERMANENTLY REDIRECT'],
-  [302, 'FOUND'],
-  [404, 'NOT FOUND'],
-  [410, 'GONE'],
-  [500, 'INTERNAL SERVER ERROR'],
-])
+;(function () {
+  const SC_DESCRIPTION = new Map<number, string>([
+    [200, 'STATUS OK'],
+    [301, 'PERMANENTLY REDIRECT'],
+    [302, 'FOUND'],
+    [404, 'NOT FOUND'],
+    [410, 'GONE'],
+    [500, 'INTERNAL SERVER ERROR'],
+  ])
 
-let redirectionResults: Array<{
-  statusCode: number
-  url: string
-  location: string
-  description: string
-}> = []
+  let redirectionResults: Array<{
+    statusCode: number
+    url: string
+    location: string
+    description: string
+  }> = []
 
-const filter = {
-  url: [{ hostContains: '*' }],
-}
+  chrome.runtime.onInstalled.addListener((details) => {
+    console.log('eventpage onInstalled', details)
+  })
 
-chrome.webRequest.onBeforeRedirect.addListener(
-  async (details) => {
-    console.log(details.requestId, ':', details.url, '->', details)
-    const redirectUrl = details.redirectUrl
-    const statusCode = details.statusCode
-    const result = await chrome.storage.session.get('lastRequestId')
+  chrome.runtime.onConnect.addListener((details) => {
+    console.log('eventpage onConnect', details)
+  })
 
-    const lastRequestId = result['lastRequestId']
-    console.log({ lastRequestId })
+  const filter = {
+    url: [{ hostContains: '*' }],
+  }
 
-    if (lastRequestId && lastRequestId !== details.requestId) {
-      // new path new redirection results
-      redirectionResults = []
-      redirectionResults.push({
-        statusCode,
-        url: details.url,
-        location: redirectUrl,
-        description: SC_DESCRIPTION.get(statusCode) || '',
-      })
-      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
-    } else {
-      redirectionResults.push({
-        statusCode,
-        url: details.url,
-        location: redirectUrl,
-        description: SC_DESCRIPTION.get(statusCode) || '',
-      })
+  chrome.webNavigation.onTabReplaced.addListener((details) => {
+    console.log('onTabReplaced', details)
+  })
 
-      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
-    }
-  },
-  {
-    urls: ['<all_urls>'],
-  },
-)
+  chrome.webNavigation.onBeforeNavigate.addListener((details) => {
+    console.log('onBeforeNavigate', details)
+  })
 
-chrome.webRequest.onBeforeRequest.addListener(
-  (details) => {
-    chrome.storage.session.get('lastRequestId').then((result) => {
+  chrome.webNavigation.onCommitted.addListener((details) => {
+    console.log('onCommitted', details)
+  })
+
+  chrome.webNavigation.onCompleted.addListener((details) => {
+    console.log('onCompleted', details)
+    chrome.history.getVisits({ url: 'https://www.trendyol.com' }).then((visits) => {
+      console.log({ visits })
+    })
+  })
+
+  chrome.webNavigation.onCreatedNavigationTarget.addListener((details) => {
+    console.log('onCreatedNavigationTarget', details)
+  })
+
+  chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
+    console.log('onHistoryStateUpdated', details)
+  })
+
+  chrome.webNavigation.onReferenceFragmentUpdated.addListener((details) => {
+    console.log('onReferenceFragmentUpdated', details)
+  })
+
+  chrome.webRequest.onBeforeSendHeaders.addListener(
+    (details) => {
+      console.log('onBeforeSendHeaders', { details })
+    },
+    {
+      urls: ['<all_urls>'],
+      types: ['main_frame'],
+    },
+  )
+
+  chrome.webRequest.onBeforeRedirect.addListener(
+    async (details) => {
+      console.log(details.requestId, ':', details.url, '->', details)
+      const redirectUrl = details.redirectUrl
+      const statusCode = details.statusCode
+      const result = await chrome.storage.session.get('lastRequestId')
+
       const lastRequestId = result['lastRequestId']
-      if (!lastRequestId) {
-        chrome.storage.session.set({ redirectionResults: [] }).then(() => {
-          return
+      console.log({ lastRequestId })
+
+      if (lastRequestId && lastRequestId !== details.requestId) {
+        // new path new redirection results
+        redirectionResults = []
+        redirectionResults.push({
+          statusCode,
+          url: details.url,
+          location: redirectUrl,
+          description: SC_DESCRIPTION.get(statusCode) || '',
         })
+        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+      } else {
+        redirectionResults.push({
+          statusCode,
+          url: details.url,
+          location: redirectUrl,
+          description: SC_DESCRIPTION.get(statusCode) || '',
+        })
+
+        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
       }
-    })
-  },
-  {
-    urls: ['<all_urls>'],
-  },
-)
+    },
+    {
+      urls: ['<all_urls>'],
+      types: ['main_frame'],
+    },
+  )
 
-chrome.webRequest.onCompleted.addListener(
-  async (details) => {
-    console.log('onRequestCompleted', details)
-    const result = await chrome.storage.session.get('lastRequestId')
-    const lastRequestId = result['lastRequestId']
-    const { statusCode, type, requestId, url } = details
-
-    if (!url.startsWith('http')) {
-      // to exclude urls like chrome-extension://123-456
-      return
-    }
-
-    if (!lastRequestId || (lastRequestId && lastRequestId !== requestId && type == 'main_frame')) {
-      // new path new redirection results
-      redirectionResults = []
-      redirectionResults.push({
-        statusCode,
-        url: details.url,
-        location: '',
-        description: SC_DESCRIPTION.get(statusCode) || '',
+  chrome.webRequest.onBeforeRequest.addListener(
+    (details) => {
+      console.log('onBeforeRequest', { details })
+      chrome.storage.session.get('lastRequestId').then((result) => {
+        const lastRequestId = result['lastRequestId']
+        if (!lastRequestId) {
+          chrome.storage.session.set({ redirectionResults: [] }).then(() => {
+            return
+          })
+        }
       })
-      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
-    }
+    },
+    {
+      urls: ['<all_urls>'],
+      types: ['main_frame'],
+    },
+  )
 
-    if (
-      type == 'main_frame' &&
-      redirectionResults.length == 1 &&
-      redirectionResults[0].location !== details.url &&
-      SC_DESCRIPTION.get(statusCode)
-    ) {
-      redirectionResults = []
-      redirectionResults.push({
-        statusCode,
-        url: details.url,
-        location: '',
-        description: SC_DESCRIPTION.get(statusCode) || '',
-      })
-      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
-    } else if (type == 'main_frame' && SC_DESCRIPTION.get(statusCode)) {
-      redirectionResults.push({
-        statusCode,
-        url: details.url,
-        location: '',
-        description: SC_DESCRIPTION.get(statusCode) || '',
-      })
-      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
-    }
-  },
-  {
-    urls: ['<all_urls>'],
-  },
-)
+  chrome.webRequest.onCompleted.addListener(
+    async (details) => {
+      console.log('onRequestCompleted', details)
+      const result = await chrome.storage.session.get('lastRequestId')
+      const lastRequestId = result['lastRequestId']
+      const { statusCode, type, requestId, url } = details
 
-/*
-chrome.webRequest.onHeadersRecevied.addListener(
-  (details) => {
-    console.log(Date.now(), { details })
-    const isThereANewLocation = details.responseHeaders?.some(
-      (header) => header.name === 'location',
-    )
-    const isItOnMainFrame = details.type === 'main_frame'
+      if (!url.startsWith('http')) {
+        // to exclude urls like chrome-extension://123-456
+        return
+      }
 
-    const statusCode = details.statusCode
-    const url = new URL(details.url)
+      if (
+        !lastRequestId ||
+        (lastRequestId && lastRequestId !== requestId && type == 'main_frame')
+      ) {
+        // new path new redirection results
+        redirectionResults = []
+        redirectionResults.push({
+          statusCode,
+          url: details.url,
+          location: '',
+          description: SC_DESCRIPTION.get(statusCode) || '',
+        })
+        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+      }
 
-    const locationPath = details.responseHeaders?.find(
-      (header) => header.name === 'location',
-    )?.value
+      if (
+        type == 'main_frame' &&
+        redirectionResults.length == 1 &&
+        redirectionResults[0].location !== details.url &&
+        SC_DESCRIPTION.get(statusCode)
+      ) {
+        redirectionResults = []
+        redirectionResults.push({
+          statusCode,
+          url: details.url,
+          location: '',
+          description: SC_DESCRIPTION.get(statusCode) || '',
+        })
+        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+      } else if (type == 'main_frame' && SC_DESCRIPTION.get(statusCode)) {
+        redirectionResults.push({
+          statusCode,
+          url: details.url,
+          location: '',
+          description: SC_DESCRIPTION.get(statusCode) || '',
+        })
+        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+      }
+    },
+    {
+      urls: ['<all_urls>'],
+      types: ['main_frame'],
+    },
+  )
 
-    if (
-      isItOnMainFrame &&
-      redirectionResults.length < 1 &&
-      isThereANewLocation &&
-      statusCode !== 200
-    ) {
-      redirectionResults.push({
-        statusCode,
-        url: url.href,
-        location: url.origin + locationPath,
-        description: SC_DESCRIPTION.get(statusCode) || '',
-      })
-    } else if (
-      isItOnMainFrame &&
-      url.href === redirectionResults[redirectionResults.length - 1]?.location
-    ) {
-      redirectionResults.push({
-        statusCode,
-        url: url.href,
-        location: url.origin + locationPath,
-        description: SC_DESCRIPTION.get(statusCode) || '',
-      })
-    }
-
-    chrome.storage.session.set({ redirectionResults: {} }).then(() => {
-      console.log('Value is set to ' + redirectionResults)
-    })
-
-    chrome.storage.session.set({ redirectionResults }).then(() => {
-      console.log('Value is set to ' + redirectionResults)
-    })
-    console.log({ locationPath })
-    console.log({ details })
-    console.log({ url })
-    console.log({ redirectionResults })
-  },
-  {
-    urls: ['<all_urls>'],
-  },
-  ['responseHeaders'],
-)
-*/
+  chrome.webRequest.onResponseStarted.addListener(
+    (details) => {
+      console.log('onResponseStarted', { details })
+    },
+    {
+      urls: ['<all_urls>'],
+      types: ['main_frame'],
+    },
+  )
+})()

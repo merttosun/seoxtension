@@ -19,7 +19,10 @@ export default function RedirectionItem({
 }: RedirectionItemProps) {
   if (url && statusCode) {
     return (
-      <div className={lastItem ? 'redirection-item last-item' : 'redirection-item'}>
+      <div
+        className={lastItem ? 'redirection-item last-item' : 'redirection-item'}
+        data-testid={url + description}
+      >
         <div
           className={
             lastItem
@@ -27,13 +30,11 @@ export default function RedirectionItem({
               : 'redirection-item__icon-box'
           }
         >
-          {lastItem ? <Check /> : <ArrowDown />}
+          {lastItem ? <Check data-testid="check-icon"/> : <ArrowDown data-testid="arrow-down-icon"/>}
         </div>
         <div className='redirection-item__infoes'>
           <div className='redirection-item__infoes__url'>{url}</div>
-          <div className='redirection-item__infoes__status'>
-            {`${statusCode}:${description}`}
-          </div>
+          <div className='redirection-item__infoes__status'>{`${statusCode}:${description}`}</div>
         </div>
         <Copy
           className='redirection-item__copy'
@@ -44,5 +45,5 @@ export default function RedirectionItem({
       </div>
     )
   }
-  return <div></div>
+  return <div data-testid="empty-redirection-item"></div>
 }

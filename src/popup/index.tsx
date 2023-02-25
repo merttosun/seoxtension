@@ -8,7 +8,7 @@ import { LINK_DATA } from 'crawler/anchor-crawler'
 import { IMAGE_DATA } from '../crawler/image-crawler'
 
 chrome.tabs &&
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
     // initial data
     let metaTags: META_DATA = {
       title: '',
@@ -130,6 +130,15 @@ chrome.tabs &&
       )
     }, 300)
   })
+
+chrome.runtime.onInstalled.addListener((details) => {
+  console.log('index.tsx onInstalled', details)
+})
+
+chrome.runtime.onConnect.addListener((details) => {
+  console.log('index.tsx onConnect', details)
+})
+
 
 function setAnchorCount(links: any) {
   if (links) {

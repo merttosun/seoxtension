@@ -9,12 +9,13 @@ export type MetricListProps = {
 export default function RedirectionBox({ redirectionResults }: MetricListProps) {
   if (Array.isArray(redirectionResults) && redirectionResults.length > 0) {
     const redirectionItems = redirectionResults?.map((redirectionItem, index) => {
+      const { url, statusCode, description } = redirectionItem
       return (
         <RedirectionItem
-          url={redirectionItem.url}
-          statusCode={redirectionItem.statusCode}
-          key={redirectionItem.url}
-          description={redirectionItem.description}
+          url={url}
+          statusCode={statusCode}
+          key={url}
+          description={description}
           lastItem={index === redirectionResults.length - 1}
         />
       )
