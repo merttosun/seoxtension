@@ -3,7 +3,6 @@ import { CHROME_MESSAGE, CRAWLER_TYPE } from './constants'
 
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   if (request.msg === CHROME_MESSAGE.META) {
-    console.log('location', window.history)
     return sendResponse(CrawlerFactory.get(CRAWLER_TYPE.META).collect())
   }
 

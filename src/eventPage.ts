@@ -1,3 +1,5 @@
+import { web } from "webpack"
+
 ;(function () {
   const SC_DESCRIPTION = new Map<number, string>([
     [200, 'STATUS OK'],
@@ -15,68 +17,13 @@
     description: string
   }> = []
 
-  chrome.runtime.onInstalled.addListener((details) => {
-    console.log('eventpage onInstalled', details)
-  })
-
-  chrome.runtime.onConnect.addListener((details) => {
-    console.log('eventpage onConnect', details)
-  })
-
-  const filter = {
-    url: [{ hostContains: '*' }],
-  }
-
-  chrome.webNavigation.onTabReplaced.addListener((details) => {
-    console.log('onTabReplaced', details)
-  })
-
-  chrome.webNavigation.onBeforeNavigate.addListener((details) => {
-    console.log('onBeforeNavigate', details)
-  })
-
-  chrome.webNavigation.onCommitted.addListener((details) => {
-    console.log('onCommitted', details)
-  })
-
-  chrome.webNavigation.onCompleted.addListener((details) => {
-    console.log('onCompleted', details)
-    chrome.history.getVisits({ url: 'https://www.trendyol.com' }).then((visits) => {
-      console.log({ visits })
-    })
-  })
-
-  chrome.webNavigation.onCreatedNavigationTarget.addListener((details) => {
-    console.log('onCreatedNavigationTarget', details)
-  })
-
-  chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
-    console.log('onHistoryStateUpdated', details)
-  })
-
-  chrome.webNavigation.onReferenceFragmentUpdated.addListener((details) => {
-    console.log('onReferenceFragmentUpdated', details)
-  })
-
-  chrome.webRequest.onBeforeSendHeaders.addListener(
-    (details) => {
-      console.log('onBeforeSendHeaders', { details })
-    },
-    {
-      urls: ['<all_urls>'],
-      types: ['main_frame'],
-    },
-  )
-
   chrome.webRequest.onBeforeRedirect.addListener(
     async (details) => {
-      console.log(details.requestId, ':', details.url, '->', details)
       const redirectUrl = details.redirectUrl
       const statusCode = details.statusCode
       const result = await chrome.storage.session.get('lastRequestId')
 
       const lastRequestId = result['lastRequestId']
-      console.log({ lastRequestId })
 
       if (lastRequestId && lastRequestId !== details.requestId) {
         // new path new redirection results
@@ -106,8 +53,7 @@
   )
 
   chrome.webRequest.onBeforeRequest.addListener(
-    (details) => {
-      console.log('onBeforeRequest', { details })
+    () => {
       chrome.storage.session.get('lastRequestId').then((result) => {
         const lastRequestId = result['lastRequestId']
         if (!lastRequestId) {
@@ -125,7 +71,6 @@
 
   chrome.webRequest.onCompleted.addListener(
     async (details) => {
-      console.log('onRequestCompleted', details)
       const result = await chrome.storage.session.get('lastRequestId')
       const lastRequestId = result['lastRequestId']
       const { statusCode, type, requestId, url } = details
@@ -173,16 +118,6 @@
         })
         await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
       }
-    },
-    {
-      urls: ['<all_urls>'],
-      types: ['main_frame'],
-    },
-  )
-
-  chrome.webRequest.onResponseStarted.addListener(
-    (details) => {
-      console.log('onResponseStarted', { details })
     },
     {
       urls: ['<all_urls>'],

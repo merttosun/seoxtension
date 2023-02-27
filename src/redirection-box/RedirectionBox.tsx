@@ -1,6 +1,6 @@
 import React from 'react'
 import './RedirectionBox.scss'
-import RedirectionItem from './RedirectionItem'
+import RedirectionItem from './redirection-item/RedirectionItem'
 
 export type MetricListProps = {
   redirectionResults: { url: string; statusCode: number; location: string; description: string }[]

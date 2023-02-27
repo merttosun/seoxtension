@@ -1,8 +1,8 @@
 import React from 'react'
 import './RedirectionItem.scss'
-import Copy from '../icon/Copy'
-import ArrowDown from '../icon/ArrowDown'
-import Check from '../icon/Check'
+import Copy from '../../icon/Copy'
+import ArrowDown from '../../icon/ArrowDown'
+import Check from '../../icon/Check'
 
 export type RedirectionItemProps = {
   url: string

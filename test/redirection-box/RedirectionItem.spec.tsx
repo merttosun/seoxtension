@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import RedirectionItem from '../../src/redirection-box/RedirectionItem'
+import RedirectionItem from '../../src/redirection-box/redirection-item/RedirectionItem'
 
 describe('<RedirectionItem />', () => {
   it('should render redirection item correctly', () => {

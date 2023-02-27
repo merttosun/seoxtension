@@ -40,7 +40,6 @@ chrome.tabs &&
     let redirectionResults: any = {}
     setInterval(async () => {
       const _redirectionResults = await chrome.storage.session.get('redirectionResults')
-      console.log('index.tsx', _redirectionResults.redirectionResults)
       if (_redirectionResults) redirectionResults = _redirectionResults.redirectionResults
 
       // send message to trigger meta crawler for collecting meta tags from document
@@ -130,15 +129,6 @@ chrome.tabs &&
       )
     }, 300)
   })
-
-chrome.runtime.onInstalled.addListener((details) => {
-  console.log('index.tsx onInstalled', details)
-})
-
-chrome.runtime.onConnect.addListener((details) => {
-  console.log('index.tsx onConnect', details)
-})
-
 
 function setAnchorCount(links: any) {
   if (links) {
