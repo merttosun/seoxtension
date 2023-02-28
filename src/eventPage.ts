@@ -18,32 +18,22 @@
 
   chrome.webRequest.onBeforeRedirect.addListener(
     async (details) => {
-      const redirectUrl = details.redirectUrl
-      const statusCode = details.statusCode
+      const redirectionResult = {
+        statusCode: details.statusCode,
+        url: details.url,
+        location: details.redirectUrl,
+        description: SC_DESCRIPTION.get(details.statusCode) || '',
+      }
       const result = await chrome.storage.session.get('lastRequestId')
-
       const lastRequestId = result['lastRequestId']
 
       if (lastRequestId && lastRequestId !== details.requestId) {
         // new path new redirection results
-        redirectionResults = []
-        redirectionResults.push({
-          statusCode,
-          url: details.url,
-          location: redirectUrl,
-          description: SC_DESCRIPTION.get(statusCode) || '',
-        })
-        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+        redirectionResults = [redirectionResult]
       } else {
-        redirectionResults.push({
-          statusCode,
-          url: details.url,
-          location: redirectUrl,
-          description: SC_DESCRIPTION.get(statusCode) || '',
-        })
-
-        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+        redirectionResults.push(redirectionResult)
       }
+      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
     },
     {
       urls: ['<all_urls>'],
