@@ -8,12 +8,15 @@
   },
   "permissions": [
     "tabs",
+    "background",
     "storage",
     "activeTab",
     "scripting",
     "webNavigation",
-    "webRequest"
+    "webRequest",
+    "history"
   ],
+  "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -27,7 +30,8 @@
     {
       "matches": ["https://*/*"],
       "all_frames": true,
-      "js": ["js/content.js"]
+      "js": ["js/content.js"],
+      "permissions": "storage"
     }
   ],
   "options_page": "options.html"

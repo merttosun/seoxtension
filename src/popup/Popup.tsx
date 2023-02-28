@@ -2,6 +2,7 @@ import Divider from '../divider/Divider'
 import React, { useEffect, useState } from 'react'
 import InfoBox from '../info-box/InfoBox'
 import MetricList from '../metric-list/MetricList'
+import RedirectionBox from '../redirection-box/RedirectionBox'
 import { PERFORMANCE_DATA } from 'crawler/performance-crawler'
 import { MetricItemProps } from 'metric-list/metric-item/MetricItem'
 import LdJsonWrapper from '../ld-json/LdJson'
@@ -9,13 +10,14 @@ import { META_DATA } from 'crawler/meta-crawler'
 import LinkWrapper from '../link-wrapper/LinkWrapper'
 import ImageViewer from '../image-viewer/ImageViewer'
 import { IMAGE_DATA } from '../crawler/image-crawler'
-import LinkWrapperList from '../link-wrapper-list/LinkWrapperList';
+import LinkWrapperList from '../link-wrapper-list/LinkWrapperList'
 
 type PopupProps = {
   metaTags: META_DATA
   performanceMetrics: PERFORMANCE_DATA
   ldJson: string[]
   images: IMAGE_DATA
+  redirectionResults: any
 }
 
 const PERFORMANCE_METRICS = new Map<string, string>([
@@ -25,7 +27,13 @@ const PERFORMANCE_METRICS = new Map<string, string>([
   ['windowLoadTime', 'Window Load Time'],
 ])
 
-export default function Popup({ metaTags, performanceMetrics, images, ldJson }: PopupProps) {
+export default function Popup({
+  metaTags,
+  performanceMetrics,
+  images,
+  ldJson,
+  redirectionResults,
+}: PopupProps) {
   const [perfMetrics, setPerfMetrics] = useState([{}])
 
   useEffect(() => {
@@ -48,13 +56,14 @@ export default function Popup({ metaTags, performanceMetrics, images, ldJson }: 
 
   return (
     <div className='popup-wrapper'>
+      <RedirectionBox redirectionResults={redirectionResults}></RedirectionBox>
       <Divider />
       <InfoBox title='Meta Title' text={metaTags?.title} />
       <InfoBox title='Meta Description' text={metaTags?.description} />
       <InfoBox title='H1 Tag' text={metaTags?.h1Tag} />
       <InfoBox title='OG Title' text={metaTags?.ogTitle} />
       <InfoBox title='OG Description' text={metaTags?.ogDescription} />
-        <ImageViewer title='OG Image' images={metaTags?.ogImage} />
+      <ImageViewer title='OG Image' images={metaTags?.ogImage} />
       <LinkWrapper title='Canonical' link={metaTags?.canonical} />
       <LinkWrapperList links={metaTags?.alternates} title='Alternates' />
       <Divider />
