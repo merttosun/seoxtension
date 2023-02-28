@@ -1,4 +1,3 @@
-import { web } from "webpack"
 
 ;(function () {
   const SC_DESCRIPTION = new Map<number, string>([
