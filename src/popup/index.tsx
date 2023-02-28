@@ -15,7 +15,7 @@ chrome.tabs &&
       description: '',
       ogTitle: '',
       ogDescription: '',
-      ogImage: '',
+      ogImage: [],
       canonical: '',
       h1Tag: '',
       alternates: [],
@@ -53,10 +53,6 @@ chrome.tabs &&
               metaTagsFetched = true
             }
             metaTags = response
-
-            if (metaTags?.ogImage) {
-              ;(document.getElementById('ogimage')! as HTMLImageElement).src = metaTags?.ogImage // after image viewer component implementation this should be removed
-            }
           },
         )
       }

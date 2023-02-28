@@ -63,13 +63,12 @@ export default function Popup({
       <InfoBox title='H1 Tag' text={metaTags?.h1Tag} />
       <InfoBox title='OG Title' text={metaTags?.ogTitle} />
       <InfoBox title='OG Description' text={metaTags?.ogDescription} />
+      <ImageViewer title='OG Image' images={metaTags?.ogImage} />
       <LinkWrapper title='Canonical' link={metaTags?.canonical} />
       <LinkWrapperList links={metaTags?.alternates} title='Alternates' />
       <Divider />
       <MetricList title='Performance Metrics' metrics={perfMetrics} />
-      <Divider />
-      <ImageViewer title='Images' images={images} />
-      <Divider />
+      <LdJsonWrapper title='Ld Json' ldJson={ldJson} />
     </div>
   )
 }
