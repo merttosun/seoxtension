@@ -11,6 +11,7 @@ import LinkWrapper from '../link-wrapper/LinkWrapper'
 import ImageViewer from '../image-viewer/ImageViewer'
 import { IMAGE_DATA } from '../crawler/image-crawler'
 import LinkWrapperList from '../link-wrapper-list/LinkWrapperList'
+import './Popup.scss'
 
 type PopupProps = {
   metaTags: META_DATA
@@ -30,7 +31,6 @@ const PERFORMANCE_METRICS = new Map<string, string>([
 export default function Popup({
   metaTags,
   performanceMetrics,
-  images,
   ldJson,
   redirectionResults,
 }: PopupProps) {
@@ -56,6 +56,7 @@ export default function Popup({
 
   return (
     <div className='popup-wrapper'>
+      <h1 className="popup-wrapper__heading">Seoxtension</h1>
       <RedirectionBox redirectionResults={redirectionResults}></RedirectionBox>
       <Divider />
       <InfoBox title='Meta Title' text={metaTags?.title} />

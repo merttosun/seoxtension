@@ -18,7 +18,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return sendResponse(CrawlerFactory.get(CRAWLER_TYPE.IMAGE).collect())
   }
 
-  if (request.msg === CHROME_MESSAGE.ANCHOR) {
-    return sendResponse(CrawlerFactory.get(CRAWLER_TYPE.ANCHOR).collect())
-  }
+  // if (request.msg === CHROME_MESSAGE.ANCHOR) {
+  //   return sendResponse(CrawlerFactory.get(CRAWLER_TYPE.ANCHOR).collect())
+  // }
 })

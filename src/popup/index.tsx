@@ -85,18 +85,18 @@ chrome.tabs &&
       }
 
       // send message to trigger anchor-crawler for measuring anchor count
-      if (!anchorsCountFetched) {
-        chrome.tabs.sendMessage(
-          tabs[0].id!,
-          { msg: CHROME_MESSAGE.ANCHOR },
-          function (response: LINK_DATA) {
-            if (response?.length) {
-              anchorsCountFetched = true
-            }
-            setAnchorCount(response)
-          },
-        )
-      }
+      // if (!anchorsCountFetched) {
+      //   chrome.tabs.sendMessage(
+      //     tabs[0].id!,
+      //     { msg: CHROME_MESSAGE.ANCHOR },
+      //     function (response: LINK_DATA) {
+      //       if (response?.length) {
+      //         anchorsCountFetched = true
+      //       }
+      //       setAnchorCount(response)
+      //     },
+      //   )
+      // }
 
       // send message to ld crawler for collecting ld+json's from document
       if (!ldJsonsFetched) {
@@ -126,10 +126,10 @@ chrome.tabs &&
     }, 300)
   })
 
-function setAnchorCount(links: any) {
-  if (links) {
-    document.getElementById('anchor-count')!.innerText = String(links?.length)
-  }
-}
+// function setAnchorCount(links: any) {
+//   if (links) {
+//     document.getElementById('anchor-count')!.innerText = String(links?.length)
+//   }
+// }
 
-export { setAnchorCount }
+// export { setAnchorCount }
