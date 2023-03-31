@@ -15,7 +15,7 @@ export class CrawlerFactory {
     this.crawlers.set(CRAWLER_TYPE.LD_JSON, new LDJSONCrawler())
     this.crawlers.set(CRAWLER_TYPE.META, new MetaCrawler())
     this.crawlers.set(CRAWLER_TYPE.PERFORMANCE, new PerformanceCrawler())
-    this.crawlers.set(CRAWLER_TYPE.ANCHOR, new AnchorCrawler())
+    //this.crawlers.set(CRAWLER_TYPE.ANCHOR, new AnchorCrawler())
     this.crawlers.set(CRAWLER_TYPE.IMAGE, new ImageCrawler())
   }
 
