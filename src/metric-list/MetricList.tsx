@@ -9,8 +9,8 @@ export type MetricListProps = {
 
 export default function MetricList({ title, metrics }: MetricListProps) {
   if (metrics && Object.keys(metrics).length > 0) {
-    const metricItems = metrics.map((metric: MetricItemProps) => {
-      return <MetricItem name={metric.name} value={metric.value} key={metric.name} />
+    const metricItems = metrics.map((metric: MetricItemProps, index) => {
+      return <MetricItem name={metric.name} value={metric.value} key={`${metric.name}-${index}`} />
     })
 
     return (

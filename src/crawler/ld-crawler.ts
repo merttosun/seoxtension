@@ -8,7 +8,7 @@ export class LDJSONCrawler implements Crawler {
   public type = CRAWLER_TYPE.LD_JSON
 
   public collect() {
-    const scripts: Element[] = [...document.querySelectorAll("script[type='application/ld+json']")]
+    const scripts: Element[] = [...Array.from(document.querySelectorAll('script[type=\'application/ld+json\']'))]
     return scripts.map((script: Element) => script.innerHTML)
   }
 }

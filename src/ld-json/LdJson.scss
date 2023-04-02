@@ -1,4 +1,21 @@
 .ld-json-wrapper {
+  &__content{
+    max-height: 500px;
+    overflow: scroll;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+
+    &__navigation{
+      display: flex;
+      gap: 4px;
+      margin: 12px 0 12px 12px;
+      user-select: none;
+
+      & > * {
+        cursor: pointer;
+      }
+    }
+  }
   &__title {
     font-size: 16px;
     font-weight: 600;

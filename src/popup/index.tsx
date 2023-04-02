@@ -36,7 +36,7 @@ chrome.tabs &&
     let metaTagsFetched = false
     let ldJsonsFetched = false
     let imagesFetched = false
-    let anchorsCountFetched = false
+    const anchorsCountFetched = false
     let redirectionResults: any = {}
     setInterval(async () => {
       const _redirectionResults = await chrome.storage.session.get('redirectionResults')
@@ -46,41 +46,41 @@ chrome.tabs &&
 
       if (!metaTagsFetched) {
         chrome.tabs.sendMessage(
-          tabs[0].id!,
-          { msg: CHROME_MESSAGE.META },
-          function (response: META_DATA) {
-            if (response?.title?.length > 0) {
-              metaTagsFetched = true
-            }
-            metaTags = response
-          },
+            tabs[0].id!,
+            { msg: CHROME_MESSAGE.META },
+            function (response: META_DATA) {
+              if (response?.title?.length > 0) {
+                metaTagsFetched = true
+              }
+              metaTags = response
+            },
         )
       }
 
       // send message to trigger performance crawler for collecting performance metrics
       if (!performanceMetricsMeasured) {
         chrome.tabs.sendMessage(
-          tabs[0].id!,
-          { msg: CHROME_MESSAGE.PERFORMANCE },
-          function (response: PERFORMANCE_DATA) {
-            if (response.ttfb !== 0) {
-              performanceMetricsMeasured = true
-            }
-            performanceMetrics = response
-          },
+            tabs[0].id!,
+            { msg: CHROME_MESSAGE.PERFORMANCE },
+            function (response: PERFORMANCE_DATA) {
+              if (response.ttfb !== 0) {
+                performanceMetricsMeasured = true
+              }
+              performanceMetrics = response
+            },
         )
       }
 
       if (!imagesFetched) {
         chrome.tabs.sendMessage(
-          tabs[0].id!,
-          { msg: CHROME_MESSAGE.IMAGE },
-          function (response: IMAGE_DATA) {
-            if (response?.length > 0) {
-              imagesFetched = true
-            }
-            images = response
-          },
+            tabs[0].id!,
+            { msg: CHROME_MESSAGE.IMAGE },
+            function (response: IMAGE_DATA) {
+              if (response?.length > 0) {
+                imagesFetched = true
+              }
+              images = response
+            },
         )
       }
 
@@ -99,17 +99,17 @@ chrome.tabs &&
       // }
 
       // send message to ld crawler for collecting ld+json's from document
-      if (!ldJsonsFetched) {
+      if (!ldJsonsFetched || ldJson.length < 1) {
         chrome.tabs.sendMessage(
-          tabs[0].id!,
-          { msg: CHROME_MESSAGE.LD_JSON },
-          function (response: string[]) {
-            if (response) {
-              ldJsonsFetched = true
-            }
+            tabs[0].id!,
+            { msg: CHROME_MESSAGE.LD_JSON },
+            function (response: string[]) {
+              if (response) {
+                ldJsonsFetched = true
+              }
 
-            ldJson = response
-          },
+              ldJson = response
+            },
         )
       }
 
