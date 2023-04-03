@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './LdJson.scss'
-const { SchemaViewer } = require('material-ui-json-schema-viewer')
+import { JsonViewer } from '@textea/json-viewer';
+import ArrowLeft from '../icon/ArrowLeft';
+import ArrowRight from '../icon/ArrowRight';
 
 export type LdJsonProps = {
   title: string
@@ -8,12 +10,18 @@ export type LdJsonProps = {
 }
 
 export default function LdJsonWrapper({ title, ldJson }: LdJsonProps) {
+  const [ldJsonIndex, setLdJsonIndex] = useState<number>(0)
   if (ldJson && ldJson.length > 0) {
-    const jsonItem = ldJson.map((json: string, index) => <SchemaViewer key={index} schema={JSON?.parse(json)} />)
     return (
       <div className='ld-json-wrapper'>
         <span className='ld-json-wrapper__title'>{title}</span>
-        <div className='ld-json-wrapper__content'>{jsonItem}</div>
+        <div className='ld-json-wrapper__content'>
+            <div className="ld-json-wrapper__content__navigation">
+                {ldJsonIndex > 0 &&  <ArrowLeft onClick={() => setLdJsonIndex(ldJsonIndex-1)} />}
+                {ldJsonIndex !== (ldJson.length - 1) && <ArrowRight onClick={() => setLdJsonIndex(ldJsonIndex+1)} />}
+            </div>
+          <JsonViewer displayDataTypes={false} value={JSON.parse(ldJson[ldJsonIndex])} />
+        </div>
       </div>
     )
   }
