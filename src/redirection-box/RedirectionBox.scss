@@ -6,11 +6,19 @@
   padding: 20px;
   box-sizing: border-box;
   color: #333333;
+  margin-bottom: 20px;
+  background-color: #fafafa;
+  position: relative;
   &__title {
+    position: absolute;
     font-size: 16px;
-    font-weight: 600;
     line-height: 20px;
     letter-spacing: 0em;
     margin-bottom: 15px;
+    top: -11px;
+    left: 15px;
+    padding: 0px 5px;
+    background: white;
+    font-weight: 700;
   }
 }

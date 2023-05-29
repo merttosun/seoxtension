@@ -1,28 +1,29 @@
 .link-wrapper-list {
+  color: white;
   &__title {
     font-size: 16px;
     font-weight: 600;
     line-height: 20px;
     letter-spacing: 0em;
     text-align: left;
+    color: #333;
     margin-bottom: 15px;
-    display: inline-block
+    display: inline-block;
   }
   &__link {
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
-    color: #333333;
-    overflow:hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
     max-width: 410px;
     white-space: nowrap;
   }
   &__content {
-    display : flex;
+    display: flex;
     justify-content: space-between;
-    background-color: #FEF4EB ;
+    background-color: #ec9f61;
     align-items: center;
     padding: 8px;
     border-radius: 4px;
@@ -32,7 +33,7 @@
     width: 14px;
     height: 14px;
     cursor: pointer;
+    color: white;
   }
-  &__info {}
   margin-bottom: 20px;
 }

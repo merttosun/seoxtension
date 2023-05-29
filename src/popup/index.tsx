@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { CHROME_MESSAGE } from '../constants'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Popup from './Popup'
 import { PERFORMANCE_DATA } from 'crawler/performance-crawler'
 import { META_DATA } from 'crawler/meta-crawler'
-import { LINK_DATA } from 'crawler/anchor-crawler'
 import { IMAGE_DATA } from '../crawler/image-crawler'
 
 chrome.tabs &&
@@ -36,7 +36,7 @@ chrome.tabs &&
     let metaTagsFetched = false
     let ldJsonsFetched = false
     let imagesFetched = false
-    const anchorsCountFetched = false
+
     let redirectionResults: any = {}
     setInterval(async () => {
       const _redirectionResults = await chrome.storage.session.get('redirectionResults')
@@ -46,14 +46,14 @@ chrome.tabs &&
 
       if (!metaTagsFetched) {
         chrome.tabs.sendMessage(
-            tabs[0].id!,
-            { msg: CHROME_MESSAGE.META },
-            function (response: META_DATA) {
-              if (response?.title?.length > 0) {
-                metaTagsFetched = true
-              }
-              metaTags = response
-            },
+          tabs[0].id!,
+          { msg: CHROME_MESSAGE.META },
+          function (response: META_DATA) {
+            if (response?.title?.length > 0) {
+              metaTagsFetched = true
+            }
+            metaTags = response
+          },
         )
       }
 
@@ -73,43 +73,29 @@ chrome.tabs &&
 
       if (!imagesFetched) {
         chrome.tabs.sendMessage(
-            tabs[0].id!,
-            { msg: CHROME_MESSAGE.IMAGE },
-            function (response: IMAGE_DATA) {
-              if (response?.length > 0) {
-                imagesFetched = true
-              }
-              images = response
-            },
+          tabs[0].id!,
+          { msg: CHROME_MESSAGE.IMAGE },
+          function (response: IMAGE_DATA) {
+            if (response?.length > 0) {
+              imagesFetched = true
+            }
+            images = response
+          },
         )
       }
-
-      // send message to trigger anchor-crawler for measuring anchor count
-      // if (!anchorsCountFetched) {
-      //   chrome.tabs.sendMessage(
-      //     tabs[0].id!,
-      //     { msg: CHROME_MESSAGE.ANCHOR },
-      //     function (response: LINK_DATA) {
-      //       if (response?.length) {
-      //         anchorsCountFetched = true
-      //       }
-      //       setAnchorCount(response)
-      //     },
-      //   )
-      // }
 
       // send message to ld crawler for collecting ld+json's from document
       if (!ldJsonsFetched || ldJson.length < 1) {
         chrome.tabs.sendMessage(
-            tabs[0].id!,
-            { msg: CHROME_MESSAGE.LD_JSON },
-            function (response: string[]) {
-              if (response) {
-                ldJsonsFetched = true
-              }
+          tabs[0].id!,
+          { msg: CHROME_MESSAGE.LD_JSON },
+          function (response: string[]) {
+            if (response) {
+              ldJsonsFetched = true
+            }
 
-              ldJson = response
-            },
+            ldJson = response
+          },
         )
       }
 
@@ -125,11 +111,3 @@ chrome.tabs &&
       )
     }, 300)
   })
-
-// function setAnchorCount(links: any) {
-//   if (links) {
-//     document.getElementById('anchor-count')!.innerText = String(links?.length)
-//   }
-// }
-
-// export { setAnchorCount }

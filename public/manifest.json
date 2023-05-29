@@ -20,12 +20,18 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icon.png"
+      "16": "seo-16.png"
     },
     "icons": {
-      "16": "icon.png"
+      "16": "seo-16.png"
     }
   },
+  "web_accessible_resources": [
+    {
+      "resources": ["js/content.js"],
+      "matches": ["*://*/*"]
+    }
+  ],
   "content_scripts": [
     {
       "matches": ["https://*/*"],

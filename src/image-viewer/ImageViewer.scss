@@ -5,14 +5,13 @@
   }
   &__title{
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 20px;
     letter-spacing: 0em;
   }
 
   .image-viewer {
     width: 100%;
-    margin: auto;
 
     .image-container {
       display: flex;
