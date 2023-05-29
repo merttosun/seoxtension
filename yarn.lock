@@ -6264,6 +6264,11 @@ watchpack@^2.4.0:
     glob-to-regexp "^0.4.1"
     graceful-fs "^4.1.2"
 
+web-vitals@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-3.3.2.tgz#83e8dbd0f8fba43c5fe2e601573e804afc771790"
+  integrity sha512-qRkpmSeKfEWAzNhtX541xA8gCJ+pqCqBmUlDVkVDSCSYUvfvNqF+k9g8I+uyreRcDBdfiJrd0/aLbTy5ydo49Q==
+
 webidl-conversions@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-5.0.0.tgz#ae59c8a00b121543a2acc65c0434f57b0fc11aff"

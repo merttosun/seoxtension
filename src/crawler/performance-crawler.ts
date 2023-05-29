@@ -8,39 +8,58 @@ export type PERFORMANCE_DATA = {
   windowLoadTime?: number
 }
 
+const LCP_ENTRY_TYPE = 'largest-contentful-paint'
+const FID_ENTRY_TYPE = 'first-input'
+const CLS_ENTRY_TYPE = 'layout-shift'
+
 export class PerformanceCrawler implements Crawler {
   type: CRAWLER_TYPE = CRAWLER_TYPE.PERFORMANCE
+  data: any = {
+    [LCP_ENTRY_TYPE]: {
+      value: 0,
+      displayName: 'Largest Contenful Paint',
+    },
+    [CLS_ENTRY_TYPE]: {
+      value: 0,
+      displayName: 'Cumulative Layout Shift',
+    },
+    [FID_ENTRY_TYPE]: {
+      value: 0,
+      displayName: 'First Input Delay',
+    },
+  }
+
+  public observe() {
+    const observer = new PerformanceObserver((entryList) => {
+      for (const entry of entryList.getEntries()) {
+        if (entry.entryType === LCP_ENTRY_TYPE) {
+          console.log({ entry })
+          this.data[LCP_ENTRY_TYPE].value = entry.startTime
+        }
+        if (entry.entryType === FID_ENTRY_TYPE) {
+          console.log({ entry })
+          this.data[FID_ENTRY_TYPE].value = (entry as any).processingStart - entry.startTime
+        }
+        if (entry.entryType === CLS_ENTRY_TYPE && !(entry as any).hadRecentInput) {
+          this.data[CLS_ENTRY_TYPE].value += (entry as any).value
+        }
+      }
+      observer.disconnect()
+    })
+
+    observer.observe({ type: 'largest-contentful-paint', buffered: true })
+    observer.observe({ type: 'layout-shift', buffered: true })
+    observer.observe({ type: 'first-input', buffered: true })
+  }
 
   public collect(): PERFORMANCE_DATA {
-    const performance = window.performance as any
-    let navigationEntry
-    let ttfb,
-      fcp,
-      domLoadTime,
-      windowLoadTime = 0
-    if (
-      Array.isArray(performance.getEntriesByType('navigation')) &&
-      performance.getEntriesByType('navigation').length > 0
-    ) {
-      navigationEntry = performance.getEntriesByType('navigation')[0]
-      const { loadEventEnd, loadEventStart, responseStart, requestStart, domComplete } =
-        navigationEntry
-      windowLoadTime = loadEventEnd - loadEventStart
-      ttfb = responseStart - requestStart
-      domLoadTime = domComplete
-    }
-    if (
-      Array.isArray(performance.getEntriesByType('paint')) &&
-      performance.getEntriesByType('paint').length > 0
-    ) {
-      fcp = performance.getEntriesByType('paint')[0].startTime || 0
-    }
+    console.log({ data: this.data })
 
     return {
-      ttfb,
-      fcp,
-      domLoadTime,
-      windowLoadTime,
+      ttfb: this.data[FID_ENTRY_TYPE].value,
+      fcp: this.data[CLS_ENTRY_TYPE].value,
+      domLoadTime: this.data[LCP_ENTRY_TYPE].value,
+      windowLoadTime: 0,
     }
   }
 }

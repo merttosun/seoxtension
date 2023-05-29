@@ -58,18 +58,18 @@ chrome.tabs &&
       }
 
       // send message to trigger performance crawler for collecting performance metrics
-      if (!performanceMetricsMeasured) {
-        chrome.tabs.sendMessage(
-            tabs[0].id!,
-            { msg: CHROME_MESSAGE.PERFORMANCE },
-            function (response: PERFORMANCE_DATA) {
-              if (response.ttfb !== 0) {
-                performanceMetricsMeasured = true
-              }
-              performanceMetrics = response
-            },
-        )
-      }
+
+      chrome.tabs.sendMessage(
+        tabs[0].id!,
+        { msg: CHROME_MESSAGE.PERFORMANCE },
+        function (response: PERFORMANCE_DATA) {
+          if (response.ttfb !== 0 && response.domLoadTime !== 0 && response.fcp !== 0) {
+            performanceMetricsMeasured = true
+          }
+          performanceMetrics = response
+          console.log({ response })
+        },
+      )
 
       if (!imagesFetched) {
         chrome.tabs.sendMessage(
