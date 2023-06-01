@@ -1,6 +1,8 @@
 import { CrawlerFactory } from './crawler/crawler-factory'
 import { CHROME_MESSAGE, CRAWLER_TYPE } from './constants'
 
+console.log('CONTENT.TS İS WORKING')
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.msg === CHROME_MESSAGE.META) {
     return sendResponse(CrawlerFactory.get(CRAWLER_TYPE.META).collect())

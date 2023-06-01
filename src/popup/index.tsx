@@ -21,23 +21,41 @@ chrome.tabs &&
       alternates: [],
     }
 
-    let performanceMetrics: PERFORMANCE_DATA = {
+    const performanceMetrics: PERFORMANCE_DATA = {
       ttfb: 0,
       fcp: 0,
       domLoadTime: 0,
       windowLoadTime: 0,
     }
 
+    const LCP_ENTRY_TYPE = 'largest-contentful-paint'
+    const FID_ENTRY_TYPE = 'first-input'
+    const CLS_ENTRY_TYPE = 'layout-shift'
+
+    const data: any = {
+      [LCP_ENTRY_TYPE]: {
+        value: 0,
+      },
+      [FID_ENTRY_TYPE]: {
+        value: 0,
+      },
+      [CLS_ENTRY_TYPE]: {
+        value: 0,
+      },
+    }
+
     let images: IMAGE_DATA = []
     let ldJson: string[] = []
 
     // to avoid sending message continually
-    let performanceMetricsMeasured = false
+
     let metaTagsFetched = false
     let ldJsonsFetched = false
     let imagesFetched = false
+    // let performanceMeasured = false
 
     let redirectionResults: any = {}
+
     setInterval(async () => {
       const _redirectionResults = await chrome.storage.session.get('redirectionResults')
       if (_redirectionResults) redirectionResults = _redirectionResults.redirectionResults
@@ -56,20 +74,6 @@ chrome.tabs &&
           },
         )
       }
-
-      // send message to trigger performance crawler for collecting performance metrics
-
-      chrome.tabs.sendMessage(
-        tabs[0].id!,
-        { msg: CHROME_MESSAGE.PERFORMANCE },
-        function (response: PERFORMANCE_DATA) {
-          if (response.ttfb !== 0 && response.domLoadTime !== 0 && response.fcp !== 0) {
-            performanceMetricsMeasured = true
-          }
-          performanceMetrics = response
-          console.log({ response })
-        },
-      )
 
       if (!imagesFetched) {
         chrome.tabs.sendMessage(
@@ -99,6 +103,14 @@ chrome.tabs &&
         )
       }
 
+      chrome.tabs.sendMessage(
+        tabs[0].id!,
+        { msg: CHROME_MESSAGE.PERFORMANCE },
+        function (response: any) {
+          console.log('records', { response })
+        },
+      )
+
       ReactDOM.render(
         <Popup
           metaTags={metaTags}
@@ -109,5 +121,5 @@ chrome.tabs &&
         />,
         document.getElementById('popup'),
       )
-    }, 300)
+    }, 1000)
   })

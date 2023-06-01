@@ -1,5 +1,4 @@
-
-;(function () {
+function fetchRedirectionStatus() {
   const SC_DESCRIPTION = new Map<number, string>([
     [200, 'STATUS OK'],
     [301, 'PERMANENTLY REDIRECT'],
@@ -33,7 +32,10 @@
       } else {
         redirectionResults.push(redirectionResult)
       }
-      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+      await chrome.storage.session.set({
+        redirectionResults,
+        lastRequestId: details.requestId,
+      })
     },
     {
       urls: ['<all_urls>'],
@@ -63,6 +65,7 @@
       const result = await chrome.storage.session.get('lastRequestId')
       const lastRequestId = result['lastRequestId']
       const { statusCode, type, requestId, url } = details
+      //   const observer = new PerformanceObserver(async (entryList) => {
 
       if (!url.startsWith('http')) {
         // to exclude urls like chrome-extension://123-456
@@ -81,7 +84,10 @@
           location: '',
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
-        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+        await chrome.storage.session.set({
+          redirectionResults,
+          lastRequestId: details.requestId,
+        })
       }
 
       if (
@@ -97,7 +103,10 @@
           location: '',
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
-        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+        await chrome.storage.session.set({
+          redirectionResults,
+          lastRequestId: details.requestId,
+        })
       } else if (type == 'main_frame' && SC_DESCRIPTION.get(statusCode)) {
         redirectionResults.push({
           statusCode,
@@ -105,7 +114,10 @@
           location: '',
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
-        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+        await chrome.storage.session.set({
+          redirectionResults,
+          lastRequestId: details.requestId,
+        })
       }
     },
     {
@@ -113,4 +125,6 @@
       types: ['main_frame'],
     },
   )
-})()
+}
+
+fetchRedirectionStatus()
