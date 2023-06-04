@@ -74,19 +74,18 @@ const DEFAULT_CORE_WEB_VITALS_METRICS: CORE_WEB_VITALS_DATA = {
 const data = createInitialCoreWebVitalsData()
 
 export function prepareCoreWebVitalsMetricsFromEntries(entries: PerformanceEntryList) {
-  data[CLS_SHORT_NAME].value = 0.00
+  data[CLS_SHORT_NAME].value = 0.0
   entries.forEach((pe: PerformanceEntry & MissingPerformanceEntryProperties) => {
     if (pe.entryType === LCP_ENTRY_TYPE) {
-      data[LCP_SHORT_NAME].value = Number((pe.startTime / 1000).toFixed(2))
+      data[LCP_SHORT_NAME].value = pe.startTime / 1000
       data[LCP_SHORT_NAME].status = getStatusFromValue(LCP_SHORT_NAME)
     }
     if (pe.entryType === FID_ENTRY_TYPE) {
-      data[FID_SHORT_NAME].value = Number((pe.processingStart! - pe.startTime).toFixed(2))
+      data[FID_SHORT_NAME].value = pe.processingStart! - pe.startTime
       data[FID_SHORT_NAME].status = getStatusFromValue(FID_SHORT_NAME)
     }
     if (pe.entryType === LS_ENTRY_TYPE && !pe.hadRecentInput) {
-      data[CLS_SHORT_NAME].value =
-        Number(data[CLS_SHORT_NAME].value.toFixed(2)) + Number(pe.value!.toFixed(2))
+      data[CLS_SHORT_NAME].value = data[CLS_SHORT_NAME].value + pe.value!
       data[CLS_SHORT_NAME].status = getStatusFromValue(CLS_SHORT_NAME)
     }
   })

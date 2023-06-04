@@ -22,6 +22,7 @@
       font-size: 20px;
       display: flex;
       top: -20px;
+      transition: left 1s linear;
       &-value {
         font-size: 12px;
         margin-left: 4px;

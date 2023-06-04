@@ -38,32 +38,4 @@
       border-radius: 4px;
     }
   }
-  .og-wrapper {
-    display: flex;
-  }
-  .og-tags-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .info-box {
-      margin-bottom: 8px;
-      &__text {
-        margin-top: 10px;
-      }
-    }
-  }
-  .og-tags-left {
-    display: flex;
-    flex-direction: column;
-    margin-right: 15px;
-    &__title {
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 20px;
-      letter-spacing: 0em;
-      text-align: left;
-      margin-bottom: 10px;
-    }
-  }
 }

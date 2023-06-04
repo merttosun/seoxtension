@@ -64,7 +64,7 @@ export default function MetricItem({
       <div className='threshold-bar-wrapper'>
         <div className='threshold-bar-pointer' style={{ ...pointerPosition }}>
           &#128071;
-          <div className='threshold-bar-pointer-value'>{value + ' ' + unit}</div>
+          <div className='threshold-bar-pointer-value'>{value.toFixed(2) + ' ' + unit}</div>
         </div>
         <div className='threshold-bar-self'>
           <div className='threshold-bar-self-good'>

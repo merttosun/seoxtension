@@ -6,10 +6,10 @@ import { CORE_WEB_VITALS_DATA } from '../utils/web-vitals-modifier'
 import LdJsonWrapper from '../ld-json/LdJson'
 import { META_DATA } from 'crawler/meta-crawler'
 import LinkWrapper from '../link-wrapper/LinkWrapper'
-import ImageItem from '../image-viewer/image-item/imageItem'
 import { IMAGE_DATA } from '../crawler/image-crawler'
 import LinkWrapperList from '../link-wrapper-list/LinkWrapperList'
 import './Popup.scss'
+import OgWrapper from '../og-wrapper/OgWrapper'
 
 type PopupProps = {
   metaTags: META_DATA
@@ -48,14 +48,11 @@ export default function Popup({
       </section>
       <section className='section-wrapper og-wrapper'>
         <span className='section-wrapper__title'>OG Tags</span>
-        <div className='og-tags-left'>
-          <span className='og-tags-left__title'>Image</span>
-          <ImageItem source={metaTags?.ogImage[0]} />
-        </div>
-        <div className='og-tags-right'>
-          <InfoBox title='Title' text={metaTags?.ogTitle} />
-          <InfoBox title='Description' text={metaTags?.ogDescription} />
-        </div>
+        <OgWrapper
+          title={metaTags.ogTitle}
+          description={metaTags.description}
+          image={metaTags.ogImage[0]}
+        ></OgWrapper>
       </section>
       <section className='section-wrapper'>
         <span className='section-wrapper__title'>Core Web Vitals</span>
