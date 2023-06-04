@@ -13,10 +13,8 @@ export class PerformanceCrawler implements Crawler {
   type: CRAWLER_TYPE = CRAWLER_TYPE.PERFORMANCE
 
   public collect() {
-    const observer = new PerformanceObserver(async (entryList) => {
-      for (const entry of entryList.getEntries()) {
-        console.log({ entry })
-      }
+    const observer = new PerformanceObserver(() => {
+      return
     })
 
     observer.observe({ type: 'largest-contentful-paint', buffered: true })

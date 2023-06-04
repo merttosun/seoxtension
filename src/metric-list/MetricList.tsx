@@ -1,25 +1,48 @@
 import React from 'react'
 import './MetricList.scss'
-import MetricItem, { MetricItemProps } from './metric-item/MetricItem'
+import MetricItem from './metric-item/MetricItem'
+import {
+  CORE_WEB_VITALS_DATA,
+  LCP_SHORT_NAME,
+  FID_SHORT_NAME,
+  CLS_SHORT_NAME,
+} from '../utils/web-vitals-modifier'
 
 export type MetricListProps = {
-  title: string
-  metrics?: MetricItemProps[]
+  metrics: CORE_WEB_VITALS_DATA
 }
 
-export default function MetricList({ title, metrics }: MetricListProps) {
-  if (metrics && Object.keys(metrics).length > 0) {
-    const metricItems = metrics.map((metric: MetricItemProps, index) => {
-      return <MetricItem name={metric.name} value={metric.value} key={`${metric.name}-${index}`} />
-    })
-
+export default function MetricList({ metrics }: MetricListProps) {
+  if (metrics && Array.isArray(Object.keys(metrics))) {
     return (
-      <div className='metric-list'>
-        <span className='metric-list__title'>{title}</span>
-        <div className='metric-list__items'>{metricItems}</div>
-      </div>
+      <>
+        <MetricItem
+          name={LCP_SHORT_NAME}
+          value={metrics[LCP_SHORT_NAME]?.value}
+          key={LCP_SHORT_NAME}
+          thresholds={metrics[LCP_SHORT_NAME]?.thresholds}
+          unit='s'
+          status={metrics[LCP_SHORT_NAME]?.status}
+        />
+        <MetricItem
+          name={FID_SHORT_NAME}
+          value={metrics[FID_SHORT_NAME]?.value}
+          key={FID_SHORT_NAME}
+          thresholds={metrics[FID_SHORT_NAME]?.thresholds}
+          unit='ms'
+          status={metrics[FID_SHORT_NAME]?.status}
+          warningMessage={'Waiting for interaction'}
+        />
+        <MetricItem
+          name={CLS_SHORT_NAME}
+          value={metrics[CLS_SHORT_NAME]?.value}
+          key={CLS_SHORT_NAME}
+          thresholds={metrics[CLS_SHORT_NAME]?.thresholds}
+          unit=''
+          status={metrics[CLS_SHORT_NAME]?.status}
+        />
+      </>
     )
   }
-
-  return <div className='metric-list__fallback-text'>Could Not Measure {title} Correctly</div>
+  return <div></div>
 }

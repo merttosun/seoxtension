@@ -3,9 +3,9 @@ import { CHROME_MESSAGE } from '../constants'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Popup from './Popup'
-import { PERFORMANCE_DATA } from 'crawler/performance-crawler'
 import { META_DATA } from 'crawler/meta-crawler'
 import { IMAGE_DATA } from '../crawler/image-crawler'
+import { CORE_WEB_VITALS_DATA, createInitialCoreWebVitalsData } from '../utils/web-vitals-modifier'
 
 chrome.tabs &&
   chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
@@ -21,38 +21,15 @@ chrome.tabs &&
       alternates: [],
     }
 
-    const performanceMetrics: PERFORMANCE_DATA = {
-      ttfb: 0,
-      fcp: 0,
-      domLoadTime: 0,
-      windowLoadTime: 0,
-    }
-
-    const LCP_ENTRY_TYPE = 'largest-contentful-paint'
-    const FID_ENTRY_TYPE = 'first-input'
-    const CLS_ENTRY_TYPE = 'layout-shift'
-
-    const data: any = {
-      [LCP_ENTRY_TYPE]: {
-        value: 0,
-      },
-      [FID_ENTRY_TYPE]: {
-        value: 0,
-      },
-      [CLS_ENTRY_TYPE]: {
-        value: 0,
-      },
-    }
+    let coreWebVitalsMetrics: CORE_WEB_VITALS_DATA = createInitialCoreWebVitalsData()
 
     let images: IMAGE_DATA = []
     let ldJson: string[] = []
 
     // to avoid sending message continually
-
     let metaTagsFetched = false
     let ldJsonsFetched = false
     let imagesFetched = false
-    // let performanceMeasured = false
 
     let redirectionResults: any = {}
 
@@ -103,18 +80,20 @@ chrome.tabs &&
         )
       }
 
+      // some core web vitals metrics like fid could not fetch until first user interaction, we should not stop tracking them
       chrome.tabs.sendMessage(
         tabs[0].id!,
         { msg: CHROME_MESSAGE.PERFORMANCE },
-        function (response: any) {
-          console.log('records', { response })
+        function (response: { coreWebVitalsMetrics: CORE_WEB_VITALS_DATA }) {
+          console.log({ response })
+          coreWebVitalsMetrics = response.coreWebVitalsMetrics
         },
       )
 
       ReactDOM.render(
         <Popup
           metaTags={metaTags}
-          performanceMetrics={performanceMetrics}
+          coreWebVitalsMetrics={coreWebVitalsMetrics}
           images={images}
           ldJson={ldJson}
           redirectionResults={redirectionResults}
