@@ -31,7 +31,10 @@ export default function Popup({
         <span className='extension-title-x'>X</span>
         <span className='extension-title-rest'>TENSION</span>
       </div>
-      <RedirectionBox redirectionResults={redirectionResults}></RedirectionBox>
+      <section className='section-wrapper'>
+        <span className='section-wrapper__title'>Navigation Flow</span>
+        <RedirectionBox redirectionResults={redirectionResults}></RedirectionBox>
+      </section>
       <section className='section-wrapper'>
         <span className='section-wrapper__title'>Meta Tags</span>
         <InfoBox title='Title' text={metaTags?.title} />
@@ -42,12 +45,10 @@ export default function Popup({
         <span className='section-wrapper__title'>H1</span>
         <InfoBox title='' text={metaTags?.h1Tag} />
       </section>
-      {metaTags?.alternates.length && (
-        <section className='section-wrapper'>
-          <span className='section-wrapper__title'>Alternate Hreflangs</span>
-          <LinkWrapperList links={metaTags?.alternates} title='' />
-        </section>
-      )}
+      <section className='section-wrapper'>
+        <span className='section-wrapper__title'>Alternate Hreflangs</span>
+        <LinkWrapperList links={metaTags?.alternates} title='' />
+      </section>
       <section className='section-wrapper og-wrapper'>
         <span className='section-wrapper__title'>OG Tags</span>
         <OgWrapper

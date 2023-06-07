@@ -8,11 +8,10 @@ export type LinkWrapperListProps = {
 }
 
 export default function LinkWrapperList({ title, links }: LinkWrapperListProps) {
-  return (
-    <div className='link-wrapper-list'>
-      <span className='link-wrapper-list__title'>{title}</span>
-      {links?.length > 0 &&
-        links.map((value, index) => (
+  if (Array.isArray(links) && links?.length > 0) {
+    return (
+      <div className='link-wrapper-list'>
+        {links.map((value, index) => (
           <div key={index} className='link-wrapper-list__content'>
             <div className='link-wrapper-list__info'>{value.info ? `${value.info} |` : ' '}</div>
             <span className='link-wrapper-list__link'>{value.link}</span>
@@ -25,6 +24,9 @@ export default function LinkWrapperList({ title, links }: LinkWrapperListProps) 
             />
           </div>
         ))}
-    </div>
-  )
+      </div>
+    )
+  }
+
+  return <div className='fallback-text'>Could not find for this page</div>
 }

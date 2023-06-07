@@ -8,7 +8,7 @@ export type ImageViewerProps = {
 }
 
 export default function ImageViewer({ title, images }: ImageViewerProps) {
-  if (images && images.length > 0) {
+  if (Array.isArray(images) && images.length > 0) {
     const imageItems = images.map((url: string, index) => <ImageItem key={index} source={url} />)
 
     return (

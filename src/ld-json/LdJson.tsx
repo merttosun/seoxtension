@@ -7,7 +7,7 @@ export type LdJsonProps = {
 }
 
 export default function LdJsonWrapper({ ldJson }: LdJsonProps) {
-  if (ldJson && ldJson.length > 0) {
+  if (Array.isArray(ldJson) && ldJson.length > 0) {
     return (
       <div className='ld-json-wrapper'>
         <div className='ld-json-wrapper__content'>
@@ -29,5 +29,5 @@ export default function LdJsonWrapper({ ldJson }: LdJsonProps) {
       </div>
     )
   }
-  return <div className='fallback-text'>Could Not Find Ld+Json</div>
+  return <div className='fallback-text'>Could not find for this page</div>
 }

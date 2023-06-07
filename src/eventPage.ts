@@ -3,6 +3,7 @@ function fetchRedirectionStatus() {
     [200, 'STATUS OK'],
     [301, 'PERMANENTLY REDIRECT'],
     [302, 'FOUND'],
+    [403, 'FORBIDDEN'],
     [404, 'NOT FOUND'],
     [410, 'GONE'],
     [500, 'INTERNAL SERVER ERROR'],
@@ -14,12 +15,6 @@ function fetchRedirectionStatus() {
     location: string
     description: string
   }> = []
-
-  chrome.cookies.getAll({ domain: '*' }, function (cookies) {
-    for (let i = 0; i < cookies.length; i++) {
-      chrome.cookies.remove({ url: 'http://domain.com' + cookies[i].path, name: cookies[i].name })
-    }
-  })
 
   chrome.webRequest.onBeforeRedirect.addListener(
     async (details) => {

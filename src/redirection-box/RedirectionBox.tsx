@@ -23,7 +23,6 @@ export default function RedirectionBox({ redirectionResults }: MetricListProps) 
 
     return (
       <div className='redirection-box'>
-        <span className='redirection-box__title'>Redirect Path</span>
         <div className='redirection-box__items'>{redirectionItems}</div>
       </div>
     )

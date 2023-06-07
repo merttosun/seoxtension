@@ -13,7 +13,7 @@ chrome.tabs &&
 
     // when the platform changes for the same URL, cookies might cause problems
     chrome.cookies.getAll({ url: url.href }, function (cookies) {
-      for (let i = 0; i < cookies.length; i++) {
+      for (let i = 0; i < cookies?.length; i++) {
         chrome.cookies.remove({ url: url.href, name: cookies[i].name })
       }
     })
@@ -74,7 +74,7 @@ chrome.tabs &&
       }
 
       // send message to ld crawler for collecting ld+json's from document
-      if (!ldJsonsFetched || ldJson.length < 1) {
+      if (!ldJsonsFetched || ldJson?.length < 1) {
         chrome.tabs.sendMessage(
           tabs[0].id!,
           { msg: CHROME_MESSAGE.LD_JSON },
@@ -109,5 +109,5 @@ chrome.tabs &&
         />,
         document.getElementById('popup'),
       )
-    }, 1000)
+    }, 300)
   })
