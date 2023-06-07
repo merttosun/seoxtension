@@ -12,10 +12,12 @@ export type ImageItemProps = {
 export default function OgWrapper({ title, description, image }: ImageItemProps) {
   return (
     <div className='og-wrapper'>
-      <div className='og-tags-image'>
-        <span className='og-tags-image__title'>Image</span>
-        <ImageItem source={image} />
-      </div>
+      {image && (
+        <div className='og-tags-image'>
+          <span className='og-tags-image__title'>Image</span>
+          <ImageItem source={image} />
+        </div>
+      )}
       <div className='og-tags-right'>
         <InfoBox title='Title' text={title} />
         <InfoBox title='Description' text={description} />

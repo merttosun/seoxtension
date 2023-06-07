@@ -42,24 +42,28 @@ export default function Popup({
         <span className='section-wrapper__title'>H1</span>
         <InfoBox title='' text={metaTags?.h1Tag} />
       </section>
-      <section className='section-wrapper'>
-        <span className='section-wrapper__title'>Alternate Hreflangs</span>
-        <LinkWrapperList links={metaTags?.alternates} title='' />
-      </section>
+      {metaTags?.alternates.length && (
+        <section className='section-wrapper'>
+          <span className='section-wrapper__title'>Alternate Hreflangs</span>
+          <LinkWrapperList links={metaTags?.alternates} title='' />
+        </section>
+      )}
       <section className='section-wrapper og-wrapper'>
         <span className='section-wrapper__title'>OG Tags</span>
         <OgWrapper
-          title={metaTags.ogTitle}
-          description={metaTags.description}
-          image={metaTags.ogImage[0]}
+          title={metaTags?.ogTitle}
+          description={metaTags?.description}
+          image={metaTags?.ogImage[0]}
         ></OgWrapper>
       </section>
       <section className='section-wrapper'>
         <span className='section-wrapper__title'>Core Web Vitals</span>
         <MetricList metrics={coreWebVitalsMetrics} />
       </section>
-
-      <LdJsonWrapper title='Ld Json' ldJson={ldJson} />
+      <section className='section-wrapper'>
+        <span className='section-wrapper__title'>LDJsons</span>
+        <LdJsonWrapper ldJson={ldJson} />
+      </section>
     </div>
   )
 }

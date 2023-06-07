@@ -39,16 +39,18 @@ export default function MetricItem({
       100 * ((value - thresholds[status].start) / thresholds[status].range)
 
     if (status === 'good') {
-      setPointerPosition({ left: Number(percentageFromStatusStart / 3) - 4 + '%' })
+      setPointerPosition({
+        left: Number(percentageFromStatusStart / 3) - 6.5 + '%',
+      })
     }
 
     if (status === 'needImprovement') {
-      setPointerPosition({ left: Number(30.3 + percentageFromStatusStart / 3) + '%' })
+      setPointerPosition({ left: Number(24.3 + percentageFromStatusStart / 3) + '%' })
     }
 
     if (status === 'bad') {
       setPointerPosition({
-        left: Math.min(Number(63.6 + percentageFromStatusStart / 3), 92) + '%',
+        left: Math.min(Number(57.6 + percentageFromStatusStart / 3), 92.5) + '%',
       })
     }
   })
@@ -63,8 +65,10 @@ export default function MetricItem({
       </div>
       <div className='threshold-bar-wrapper'>
         <div className='threshold-bar-pointer' style={{ ...pointerPosition }}>
-          &#128071;
-          <div className='threshold-bar-pointer-value'>{value.toFixed(2) + ' ' + unit}</div>
+          <div className={`threshold-bar-pointer-stick ${status}`}>{'|'}</div>
+          <div className={`threshold-bar-pointer-value ${status}`}>
+            {value.toFixed(name === 'CLS' ? 2 : 1) + ' ' + unit}
+          </div>
         </div>
         <div className='threshold-bar-self'>
           <div className='threshold-bar-self-good'>

@@ -9,6 +9,14 @@ import { CORE_WEB_VITALS_DATA, createInitialCoreWebVitalsData } from '../utils/w
 
 chrome.tabs &&
   chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+    const url = new URL(tabs[0].url!)
+
+    // when the platform changes for the same URL, cookies might cause problems
+    chrome.cookies.getAll({ url: url.href }, function (cookies) {
+      for (let i = 0; i < cookies.length; i++) {
+        chrome.cookies.remove({ url: url.href, name: cookies[i].name })
+      }
+    })
     // initial data
     let metaTags: META_DATA = {
       title: '',
@@ -80,13 +88,14 @@ chrome.tabs &&
         )
       }
 
-      // some core web vitals metrics like fid could not fetch until first user interaction, we should not stop tracking them
+      // some core web vitals metrics (like fid) can not be fetched until first user interaction, we should not stop tracking them
       chrome.tabs.sendMessage(
         tabs[0].id!,
         { msg: CHROME_MESSAGE.PERFORMANCE },
         function (response: { coreWebVitalsMetrics: CORE_WEB_VITALS_DATA }) {
-          console.log({ response })
-          coreWebVitalsMetrics = response.coreWebVitalsMetrics
+          if (response) {
+            coreWebVitalsMetrics = response?.coreWebVitalsMetrics
+          }
         },
       )
 

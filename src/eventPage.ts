@@ -15,6 +15,12 @@ function fetchRedirectionStatus() {
     description: string
   }> = []
 
+  chrome.cookies.getAll({ domain: '*' }, function (cookies) {
+    for (let i = 0; i < cookies.length; i++) {
+      chrome.cookies.remove({ url: 'http://domain.com' + cookies[i].path, name: cookies[i].name })
+    }
+  })
+
   chrome.webRequest.onBeforeRedirect.addListener(
     async (details) => {
       const redirectionResult = {

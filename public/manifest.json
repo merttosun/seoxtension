@@ -14,7 +14,8 @@
     "scripting",
     "webNavigation",
     "webRequest",
-    "history"
+    "history",
+    "cookies"
   ],
   "host_permissions": ["<all_urls>"],
   "action": {
