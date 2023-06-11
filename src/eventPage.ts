@@ -68,7 +68,6 @@ function fetchRedirectionStatus() {
       const result = await chrome.storage.session.get('lastRequestId')
       const lastRequestId = result['lastRequestId']
       const { statusCode, type, requestId, url } = details
-      //   const observer = new PerformanceObserver(async (entryList) => {
 
       if (!url.startsWith('http')) {
         // to exclude urls like chrome-extension://123-456

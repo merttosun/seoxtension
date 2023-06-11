@@ -3,7 +3,7 @@ import './CoreWebVitalsMetricItem.scss'
 
 import { Status } from '../../utils/web-vitals-modifier'
 
-export type MetricItemProps = {
+export type CoreWebVitalsMetricItemProps = {
   name: string
   value: number
   thresholds: {
@@ -29,7 +29,7 @@ export default function CoreWebVitalsMetricItem({
   unit,
   thresholds,
   warningMessage,
-}: MetricItemProps) {
+}: CoreWebVitalsMetricItemProps) {
   const [pointerPosition, setPointerPosition] = useState({
     left: '10%',
   })

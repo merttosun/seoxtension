@@ -48,7 +48,6 @@ chrome.tabs &&
       }
 
       // send message to trigger meta crawler for collecting meta tags from document
-
       if (!metaTagsFetched) {
         chrome.tabs.sendMessage(
           tabs[0].id!,
