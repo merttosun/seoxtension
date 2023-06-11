@@ -93,7 +93,7 @@ function fetchRedirectionStatus() {
 
       if (
         type == 'main_frame' &&
-        redirectionResults.length == 1 &&
+        redirectionResults?.length == 1 &&
         redirectionResults[0].location !== details.url &&
         SC_DESCRIPTION.get(statusCode)
       ) {

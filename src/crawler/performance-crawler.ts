@@ -1,12 +1,12 @@
 import { Crawler } from './interface'
 import { CRAWLER_TYPE } from '../constants'
-import { prepareCoreWebVitalsMetricsFromEntries } from '../utils/web-vitals-modifier'
+import {
+  CORE_WEB_VITALS_DATA,
+  prepareCoreWebVitalsMetricsFromEntries,
+} from '../utils/web-vitals-modifier'
 
 export type PERFORMANCE_DATA = {
-  ttfb?: number
-  fcp?: number
-  domLoadTime?: number
-  windowLoadTime?: number
+  coreWebVitalsMetrics: CORE_WEB_VITALS_DATA
 }
 
 export class PerformanceCrawler implements Crawler {

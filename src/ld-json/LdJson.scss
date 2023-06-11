@@ -1,5 +1,5 @@
 .ld-json-wrapper {
-  padding-bottom: 6px;
+  padding-top: 14px;
   &__content {
     max-height: 500px;
     overflow: scroll;
@@ -27,6 +27,7 @@
     }
     &__viewer:last-child {
       border: 0px;
+      margin-bottom: 0;
     }
     &__type {
       color: #333;

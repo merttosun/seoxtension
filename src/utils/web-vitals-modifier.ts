@@ -15,6 +15,8 @@ type MissingPerformanceEntryProperties = {
   hadRecentInput?: boolean
 }
 
+type SpeacialPerformanceEntry = PerformanceEntry & MissingPerformanceEntryProperties
+
 export type Status = 'good' | 'needImprovement' | 'bad'
 
 type Thresholds = {
@@ -41,7 +43,7 @@ export type CORE_WEB_VITALS_DATA = {
   }
 }
 
-const DEFAULT_CORE_WEB_VITALS_METRICS: CORE_WEB_VITALS_DATA = {
+export const DEFAULT_CORE_WEB_VITALS_METRICS: CORE_WEB_VITALS_DATA = {
   [LCP_SHORT_NAME]: {
     value: 0,
     status: 'good',
@@ -73,7 +75,7 @@ const DEFAULT_CORE_WEB_VITALS_METRICS: CORE_WEB_VITALS_DATA = {
 
 const data = createInitialCoreWebVitalsData()
 
-export function prepareCoreWebVitalsMetricsFromEntries(entries: PerformanceEntryList) {
+export function prepareCoreWebVitalsMetricsFromEntries(entries: SpeacialPerformanceEntry[]) {
   data[CLS_SHORT_NAME].value = 0.0
   entries.forEach((pe: PerformanceEntry & MissingPerformanceEntryProperties) => {
     if (pe.entryType === LCP_ENTRY_TYPE) {
@@ -93,8 +95,8 @@ export function prepareCoreWebVitalsMetricsFromEntries(entries: PerformanceEntry
   return data
 }
 
-export function createInitialCoreWebVitalsData() {
-  return structuredClone(DEFAULT_CORE_WEB_VITALS_METRICS)
+export function createInitialCoreWebVitalsData(): CORE_WEB_VITALS_DATA {
+  return JSON.parse(JSON.stringify(DEFAULT_CORE_WEB_VITALS_METRICS))
 }
 
 function getStatusFromValue(entryName: ENTRY_NAME): Status {

@@ -36,7 +36,7 @@ export default function Popup({
         <RedirectionBox redirectionResults={redirectionResults}></RedirectionBox>
       </section>
       <section className='section-wrapper'>
-        <span className='section-wrapper__title'>Meta Tags</span>
+        <span className='section-wrapper__title'>Main Meta Tags</span>
         <InfoBox title='Title' text={metaTags?.title} />
         <InfoBox title='Description' text={metaTags?.description} />
         {metaTags?.canonical && <LinkWrapper title='Canonical' link={metaTags?.canonical} />}

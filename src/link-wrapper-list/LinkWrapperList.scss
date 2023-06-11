@@ -1,15 +1,6 @@
 .link-wrapper-list {
   color: white;
-  &__title {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 20px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #333;
-    margin-bottom: 15px;
-    display: inline-block;
-  }
+  padding: 10px 0px;
   &__link {
     font-weight: 600;
     font-size: 12px;
@@ -17,7 +8,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
-    max-width: 410px;
+    max-width: 480px;
     white-space: nowrap;
   }
   &__content {
@@ -29,11 +20,13 @@
     border-radius: 4px;
     margin-bottom: 1rem;
   }
+  &__content:last-child {
+    margin-bottom: 0;
+  }
   &__copy {
     width: 14px;
     height: 14px;
     cursor: pointer;
     color: white;
   }
-  margin-bottom: 20px;
 }
