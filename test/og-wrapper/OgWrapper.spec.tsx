@@ -25,5 +25,6 @@ describe('<OgWrapper />', () => {
     expect(wrapper.queryByText('Sample Og Title')).toBeInTheDocument()
     expect(wrapper.queryByText('Sample Og Description')).toBeInTheDocument()
     expect(wrapper.container.querySelector('.image-card')).toBeInTheDocument()
+    expect(wrapper.container.querySelector('img')).toHaveAttribute('src', props.image)
   })
 })
