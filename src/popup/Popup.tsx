@@ -10,13 +10,14 @@ import { IMAGE_DATA } from '../crawler/image-crawler'
 import LinkWrapperList from '../link-wrapper-list/LinkWrapperList'
 import './Popup.scss'
 import OgWrapper from '../og-wrapper/OgWrapper'
+import { REDIRECTIONS_DATA } from '../../src/eventPage'
 
 type PopupProps = {
   metaTags: META_DATA
   coreWebVitalsMetrics: CORE_WEB_VITALS_DATA
   ldJson: string[]
   images: IMAGE_DATA
-  redirectionResults: any
+  redirectionResults: REDIRECTIONS_DATA
 }
 export default function Popup({
   metaTags,

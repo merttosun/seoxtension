@@ -6,6 +6,7 @@ import Popup from './Popup'
 import { META_DATA } from 'crawler/meta-crawler'
 import { IMAGE_DATA } from '../crawler/image-crawler'
 import { CORE_WEB_VITALS_DATA, createInitialCoreWebVitalsData } from '../utils/web-vitals-modifier'
+import { REDIRECTIONS_DATA } from '../../src/eventPage'
 
 chrome.tabs &&
   chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
@@ -33,17 +34,18 @@ chrome.tabs &&
 
     let images: IMAGE_DATA = []
     let ldJson: string[] = []
+    let redirectionResults: REDIRECTIONS_DATA = []
 
     // to avoid sending message continually
     let metaTagsFetched = false
     let ldJsonsFetched = false
     let imagesFetched = false
 
-    let redirectionResults: any = {}
-
     setInterval(async () => {
       const _redirectionResults = await chrome.storage.session.get('redirectionResults')
-      if (_redirectionResults) redirectionResults = _redirectionResults.redirectionResults
+      if (_redirectionResults) {
+        redirectionResults = _redirectionResults.redirectionResults
+      }
 
       // send message to trigger meta crawler for collecting meta tags from document
 

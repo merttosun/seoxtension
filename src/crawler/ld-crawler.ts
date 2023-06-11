@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Crawler } from './interface'
 import { CRAWLER_TYPE } from '../constants'
 

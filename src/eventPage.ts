@@ -1,3 +1,10 @@
+export type REDIRECTIONS_DATA = {
+  url: string
+  statusCode: number
+  location: string
+  description: string
+}[]
+
 function fetchRedirectionStatus() {
   const SC_DESCRIPTION = new Map<number, string>([
     [200, 'STATUS OK'],
@@ -9,12 +16,7 @@ function fetchRedirectionStatus() {
     [500, 'INTERNAL SERVER ERROR'],
   ])
 
-  let redirectionResults: Array<{
-    statusCode: number
-    url: string
-    location: string
-    description: string
-  }> = []
+  let redirectionResults: REDIRECTIONS_DATA = []
 
   chrome.webRequest.onBeforeRedirect.addListener(
     async (details) => {

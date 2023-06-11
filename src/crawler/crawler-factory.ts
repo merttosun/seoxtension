@@ -21,7 +21,7 @@ export class CrawlerFactory {
     return CrawlerFactory.instance || new CrawlerFactory()
   }
 
-  static get<T>(type: CRAWLER_TYPE): Crawler {
+  static get(type: CRAWLER_TYPE): Crawler {
     const crawlerFactory = CrawlerFactory.getFactory()
     if (crawlerFactory.crawlers.has(type)) {
       return crawlerFactory.crawlers.get(type) as Crawler
