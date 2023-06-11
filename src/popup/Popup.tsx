@@ -1,6 +1,6 @@
 import React from 'react'
 import InfoBox from '../info-box/InfoBox'
-import MetricList from '../metric-list/MetricList'
+import MetricList from '../core-web-vitals-wrapper/CoreWebVitalsWrapper'
 import RedirectionBox from '../redirection-box/RedirectionBox'
 import { CORE_WEB_VITALS_DATA } from '../utils/web-vitals-modifier'
 import LdJsonWrapper from '../ld-json/LdJson'
@@ -47,7 +47,7 @@ export default function Popup({
       </section>
       <section className='section-wrapper'>
         <span className='section-wrapper__title'>Alternate Hreflangs</span>
-        <LinkWrapperList links={metaTags?.alternates} title='' />
+        <LinkWrapperList links={metaTags?.alternates} />
       </section>
       <section className='section-wrapper og-wrapper'>
         <span className='section-wrapper__title'>OG Tags</span>

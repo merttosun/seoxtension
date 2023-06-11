@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './MetricItem.scss'
+import './CoreWebVitalsMetricItem.scss'
 
 import { Status } from '../../utils/web-vitals-modifier'
 
@@ -22,7 +22,7 @@ const readeableStatusTexts = new Map<string, string>([
   ['bad', 'Bad!'],
 ])
 
-export default function MetricItem({
+export default function CoreWebVitalsMetricItem({
   name,
   status,
   value,
@@ -53,13 +53,13 @@ export default function MetricItem({
         left: Math.min(Number(57.6 + percentageFromStatusStart / 3), 92.5) + '%',
       })
     }
-  })
+  }, [status, value, thresholds])
 
   return (
     <div className='metric-item'>
       <div className='metric-item__name'>
-        <span className='metric-item__name_1'>{name}</span>
-        <span className='metric-item__name_2'>
+        <span className='metric-item__name_self'>{name}</span>
+        <span className='metric-item__name_status'>
           : {!value && warningMessage ? warningMessage : readeableStatusTexts.get(status)}
         </span>
       </div>

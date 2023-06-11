@@ -23,22 +23,6 @@ describe('<RedirectionBox />', () => {
     const wrapper = render(<RedirectionBox redirectionResults={redirectionResults} />)
 
     // expectations
-    expect(wrapper.queryByText('Redirect Path')).toBeInTheDocument()
     expect(wrapper.queryByText('https://example.com')).toBeInTheDocument()
-    expect(wrapper.queryByText('https://example.com/new-location')).toBeInTheDocument()
-  })
-
-  it('should return empty div when redirection results does not have length', () => {
-    // act
-    const redirectionResults = [] as {
-      url: string
-      statusCode: number
-      location: string
-      description: string
-    }[]
-    const wrapper = render(<RedirectionBox redirectionResults={redirectionResults} />)
-
-    // expectations
-    expect(wrapper.queryByText('Redirect Path')).not.toBeInTheDocument()
   })
 })

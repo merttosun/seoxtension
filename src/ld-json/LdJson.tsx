@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './LdJson.scss'
 import { JsonViewer } from '@textea/json-viewer'
 
@@ -11,7 +11,7 @@ export default function LdJsonWrapper({ ldJson }: LdJsonProps) {
     return (
       <div className='ld-json-wrapper'>
         <div className='ld-json-wrapper__content'>
-          {ldJson.map((lj, i) => {
+          {ldJson.map((lj) => {
             const json = JSON.parse(lj)
             const type = json['@type']
             return (

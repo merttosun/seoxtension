@@ -4,10 +4,9 @@ import Copy from '../icon/Copy'
 
 export type LinkWrapperListProps = {
   links: { link: string; info?: string }[]
-  title: string
 }
 
-export default function LinkWrapperList({ title, links }: LinkWrapperListProps) {
+export default function LinkWrapperList({ links }: LinkWrapperListProps) {
   if (Array.isArray(links) && links?.length > 0) {
     return (
       <div className='link-wrapper-list'>

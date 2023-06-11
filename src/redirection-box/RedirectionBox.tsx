@@ -2,11 +2,11 @@ import React from 'react'
 import './RedirectionBox.scss'
 import RedirectionItem from './redirection-item/RedirectionItem'
 
-export type MetricListProps = {
+export type RedirectionBoxProps = {
   redirectionResults: { url: string; statusCode: number; location: string; description: string }[]
 }
 
-export default function RedirectionBox({ redirectionResults }: MetricListProps) {
+export default function RedirectionBox({ redirectionResults }: RedirectionBoxProps) {
   if (Array.isArray(redirectionResults) && redirectionResults.length > 0) {
     const redirectionItems = redirectionResults?.map((redirectionItem, index) => {
       const { url, statusCode, description } = redirectionItem

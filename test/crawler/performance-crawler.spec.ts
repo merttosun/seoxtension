@@ -5,11 +5,6 @@ describe('PerformanceCrawler works like a charm', () => {
 
   beforeEach(() => {
     instance = new PerformanceCrawler()
-    const mockPerformanceObserver = jest.fn()
-    mockPerformanceObserver.mockReturnValue({
-      observe: () => null,
-    })
-    Object.defineProperty(global, 'PerformanceObserver', new mockPerformanceObserver)
   })
 
   afterEach(() => {
@@ -17,13 +12,16 @@ describe('PerformanceCrawler works like a charm', () => {
   })
 
   test('PerformanceCrawler collect method works as expected', () => {
-    const mockResult = {
-      fid: 0,
-      lcp: 0,
-      cls: 0,
-    }
-
     const result = instance.collect()
-    expect(result).toEqual(mockResult)
+    const resultKeys = Object.keys(result.coreWebVitalsMetrics)
+    
+    expect(resultKeys.length).toEqual(3)
+    expect(resultKeys[0]).toEqual('LCP')
+    expect(resultKeys[1]).toEqual('FID')
+    expect(resultKeys[2]).toEqual('CLS')
+
+    expect(result.coreWebVitalsMetrics.LCP.status).toEqual('good')
+    expect(result.coreWebVitalsMetrics.FID.status).toEqual('good')
+    expect(result.coreWebVitalsMetrics.CLS.status).toEqual('good')
   })
 })

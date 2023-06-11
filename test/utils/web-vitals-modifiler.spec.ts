@@ -4,8 +4,6 @@
 
 import {
   CLS_SHORT_NAME,
-  CORE_WEB_VITALS_DATA,
-  DEFAULT_CORE_WEB_VITALS_METRICS,
   FID_SHORT_NAME,
   LCP_SHORT_NAME,
   prepareCoreWebVitalsMetricsFromEntries,
