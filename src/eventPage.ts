@@ -1,20 +1,22 @@
+export type REDIRECTIONS_DATA = {
+  url: string
+  statusCode: number
+  location: string
+  description: string
+}[]
 
-;(function () {
+function fetchRedirectionStatus() {
   const SC_DESCRIPTION = new Map<number, string>([
     [200, 'STATUS OK'],
     [301, 'PERMANENTLY REDIRECT'],
     [302, 'FOUND'],
+    [403, 'FORBIDDEN'],
     [404, 'NOT FOUND'],
     [410, 'GONE'],
     [500, 'INTERNAL SERVER ERROR'],
   ])
 
-  let redirectionResults: Array<{
-    statusCode: number
-    url: string
-    location: string
-    description: string
-  }> = []
+  let redirectionResults: REDIRECTIONS_DATA = []
 
   chrome.webRequest.onBeforeRedirect.addListener(
     async (details) => {
@@ -33,7 +35,10 @@
       } else {
         redirectionResults.push(redirectionResult)
       }
-      await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+      await chrome.storage.session.set({
+        redirectionResults,
+        lastRequestId: details.requestId,
+      })
     },
     {
       urls: ['<all_urls>'],
@@ -81,12 +86,15 @@
           location: '',
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
-        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+        await chrome.storage.session.set({
+          redirectionResults,
+          lastRequestId: details.requestId,
+        })
       }
 
       if (
         type == 'main_frame' &&
-        redirectionResults.length == 1 &&
+        redirectionResults?.length == 1 &&
         redirectionResults[0].location !== details.url &&
         SC_DESCRIPTION.get(statusCode)
       ) {
@@ -97,7 +105,10 @@
           location: '',
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
-        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+        await chrome.storage.session.set({
+          redirectionResults,
+          lastRequestId: details.requestId,
+        })
       } else if (type == 'main_frame' && SC_DESCRIPTION.get(statusCode)) {
         redirectionResults.push({
           statusCode,
@@ -105,7 +116,10 @@
           location: '',
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
-        await chrome.storage.session.set({ redirectionResults, lastRequestId: details.requestId })
+        await chrome.storage.session.set({
+          redirectionResults,
+          lastRequestId: details.requestId,
+        })
       }
     },
     {
@@ -113,4 +127,6 @@
       types: ['main_frame'],
     },
   )
-})()
+}
+
+fetchRedirectionStatus()

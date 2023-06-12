@@ -1,7 +1,7 @@
 .info-box {
   &__title {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 20px;
     letter-spacing: 0em;
     text-align: left;
@@ -13,5 +13,7 @@
     line-height: 18px;
     color: #333333;
   }
-  margin-bottom: 20px;
+  &__fallback-text {
+    color: red;
+  }
 }

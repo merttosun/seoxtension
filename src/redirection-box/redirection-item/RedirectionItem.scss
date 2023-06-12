@@ -7,7 +7,7 @@
   align-items: center;
   font-size: 12px;
   line-height: 16px;
-  background: #ebf5ff;
+  background: #c9e4fe;
   border-radius: 4px;
   padding: 12px;
   margin-bottom: 8px;
@@ -43,10 +43,16 @@
       text-overflow: ellipsis;
     }
   }
+  &__copy {
+    cursor: pointer;
+  }
 }
 .last-item {
-  background: #EFFBF5;
-  &__icon-box{
-    background: #0BC15C;
+  background: #c6f3dd;
+  &__icon-box {
+    background: #0bc15c;
   }
+}
+.redirection-item:last-child {
+  margin-bottom: 0;
 }

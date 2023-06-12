@@ -15,6 +15,7 @@ export default function LinkWrapper({ title, link }: LinkProp) {
         <span className='link-wrapper__link'>{link}</span>
         <Copy
           className='link-wrapper__copy'
+          color='white'
           onClick={() => {
             navigator.clipboard.writeText(link)
           }}

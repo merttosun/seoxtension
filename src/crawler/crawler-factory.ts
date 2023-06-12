@@ -3,7 +3,6 @@ import { Crawler } from './interface'
 import { LDJSONCrawler } from './ld-crawler'
 import { MetaCrawler } from './meta-crawler'
 import { PerformanceCrawler } from './performance-crawler'
-import { AnchorCrawler } from './anchor-crawler'
 import { ImageCrawler } from './image-crawler'
 
 export class CrawlerFactory {
@@ -15,7 +14,6 @@ export class CrawlerFactory {
     this.crawlers.set(CRAWLER_TYPE.LD_JSON, new LDJSONCrawler())
     this.crawlers.set(CRAWLER_TYPE.META, new MetaCrawler())
     this.crawlers.set(CRAWLER_TYPE.PERFORMANCE, new PerformanceCrawler())
-    //this.crawlers.set(CRAWLER_TYPE.ANCHOR, new AnchorCrawler())
     this.crawlers.set(CRAWLER_TYPE.IMAGE, new ImageCrawler())
   }
 
@@ -23,7 +21,7 @@ export class CrawlerFactory {
     return CrawlerFactory.instance || new CrawlerFactory()
   }
 
-  static get<T>(type: CRAWLER_TYPE): Crawler {
+  static get(type: CRAWLER_TYPE): Crawler {
     const crawlerFactory = CrawlerFactory.getFactory()
     if (crawlerFactory.crawlers.has(type)) {
       return crawlerFactory.crawlers.get(type) as Crawler

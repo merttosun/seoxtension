@@ -1,75 +1,71 @@
-import Divider from '../divider/Divider'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import InfoBox from '../info-box/InfoBox'
-import MetricList from '../metric-list/MetricList'
+import MetricList from '../core-web-vitals-wrapper/CoreWebVitalsWrapper'
 import RedirectionBox from '../redirection-box/RedirectionBox'
-import { PERFORMANCE_DATA } from 'crawler/performance-crawler'
-import { MetricItemProps } from 'metric-list/metric-item/MetricItem'
+import { CORE_WEB_VITALS_DATA } from '../utils/web-vitals-modifier'
 import LdJsonWrapper from '../ld-json/LdJson'
 import { META_DATA } from 'crawler/meta-crawler'
 import LinkWrapper from '../link-wrapper/LinkWrapper'
-import ImageViewer from '../image-viewer/ImageViewer'
 import { IMAGE_DATA } from '../crawler/image-crawler'
 import LinkWrapperList from '../link-wrapper-list/LinkWrapperList'
 import './Popup.scss'
+import OgWrapper from '../og-wrapper/OgWrapper'
+import { REDIRECTIONS_DATA } from '../../src/eventPage'
 
 type PopupProps = {
   metaTags: META_DATA
-  performanceMetrics: PERFORMANCE_DATA
+  coreWebVitalsMetrics: CORE_WEB_VITALS_DATA
   ldJson: string[]
   images: IMAGE_DATA
-  redirectionResults: any
+  redirectionResults: REDIRECTIONS_DATA
 }
-
-const PERFORMANCE_METRICS = new Map<string, string>([
-  ['ttfb', 'TTFB'],
-  ['fcp', 'FCP'],
-  ['domLoadTime', 'Dom Load Time'],
-  ['windowLoadTime', 'Window Load Time'],
-])
-
 export default function Popup({
   metaTags,
-  performanceMetrics,
+  coreWebVitalsMetrics,
   ldJson,
   redirectionResults,
 }: PopupProps) {
-  const [perfMetrics, setPerfMetrics] = useState([{}])
-
-  useEffect(() => {
-    setPerfMetrics(mapPerformanceMetrics(performanceMetrics))
-  }, [performanceMetrics])
-
-  const mapPerformanceMetrics = (performanceMetrics: any): MetricItemProps[] => {
-    // to prepare readeable name of every metric and pass those to the metric list comp,
-
-    const metricNameValuePairs: Array<Array<string | number>> = Object.entries(performanceMetrics)
-
-    const metrics: MetricItemProps[] = []
-
-    for (const [name, value] of metricNameValuePairs) {
-      metrics.push({ name: name as string, value })
-    }
-
-    return metrics
-  }
-
   return (
     <div className='popup-wrapper'>
-      <h1 className="popup-wrapper__heading">Seoxtension</h1>
-      <RedirectionBox redirectionResults={redirectionResults}></RedirectionBox>
-      <Divider />
-      <InfoBox title='Meta Title' text={metaTags?.title} />
-      <InfoBox title='Meta Description' text={metaTags?.description} />
-      <InfoBox title='H1 Tag' text={metaTags?.h1Tag} />
-      <InfoBox title='OG Title' text={metaTags?.ogTitle} />
-      <InfoBox title='OG Description' text={metaTags?.ogDescription} />
-      <ImageViewer title='OG Image' images={metaTags?.ogImage} />
-      <LinkWrapper title='Canonical' link={metaTags?.canonical} />
-      <LinkWrapperList links={metaTags?.alternates} title='Alternates' />
-      <Divider />
-      <MetricList title='Performance Metrics' metrics={perfMetrics} />
-      <LdJsonWrapper title='Ld Json' ldJson={ldJson} />
+      <div className='popup-wrapper__heading'>
+        <span className='extension-title-rest'>SEO</span>
+        <span className='extension-title-x'>X</span>
+        <span className='extension-title-rest'>TENSION</span>
+      </div>
+      <section className='section-wrapper'>
+        <span className='section-wrapper__title'>Navigation Flow</span>
+        <RedirectionBox redirectionResults={redirectionResults}></RedirectionBox>
+      </section>
+      <section className='section-wrapper'>
+        <span className='section-wrapper__title'>Main Meta Tags</span>
+        <InfoBox title='Title' text={metaTags?.title} />
+        <InfoBox title='Description' text={metaTags?.description} />
+        {metaTags?.canonical && <LinkWrapper title='Canonical' link={metaTags?.canonical} />}
+      </section>
+      <section className='section-wrapper'>
+        <span className='section-wrapper__title'>H1</span>
+        <InfoBox title='' text={metaTags?.h1Tag} />
+      </section>
+      <section className='section-wrapper'>
+        <span className='section-wrapper__title'>Alternate Hreflangs</span>
+        <LinkWrapperList links={metaTags?.alternates} />
+      </section>
+      <section className='section-wrapper og-wrapper'>
+        <span className='section-wrapper__title'>OG Tags</span>
+        <OgWrapper
+          title={metaTags?.ogTitle}
+          description={metaTags?.description}
+          image={metaTags?.ogImage[0]}
+        ></OgWrapper>
+      </section>
+      <section className='section-wrapper'>
+        <span className='section-wrapper__title'>Core Web Vitals</span>
+        <MetricList metrics={coreWebVitalsMetrics} />
+      </section>
+      <section className='section-wrapper'>
+        <span className='section-wrapper__title'>LDJsons</span>
+        <LdJsonWrapper ldJson={ldJson} />
+      </section>
     </div>
   )
 }

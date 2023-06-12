@@ -1,27 +1,27 @@
-const webpack = require("webpack");
-const path = require("path");
-const CopyPlugin = require("copy-webpack-plugin");
+const webpack = require('webpack')
+const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
 //const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
-const srcDir = path.join(__dirname, "..", "src");
+const srcDir = path.join(__dirname, '..', 'src')
 
 module.exports = {
   entry: {
-    popup: path.join(srcDir, "popup/index.tsx"),
-    eventPage: path.join(srcDir, "eventPage.ts"),
-    content: path.join(srcDir, "content.ts"),
+    popup: path.join(srcDir, 'popup/index.tsx'),
+    eventPage: path.join(srcDir, 'eventPage.ts'),
+    content: path.join(srcDir, 'content.ts'),
   },
   output: {
-    path: path.join(__dirname, "../dist/js"),
-    filename: "[name].js",
+    path: path.join(__dirname, '../dist/js'),
+    filename: '[name].js',
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: 'ts-loader',
         exclude: /node_modules/,
         use: {
-          loader: "ts-loader",
+          loader: 'ts-loader',
         },
       },
       {
@@ -29,13 +29,13 @@ module.exports = {
         test: /\.(scss|css)$/,
         use: [
           {
-            loader: "style-loader", // Creates style nodes from JS strings
+            loader: 'style-loader', // Creates style nodes from JS strings
           },
           {
-            loader: "css-loader", // Translates CSS into CommonJS
+            loader: 'css-loader', // Translates CSS into CommonJS
           },
           {
-            loader: "sass-loader", // Compiles Sass to CSS
+            loader: 'sass-loader', // Compiles Sass to CSS
           },
         ],
       },
@@ -49,16 +49,16 @@ module.exports = {
             },
           },
         ],
-      }
+      },
     ],
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: ['.ts', '.tsx', '.js'],
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: ".", to: "../", context: "public" }],
+      patterns: [{ from: '.', to: '../', context: 'public' }],
       options: {},
     }),
   ],
-};
+}

@@ -1,11 +1,11 @@
 .ld-json-wrapper {
-  &__content{
+  padding-top: 14px;
+  &__content {
     max-height: 500px;
     overflow: scroll;
-    background-color: #f5f5f5;
     border-radius: 4px;
 
-    &__navigation{
+    &__navigation {
       display: flex;
       gap: 4px;
       margin: 12px 0 12px 12px;
@@ -15,6 +15,26 @@
         cursor: pointer;
       }
     }
+    &__viewer {
+      display: flex;
+      padding: 6px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #e6e6e6;
+      &__self {
+        padding: 3px !important;
+        font-size: 13px !important;
+      }
+    }
+    &__viewer:last-child {
+      border: 0px;
+      margin-bottom: 0;
+    }
+    &__type {
+      color: #333;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 600;
+    }
   }
   &__title {
     font-size: 16px;
@@ -23,6 +43,9 @@
     letter-spacing: 0em;
     text-align: left;
     margin-bottom: 15px;
-    display: inline-block
+    display: inline-block;
   }
+}
+.fallback-text {
+  color: red;
 }

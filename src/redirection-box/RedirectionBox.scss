@@ -1,16 +1,19 @@
 .redirection-box {
   width: 100%;
-  background: #ffffff;
-  border: 1px solid #e6e6e6;
   border-radius: 4px;
-  padding: 20px;
   box-sizing: border-box;
   color: #333333;
+  position: relative;
   &__title {
+    position: absolute;
     font-size: 16px;
-    font-weight: 600;
     line-height: 20px;
     letter-spacing: 0em;
     margin-bottom: 15px;
+    top: -11px;
+    left: 15px;
+    padding: 0px 5px;
+    background: white;
+    font-weight: 700;
   }
 }
