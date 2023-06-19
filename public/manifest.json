@@ -1,31 +1,25 @@
 {
   "name": "seoxtension",
   "description": "A chrome extension to see your page's most important seo elements and metrics!",
-  "version": "1.0",
+  "version": "0.0.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "js/eventPage.js"
   },
   "permissions": [
-    "tabs",
-    "background",
     "storage",
     "activeTab",
-    "scripting",
-    "webNavigation",
     "webRequest",
-    "history",
     "cookies"
   ],
-  "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "seo-16.png"
-    },
-    "icons": {
-      "16": "seo-16.png"
     }
+  },
+  "icons": {
+    "16": "seo-16.png"
   },
   "web_accessible_resources": [
     {

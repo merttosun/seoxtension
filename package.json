@@ -1,6 +1,6 @@
 {
   "name": "seo-extension",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "chrome extension to see your page's most important SEO elements and metrics",
   "main": "index.js",
   "author": "",
