@@ -40,7 +40,7 @@ export default function Popup({
         <span className='section-wrapper__title'>Main Meta Tags</span>
         <InfoBox title='Title' text={metaTags?.title} />
         <InfoBox title='Description' text={metaTags?.description} />
-        {metaTags?.canonical && <LinkWrapper title='Canonical' link={metaTags?.canonical} />}
+        <LinkWrapper title='Canonical' link={metaTags?.canonical} />
       </section>
       <section className='section-wrapper'>
         <span className='section-wrapper__title'>H1</span>
@@ -54,7 +54,7 @@ export default function Popup({
         <span className='section-wrapper__title'>OG Tags</span>
         <OgWrapper
           title={metaTags?.ogTitle}
-          description={metaTags?.description}
+          description={metaTags?.ogDescription}
           image={metaTags?.ogImage[0]}
         ></OgWrapper>
       </section>
