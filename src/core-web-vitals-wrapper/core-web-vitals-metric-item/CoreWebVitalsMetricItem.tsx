@@ -40,17 +40,17 @@ export default function CoreWebVitalsMetricItem({
 
     if (status === 'good') {
       setPointerPosition({
-        left: Number(percentageFromStatusStart / 3) - 6.5 + '%',
+        left: Number(percentageFromStatusStart / 3) - 7.8 + '%',
       })
     }
 
     if (status === 'needImprovement') {
-      setPointerPosition({ left: Number(24.3 + percentageFromStatusStart / 3) + '%' })
+      setPointerPosition({ left: Number(25 + percentageFromStatusStart / 3) + '%' })
     }
 
     if (status === 'bad') {
       setPointerPosition({
-        left: Math.min(Number(57.6 + percentageFromStatusStart / 3), 92.5) + '%',
+        left: Math.min(Number(58.1 + percentageFromStatusStart / 3), 92.5) + '%',
       })
     }
   }, [status, value, thresholds])

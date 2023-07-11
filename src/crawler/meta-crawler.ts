@@ -2,7 +2,7 @@ import { Crawler } from './interface'
 import { CRAWLER_TYPE } from '../constants'
 
 export type ALTERNATE = {
-  info?: string,
+  info?: string
   link: string
 }
 
@@ -23,23 +23,24 @@ export class MetaCrawler implements Crawler {
   public collect(): META_DATA {
     const description =
       (<HTMLMetaElement>document.querySelector('meta[name="description"]'))?.content || ''
+
     const ogTitle =
       (<HTMLMetaElement>document.querySelector('meta[property="og:title"]'))?.content || ''
     const ogDescription =
       (<HTMLMetaElement>document.querySelector('meta[property="og:description"]'))?.content || ''
 
     const ogImageElement = <HTMLMetaElement>document.querySelector('meta[property="og:image"]')
-    const ogImage = ogImageElement ? [ogImageElement.content] :  []
+    const ogImage = ogImageElement ? [ogImageElement.content] : []
 
     const canonical = (<HTMLLinkElement>document.querySelector('link[rel="canonical"]'))?.href || ''
     const h1Tag = (<HTMLHeadingElement>document.querySelector('h1'))?.textContent || ''
     const title = document?.title
 
-    const alternates: ALTERNATE[] = [];
-    document.querySelectorAll('link[rel="alternate"]').forEach(value => {
+    const alternates: ALTERNATE[] = []
+    document.querySelectorAll('link[rel="alternate"]').forEach((value) => {
       alternates.push({
         info: value.attributes.getNamedItem('hrefLang')?.value.toUpperCase() || undefined,
-        link: value.attributes.getNamedItem('href')?.value || ''
+        link: value.attributes.getNamedItem('href')?.value || '',
       })
     })
 

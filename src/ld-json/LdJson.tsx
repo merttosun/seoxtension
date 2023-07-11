@@ -12,16 +12,27 @@ export default function LdJsonWrapper({ ldJson }: LdJsonProps) {
       <div className='ld-json-wrapper'>
         <div className='ld-json-wrapper__content'>
           {ldJson.map((lj) => {
-            const json = JSON.parse(lj)
-            const type = json['@type']
+            let json: any
+            let type = ''
+            try {
+              json = JSON.parse(lj)
+              type = json['@type']
+            } catch (e) {
+              console.log(e, lj)
+            }
+
             return (
               <div key={type} className='ld-json-wrapper__content__viewer'>
                 <span className='ld-json-wrapper__content__type'>{type}</span>
-                <JsonViewer
-                  className='ld-json-wrapper__content__viewer__self'
-                  displayDataTypes={false}
-                  value={JSON.parse(lj)}
-                />
+                {json ? (
+                  <JsonViewer
+                    className='ld-json-wrapper__content__viewer__self'
+                    displayDataTypes={false}
+                    value={json}
+                  />
+                ) : (
+                  <div className='fallback-text invalid'>There is an invalid json, Could not parse it</div>
+                )}
               </div>
             )
           })}

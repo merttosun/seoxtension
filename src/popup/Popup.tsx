@@ -1,36 +1,98 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import InfoBox from '../info-box/InfoBox'
 import MetricList from '../core-web-vitals-wrapper/CoreWebVitalsWrapper'
 import RedirectionBox from '../redirection-box/RedirectionBox'
-import { CORE_WEB_VITALS_DATA } from '../utils/web-vitals-modifier'
+import { CORE_WEB_VITALS_DATA, createInitialCoreWebVitalsData } from '../utils/web-vitals-modifier'
 import LdJsonWrapper from '../ld-json/LdJson'
 import { META_DATA } from 'crawler/meta-crawler'
 import LinkWrapper from '../link-wrapper/LinkWrapper'
-import { IMAGE_DATA } from '../crawler/image-crawler'
 import LinkWrapperList from '../link-wrapper-list/LinkWrapperList'
 import './Popup.scss'
 import OgWrapper from '../og-wrapper/OgWrapper'
 import { REDIRECTIONS_DATA } from '../../src/eventPage'
+import { CHROME_MESSAGE } from '../constants'
 
-type PopupProps = {
-  metaTags: META_DATA
-  coreWebVitalsMetrics: CORE_WEB_VITALS_DATA
-  ldJson: string[]
-  images: IMAGE_DATA
-  redirectionResults: REDIRECTIONS_DATA
-}
-export default function Popup({
-  metaTags,
-  coreWebVitalsMetrics,
-  ldJson,
-  redirectionResults,
-}: PopupProps) {
+export default function Popup() {
+  const [metaTags, setMetaTags] = useState<META_DATA>({
+    title: '',
+    description: '',
+    ogTitle: '',
+    ogDescription: '',
+    ogImage: [],
+    canonical: '',
+    h1Tag: '',
+    alternates: [],
+  })
+
+  const [ldJson, setLdJson] = useState<string[]>([])
+
+  const [coreWebVitalsMetrics, setCoreWebVitalsMetrics] = useState<CORE_WEB_VITALS_DATA>(
+    createInitialCoreWebVitalsData(),
+  )
+
+  const [redirectionResults, setRedirectionResults] = useState<REDIRECTIONS_DATA>([])
+
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    chrome.tabs?.query({ active: true, currentWindow: true }, (tabs) => {
+      const tabId: number = tabs[0].id as number
+
+      const url = new URL(tabs[0].url as string)
+
+      const storageKey = `${tabId}_redirectionResults`
+
+      let metaTagsFetched = false
+      setInterval(() => {
+        const getRedirectionResults = async () => {
+          const storageResult = await chrome.storage.session.get(storageKey)
+          if (storageResult[storageKey]) {
+            setRedirectionResults(storageResult[storageKey])
+          }
+        }
+
+        if (!metaTagsFetched) {
+          chrome.tabs.sendMessage(tabId, { msg: CHROME_MESSAGE.META }, (response) => {
+            if (response?.title) {
+              metaTagsFetched = true
+              setMetaTags(response)
+            }
+          })
+        }
+
+        chrome.tabs.sendMessage(tabId, { msg: CHROME_MESSAGE.LD_JSON }, (response: string[]) => {
+          if (response) {
+            setLdJson(response)
+          }
+        })
+
+        chrome.tabs.sendMessage(
+          tabId,
+          { msg: CHROME_MESSAGE.PERFORMANCE },
+          (response: { coreWebVitalsMetrics: CORE_WEB_VITALS_DATA }) => {
+            if (response) {
+              setCoreWebVitalsMetrics(response?.coreWebVitalsMetrics)
+            }
+          },
+        )
+
+        getRedirectionResults()
+
+        if (loading) setLoading(false)
+      }, 500)
+      // when the platform changes for the same URL, cookies might cause problems
+      chrome.cookies.getAll({ url: url.href }, function (cookies) {
+        for (let i = 0; i < cookies?.length; i++) {
+          chrome.cookies.remove({ url: url.href, name: cookies[i].name })
+        }
+      })
+    })
+  }, [])
+
   return (
     <div className='popup-wrapper'>
       <div className='popup-wrapper__heading'>
-        <span className='extension-title-rest'>SEO</span>
-        <span className='extension-title-x'>X</span>
-        <span className='extension-title-rest'>TENSION</span>
+        <img src='images/logo.png'></img>
       </div>
       <section className='section-wrapper'>
         <span className='section-wrapper__title'>Navigation Flow</span>
@@ -40,7 +102,7 @@ export default function Popup({
         <span className='section-wrapper__title'>Main Meta Tags</span>
         <InfoBox title='Title' text={metaTags?.title} />
         <InfoBox title='Description' text={metaTags?.description} />
-        {metaTags?.canonical && <LinkWrapper title='Canonical' link={metaTags?.canonical} />}
+        <LinkWrapper title='Canonical' link={metaTags?.canonical} />
       </section>
       <section className='section-wrapper'>
         <span className='section-wrapper__title'>H1</span>
@@ -54,7 +116,7 @@ export default function Popup({
         <span className='section-wrapper__title'>OG Tags</span>
         <OgWrapper
           title={metaTags?.ogTitle}
-          description={metaTags?.description}
+          description={metaTags?.ogDescription}
           image={metaTags?.ogImage[0]}
         ></OgWrapper>
       </section>
