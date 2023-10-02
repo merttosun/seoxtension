@@ -17,6 +17,7 @@
     }
     &__viewer {
       display: flex;
+      flex-direction: column;
       padding: 6px;
       margin-bottom: 6px;
       border-bottom: 1px solid #e6e6e6;
@@ -48,4 +49,8 @@
 }
 .fallback-text {
   color: red;
+}
+.invalid {
+  font-weight: 600;
+  padding: 6px 0;
 }

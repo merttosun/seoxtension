@@ -6,20 +6,17 @@
   "background": {
     "service_worker": "js/eventPage.js"
   },
-  "permissions": [
-    "storage",
-    "activeTab",
-    "webRequest",
-    "cookies"
-  ],
+  "permissions": ["storage", "activeTab", "webRequest", "webNavigation", "cookies"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "seo-16.png"
+      "64": "images/icon64.png",
+      "128": "images/icon128.png"
     }
   },
   "icons": {
-    "16": "seo-16.png"
+    "64": "images/icon64.png",
+    "128": "images/icon128.png"
   },
   "web_accessible_resources": [
     {
@@ -27,6 +24,7 @@
       "matches": ["*://*/*"]
     }
   ],
+  "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
       "matches": ["https://*/*"],
