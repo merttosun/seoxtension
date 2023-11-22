@@ -20,7 +20,6 @@ function fetchRedirectionStatus() {
 
   chrome.webRequest.onBeforeRedirect.addListener(
     async (details) => {
-
       const { tabId, statusCode, url, redirectUrl, requestId } = details
       const redirectionResult = {
         statusCode: statusCode,
@@ -54,6 +53,7 @@ function fetchRedirectionStatus() {
     (details) => {
       ;async () => {
         const { tabId } = details
+
         await chrome.storage.session.get('lastRequestId').then((result) => {
           const lastRequestId = result['lastRequestId']
           if (!lastRequestId) {
@@ -71,10 +71,11 @@ function fetchRedirectionStatus() {
 
   chrome.webRequest.onCompleted.addListener(
     async (details) => {
-
       const result = await chrome.storage.session.get('lastRequestId')
       const lastRequestId = result['lastRequestId']
       const { tabId, statusCode, type, requestId, url } = details
+
+      const key = `${tabId}_redirectionResults`
       if (!url.startsWith('http')) {
         // to exclude urls like chrome-extension://123-456
         return
@@ -93,12 +94,10 @@ function fetchRedirectionStatus() {
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
         await chrome.storage.session.set({
-          redirectionResults,
+          [key]: redirectionResults,
           lastRequestId: details.requestId,
         })
       }
-
-      const key = `${tabId}_redirectionResults`
 
       if (
         type == 'main_frame' &&

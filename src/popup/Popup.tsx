@@ -32,18 +32,28 @@ export default function Popup() {
 
   const [redirectionResults, setRedirectionResults] = useState<REDIRECTIONS_DATA>([])
 
-  const [loading, setLoading] = useState(true)
-
   useEffect(() => {
-    chrome.tabs?.query({ active: true, currentWindow: true }, (tabs) => {
-      const tabId: number = tabs[0].id as number
+    if (chrome.runtime.lastError) {
+      chrome.runtime.restart()
+    }
 
-      const url = new URL(tabs[0].url as string)
+    chrome.tabs &&
+      chrome.tabs.query({ active: true }, (tabs) => {
+        const tabId: number = tabs[0].id as number
 
-      const storageKey = `${tabId}_redirectionResults`
+        const url = new URL(tabs[0].url as string)
 
-      let metaTagsFetched = false
-      setInterval(() => {
+        // when the platform changes for the same URL, cookies might cause problems
+        chrome.cookies.getAll({ url: url?.href }, function (cookies) {
+          for (let i = 0; i < cookies?.length; i++) {
+            console.log('url.href', url.href)
+            console.log('cookie name', cookies[i].name)
+            chrome.cookies.remove({ url: url?.href, name: cookies[i].name })
+          }
+        })
+
+        const storageKey = `${tabId}_redirectionResults`
+
         const getRedirectionResults = async () => {
           const storageResult = await chrome.storage.session.get(storageKey)
           if (storageResult[storageKey]) {
@@ -51,42 +61,30 @@ export default function Popup() {
           }
         }
 
-        if (!metaTagsFetched) {
+        setInterval(() => {
           chrome.tabs.sendMessage(tabId, { msg: CHROME_MESSAGE.META }, (response) => {
             if (response?.title) {
-              metaTagsFetched = true
               setMetaTags(response)
             }
           })
-        }
 
-        chrome.tabs.sendMessage(tabId, { msg: CHROME_MESSAGE.LD_JSON }, (response: string[]) => {
-          if (response) {
-            setLdJson(response)
-          }
-        })
-
-        chrome.tabs.sendMessage(
-          tabId,
-          { msg: CHROME_MESSAGE.PERFORMANCE },
-          (response: { coreWebVitalsMetrics: CORE_WEB_VITALS_DATA }) => {
-            if (response) {
-              setCoreWebVitalsMetrics(response?.coreWebVitalsMetrics)
+          chrome.tabs.sendMessage(tabId, { msg: CHROME_MESSAGE.LD_JSON }, (response: string[]) => {
+            if (Array.isArray(response) && response.length) {
+              setLdJson(response)
             }
-          },
-        )
-
-        getRedirectionResults()
-
-        if (loading) setLoading(false)
-      }, 500)
-      // when the platform changes for the same URL, cookies might cause problems
-      chrome.cookies.getAll({ url: url.href }, function (cookies) {
-        for (let i = 0; i < cookies?.length; i++) {
-          chrome.cookies.remove({ url: url.href, name: cookies[i].name })
-        }
+          })
+          chrome.tabs.sendMessage(
+            tabId,
+            { msg: CHROME_MESSAGE.PERFORMANCE },
+            (response: { coreWebVitalsMetrics: CORE_WEB_VITALS_DATA }) => {
+              if (response) {
+                setCoreWebVitalsMetrics(response?.coreWebVitalsMetrics)
+              }
+            },
+          )
+          getRedirectionResults()
+        }, 500)
       })
-    })
   }, [])
 
   return (
