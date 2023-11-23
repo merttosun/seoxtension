@@ -12,7 +12,6 @@ export default function LdJsonWrapper({ ldJson }: LdJsonProps) {
       <div className='ld-json-wrapper'>
         <div className='ld-json-wrapper__content'>
           {ldJson.map((lj) => {
-            console.log({ lj })
             let json: any
             let type = ''
             try {

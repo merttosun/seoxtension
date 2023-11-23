@@ -30,7 +30,8 @@
       "matches": ["https://*/*"],
       "all_frames": true,
       "js": ["js/content.js"],
-      "permissions": "storage"
+      "permissions": "storage",
+      "run_at": "document_start"
     }
   ],
   "options_page": "options.html"

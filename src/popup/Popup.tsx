@@ -6,7 +6,6 @@ import { CORE_WEB_VITALS_DATA, createInitialCoreWebVitalsData } from '../utils/w
 import LdJsonWrapper from '../ld-json/LdJson'
 import { META_DATA } from 'crawler/meta-crawler'
 import LinkWrapper from '../link-wrapper/LinkWrapper'
-import { IMAGE_DATA } from '../crawler/image-crawler'
 import LinkWrapperList from '../link-wrapper-list/LinkWrapperList'
 import './Popup.scss'
 import OgWrapper from '../og-wrapper/OgWrapper'
@@ -14,8 +13,6 @@ import { REDIRECTIONS_DATA } from '../../src/eventPage'
 import { CHROME_MESSAGE } from '../constants'
 
 export default function Popup() {
-  console.log('TABS:', chrome.tabs)
-
   const [metaTags, setMetaTags] = useState<META_DATA>({
     title: '',
     description: '',
@@ -36,52 +33,56 @@ export default function Popup() {
   const [redirectionResults, setRedirectionResults] = useState<REDIRECTIONS_DATA>([])
 
   useEffect(() => {
-    console.log(chrome.webRequest)
+    if (chrome.runtime.lastError) {
+      chrome.runtime.restart()
+    }
 
-    chrome.tabs?.query({ active: true, currentWindow: true }, (tabs) => {
-      const tabId: number = tabs[0].id as number
+    chrome.tabs &&
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tabId: number = tabs[0].id as number
 
-      const url = new URL(tabs[0].url as string)
+        const url = new URL(tabs[0].url as string)
 
-      const getRedirectionResults = async () => {
-        const storageResult = await chrome.storage.session.get('redirectionResults')
-        if (storageResult?.redirectionResults) {
-          setRedirectionResults(storageResult.redirectionResults)
+        // when the platform changes for the same URL, cookies might cause problems
+        chrome.cookies.getAll({ url: url?.href }, function (cookies) {
+          for (let i = 0; i < cookies?.length; i++) {
+            chrome.cookies.remove({ url: url?.href, name: cookies[i].name })
+          }
+        })
+
+        const storageKey = `${tabId}_redirectionResults`
+
+        const getRedirectionResults = async () => {
+          const storageResult = await chrome.storage.session.get(storageKey)
+          if (storageResult[storageKey]) {
+            setRedirectionResults(storageResult[storageKey])
+          }
         }
-      }
 
-      setInterval(() => {
-        chrome.tabs.sendMessage(tabId, { msg: CHROME_MESSAGE.META }, (response) => {
-          if (response) {
-            setMetaTags(response)
-          }
-        })
-
-        chrome.tabs.sendMessage(tabId, { msg: CHROME_MESSAGE.LD_JSON }, (response: string[]) => {
-          if (response) {
-            setLdJson(response)
-          }
-        })
-
-        chrome.tabs.sendMessage(
-          tabId,
-          { msg: CHROME_MESSAGE.PERFORMANCE },
-          (response: { coreWebVitalsMetrics: CORE_WEB_VITALS_DATA }) => {
-            if (response) {
-              setCoreWebVitalsMetrics(response?.coreWebVitalsMetrics)
+        setInterval(() => {
+          chrome.tabs.sendMessage(tabId, { msg: CHROME_MESSAGE.META }, (response) => {
+            if (response?.title) {
+              setMetaTags(response)
             }
-          },
-        )
+          })
 
-        getRedirectionResults()
-      }, 500)
-      // when the platform changes for the same URL, cookies might cause problems
-      chrome.cookies.getAll({ url: url.href }, function (cookies) {
-        for (let i = 0; i < cookies?.length; i++) {
-          chrome.cookies.remove({ url: url.href, name: cookies[i].name })
-        }
+          chrome.tabs.sendMessage(tabId, { msg: CHROME_MESSAGE.LD_JSON }, (response: string[]) => {
+            if (Array.isArray(response) && response.length) {
+              setLdJson(response)
+            }
+          })
+          chrome.tabs.sendMessage(
+            tabId,
+            { msg: CHROME_MESSAGE.PERFORMANCE },
+            (response: { coreWebVitalsMetrics: CORE_WEB_VITALS_DATA }) => {
+              if (response) {
+                setCoreWebVitalsMetrics(response?.coreWebVitalsMetrics)
+              }
+            },
+          )
+          getRedirectionResults()
+        }, 500)
       })
-    })
   }, [])
 
   return (

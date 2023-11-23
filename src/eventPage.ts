@@ -20,24 +20,27 @@ function fetchRedirectionStatus() {
 
   chrome.webRequest.onBeforeRedirect.addListener(
     async (details) => {
+      const { tabId, statusCode, url, redirectUrl, requestId } = details
       const redirectionResult = {
-        statusCode: details.statusCode,
-        url: details.url,
-        location: details.redirectUrl,
-        description: SC_DESCRIPTION.get(details.statusCode) || '',
+        statusCode: statusCode,
+        url: url,
+        location: redirectUrl,
+        description: SC_DESCRIPTION.get(statusCode) || '',
       }
       const result = await chrome.storage.session.get('lastRequestId')
       const lastRequestId = result['lastRequestId']
 
-      if (lastRequestId && lastRequestId !== details.requestId) {
+      if (lastRequestId && lastRequestId !== requestId) {
         // new path new redirection results
         redirectionResults = [redirectionResult]
       } else {
         redirectionResults.push(redirectionResult)
       }
+
+      const key = `${tabId}_redirectionResults`
       await chrome.storage.session.set({
-        redirectionResults,
-        lastRequestId: details.requestId,
+        [key]: redirectionResults,
+        lastRequestId: requestId,
       })
     },
     {
@@ -47,13 +50,13 @@ function fetchRedirectionStatus() {
   )
 
   chrome.webRequest.onBeforeRequest.addListener(
-    () => {
+    (details) => {
+      const { tabId } = details
       chrome.storage.session.get('lastRequestId').then((result) => {
         const lastRequestId = result['lastRequestId']
         if (!lastRequestId) {
-          chrome.storage.session.set({ redirectionResults: [] }).then(() => {
-            return
-          })
+          const key = `${tabId}_redirectionResults`
+          chrome.storage.session.set({ [key]: [] })
         }
       })
     },
@@ -67,7 +70,9 @@ function fetchRedirectionStatus() {
     async (details) => {
       const result = await chrome.storage.session.get('lastRequestId')
       const lastRequestId = result['lastRequestId']
-      const { statusCode, type, requestId, url } = details
+      const { tabId, statusCode, type, requestId, url } = details
+
+      const key = `${tabId}_redirectionResults`
       if (!url.startsWith('http')) {
         // to exclude urls like chrome-extension://123-456
         return
@@ -86,7 +91,7 @@ function fetchRedirectionStatus() {
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
         await chrome.storage.session.set({
-          redirectionResults,
+          [key]: redirectionResults,
           lastRequestId: details.requestId,
         })
       }
@@ -104,8 +109,9 @@ function fetchRedirectionStatus() {
           location: '',
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
+
         await chrome.storage.session.set({
-          redirectionResults,
+          [key]: redirectionResults,
           lastRequestId: details.requestId,
         })
       } else if (type == 'main_frame' && SC_DESCRIPTION.get(statusCode)) {
@@ -115,8 +121,9 @@ function fetchRedirectionStatus() {
           location: '',
           description: SC_DESCRIPTION.get(statusCode) || '',
         })
+
         await chrome.storage.session.set({
-          redirectionResults,
+          [key]: redirectionResults,
           lastRequestId: details.requestId,
         })
       }
