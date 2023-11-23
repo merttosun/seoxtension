@@ -51,17 +51,14 @@ function fetchRedirectionStatus() {
 
   chrome.webRequest.onBeforeRequest.addListener(
     (details) => {
-      ;async () => {
-        const { tabId } = details
-
-        await chrome.storage.session.get('lastRequestId').then((result) => {
-          const lastRequestId = result['lastRequestId']
-          if (!lastRequestId) {
-            const key = `${tabId}_redirectionResults`
-            chrome.storage.session.set({ [key]: [] })
-          }
-        })
-      }
+      const { tabId } = details
+      chrome.storage.session.get('lastRequestId').then((result) => {
+        const lastRequestId = result['lastRequestId']
+        if (!lastRequestId) {
+          const key = `${tabId}_redirectionResults`
+          chrome.storage.session.set({ [key]: [] })
+        }
+      })
     },
     {
       urls: ['<all_urls>'],

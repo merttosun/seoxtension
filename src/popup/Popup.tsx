@@ -38,7 +38,7 @@ export default function Popup() {
     }
 
     chrome.tabs &&
-      chrome.tabs.query({ active: true }, (tabs) => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const tabId: number = tabs[0].id as number
 
         const url = new URL(tabs[0].url as string)
@@ -46,8 +46,6 @@ export default function Popup() {
         // when the platform changes for the same URL, cookies might cause problems
         chrome.cookies.getAll({ url: url?.href }, function (cookies) {
           for (let i = 0; i < cookies?.length; i++) {
-            console.log('url.href', url.href)
-            console.log('cookie name', cookies[i].name)
             chrome.cookies.remove({ url: url?.href, name: cookies[i].name })
           }
         })
