@@ -6,7 +6,7 @@
   "background": {
     "service_worker": "js/eventPage.js"
   },
-  "permissions": ["storage", "activeTab", "webRequest", "webNavigation", "cookies"],
+  "permissions": ["storage", "activeTab", "webRequest", "cookies"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
