@@ -1,7 +1,7 @@
 {
   "name": "seoxtension",
   "description": "A chrome extension to see your page's most important seo elements and metrics!",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "manifest_version": 3,
   "background": {
     "service_worker": "js/eventPage.js"
